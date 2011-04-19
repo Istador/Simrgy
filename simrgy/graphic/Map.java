@@ -8,33 +8,45 @@ import simrgy.applet.Main;
 
 public class Map implements GraphicObject {
 
-	private static Image map;
-	public static int width;
-	public int height;
+	private Grid grid;
+	private Image img;
+	private int width;
+	private int height;
 	
 	//Singleton
 	private static Map instance = null;
 	private Map(){
 		URL mapurl = getClass().getResource("../res/img/map.png");
-		map = new ImageIcon(mapurl).getImage();
-		this.width = map.getWidth(null)/(map.getHeight(null)/600);
+		img = new ImageIcon(mapurl).getImage();
+		height = 600;
+		width = img.getWidth(null)/(img.getHeight(null)/height);
+		
 	}	
 	public static Map getInstance(){
-		if(instance == null)
+		if(instance == null){
 			instance = new Map();
+			instance.grid = Grid.getInstance();
+		}
 		return instance;
 	}
 	
-	public void draw(){
-		Graphic.getInstance().g.drawImage(map, 0, 0, this.width, 600, null);
+	
+	//GraphicObject Methods	
+	public void draw(Graphics g){
+		g.drawImage(img, 0, 0, width, height, null);
+		grid.draw(g);
 	}
 
 	public void click(int x, int y) {
-		System.out.println("Map clicked at: ( "+String.valueOf(x)+", "+String.valueOf(y)+" )");
+		grid.click(x, y);
 	}
 	
-	public void mouseOver(int x, int y) {
-		
-	}
+	public void mouseOver(int x, int y) {grid.mouseOver(x, y);}
+	public void mouseOut() {grid.mouseOut();}
+
+	
+	//Getter
+	public int getWidth() {return width;}
+	public int getHeight() {return height;}	
 	
 }

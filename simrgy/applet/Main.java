@@ -16,7 +16,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 
 	Graphic graphic;
 	private Image backbuffer;
-	private Graphics backg;
+	public Graphics backg;
 	private GameThread gt;
 	
 	public void init(){	
@@ -32,18 +32,19 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 		backbuffer = createImage(800, 600);
 		backg = backbuffer.getGraphics();
 		
+		graphic.init(this);
+		
 		addMouseListener(this); 
 		addMouseMotionListener(this);
 	}
 	
 	public void start(){
 		Grid.getInstance().addBuilding(3, 1, AKW.newAKW("Unterweser", 1));
-		Grid.getInstance().addBuilding(7, 1, AKW.newAKW("Greifenwald", 3));
+		Grid.getInstance().addBuilding(8, 1, AKW.newAKW("Greifenwald", 3));
 		Grid.getInstance().addBuilding(4, 1, new HQ());
 		
 		gt = new GameThread(this);
 		gt.start();
-		//Music.play(this, "07 - game over.mp3");
 	}
 	
 	public void stop(){
@@ -71,9 +72,12 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 		graphic.mouseOver(x, y);
 		me.consume();
 	} 
-	public void mouseEntered(MouseEvent arg0) {}
-	public void mouseExited(MouseEvent arg0) {}
-	public void mousePressed(MouseEvent arg0) {}
-	public void mouseReleased(MouseEvent arg0) {}
+	public void mouseExited(MouseEvent me) {
+		graphic.mouseOut();
+		me.consume();
+	}
+	public void mouseEntered(MouseEvent me) {}
+	public void mousePressed(MouseEvent me) {}
+	public void mouseReleased(MouseEvent me) {}
 	public void mouseDragged(MouseEvent arg0) {}
 }

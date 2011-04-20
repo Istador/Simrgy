@@ -10,16 +10,22 @@ public class Menu implements GraphicObject {
 
 	protected Graphic graphic; //parent
 	
-	public int top = 0;
-	public int left = 0;
-	public int width = 800;
-	public int height = 600;
+	public int top;
+	public int left;
+	public int width;
+	public int height;
+	
 	private Button[] buttons;
 	private Button over = null;
 	
 	public Menu(Graphic g){
 		graphic = g;
 		//Music.play(Graphic.getInstance().main, "10 - War against life.mp3");
+		
+		top=getMain().top;
+		left=getMain().left;
+		width=getMain().width;
+		height=getMain().height;
 		
 		Runnable r1 = new RunnableMain(getMain()) { 
 			public void run() {
@@ -43,9 +49,9 @@ public class Menu implements GraphicObject {
 		
 		Font f = new Font("Helvetica", Font.PLAIN, 30);
 		buttons = new Button[3];
-		buttons[0] = new CenteredButton(this, "Spiel starten", Color.BLACK, Color.GREEN, width/2, 200, f, r1);
-		buttons[1] = new CenteredButton(this, "Highscores", Color.BLACK, Color.GREEN, width/2, 300, f, r2);
-		buttons[2] = new CenteredButton(this, "Einstellungen", Color.BLACK, Color.GREEN, width/2, 400, f, r3);
+		buttons[0] = new CenteredButton(this, "Spiel starten", Color.BLACK, Color.GREEN, width/2, height/6*2, f, r1);
+		buttons[1] = new CenteredButton(this, "Highscores", Color.BLACK, Color.GREEN, width/2, height/6*3, f, r2);
+		buttons[2] = new CenteredButton(this, "Einstellungen", Color.BLACK, Color.GREEN, width/2, height/6*4, f, r3);
 	}
 	
 	
@@ -61,7 +67,7 @@ public class Menu implements GraphicObject {
 		Rectangle2D bounds = new TextLayout("Sim'rgy", f, ((Graphics2D)g).getFontRenderContext()).getBounds();
 		int strheight = (int) Math.ceil(bounds.getHeight());
 		int strwidth = (int) Math.ceil(bounds.getWidth()); 
-		int strtop = 20+20+strheight;
+		int strtop = 40+strheight;
 		int strleft = width/2-strwidth/2+left;
 		g.setColor(Color.BLACK);
 		g.drawString("Sim'rgy", strleft, strtop);

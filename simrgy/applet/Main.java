@@ -15,8 +15,10 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 	private Graphics backg;
 	private GameThread gt;
 	
-	int width = 800;
-	int height = 600;
+	public int top = 0;
+	public int left = 0;
+	public int width = 800;
+	public int height = 600;
 	
 	public void init(){		
 		Dimension d = new Dimension(width,height);
@@ -39,7 +41,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 	public void start(){
 		setSize(width, height);
 		
-		Grid grid = graphic.getMap().getGrid();
+		Grid grid = getGraphic().getMap().getGrid();
 		grid.addBuilding(3, 1, AKW.newAKW("Unterweser", 1));
 		grid.addBuilding(8, 1, AKW.newAKW("Greifenwald", 3));
 		grid.addBuilding(4, 1, new HQ());
@@ -53,7 +55,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 	}
 	
 	public void update( Graphics g ) {
-		graphic.draw();
+		getGraphic().draw();
 		g.drawImage( backbuffer, 0, 0, null );
 	}
 	
@@ -64,17 +66,17 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 	public void mouseClicked (MouseEvent me) {
 		int x = me.getX();
 		int y = me.getY();
-		graphic.click(x, y);
+		getGraphic().click(x, y);
 		me.consume();
 	}
 	public void mouseMoved(MouseEvent me) {
 		int x = me.getX();
 		int y = me.getY();
-		graphic.mouseOver(x, y);
+		getGraphic().mouseOver(x, y);
 		me.consume();
 	} 
 	public void mouseExited(MouseEvent me) {
-		graphic.mouseOut();
+		getGraphic().mouseOut();
 		me.consume();
 	}
 	public void mouseEntered(MouseEvent me) {}

@@ -10,15 +10,21 @@ public class Settings implements GraphicObject {
 	
 	protected Graphic graphic; //parent
 
-	public int top = 0;
-	public int left = 0;
-	public int width = 800;
-	public int height = 600;
+	public int top;
+	public int left;
+	public int width;
+	public int height;
 	private Button[] buttons;
 	private Button over = null;
 	
 	public Settings(Graphic g){
 		graphic = g;
+		
+		top=getMain().top;
+		left=getMain().left;
+		width=getMain().width;
+		height=getMain().height;
+		
 		Runnable r1 = new RunnableMain(getMain()) {
 			public void run() { 
 				main.getGraphic().showmenu = true;
@@ -28,7 +34,7 @@ public class Settings implements GraphicObject {
 		
 		Font f = new Font("Helvetica", Font.PLAIN, 30);
 		buttons = new Button[1];
-		buttons[0] = new CenteredButton(this, "Zurück zum Menü", Color.BLACK, Color.GREEN, width/2, 550, f, r1);
+		buttons[0] = new CenteredButton(this, "Zurück zum Menü", Color.BLACK, Color.GREEN, width/2, height/60*55, f, r1);
 	}
 		
 	//GraphicObject Methods
@@ -42,7 +48,7 @@ public class Settings implements GraphicObject {
 		Rectangle2D bounds = new TextLayout("Einstellungen", f, ((Graphics2D)g).getFontRenderContext()).getBounds();
 		int strheight = (int) Math.ceil(bounds.getHeight());
 		int strwidth = (int) Math.ceil(bounds.getWidth()); 
-		int strtop = 20+20+strheight;
+		int strtop = 40+strheight;
 		int strleft = width/2-strwidth/2+left;
 		g.setColor(Color.BLACK);
 		g.drawString("Einstellungen", strleft, strtop);

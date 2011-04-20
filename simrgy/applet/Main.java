@@ -3,45 +3,46 @@ package simrgy.applet;
 import java.applet.Applet;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.util.Timer;
-
-import simrgy.graphic.Graphic;
-import simrgy.graphic.Grid;
+import java.awt.event.*;
+import simrgy.graphic.*;
 import simrgy.game.buildings.*;
 
 public class Main extends Applet implements MouseListener, MouseMotionListener {
+	private static final long serialVersionUID = -7673817554230011101L;
 
 	Graphic graphic;
 	private Image backbuffer;
-	public Graphics backg;
+	private Graphics backg;
 	private GameThread gt;
 	
-	public void init(){	
-		Dimension d = new Dimension(800,600);
+	int width = 800;
+	int height = 600;
+	
+	public void init(){		
+		Dimension d = new Dimension(width,height);
 		setPreferredSize(d);
 		setMinimumSize(d);
 		setMaximumSize(d);
-		setSize(800,600);
+		setSize(width, height);
 		
 		//init Graphic, with backbuffer (no flickering)
 		//Source: http://profs.etsmtl.ca/mmcguffin/learn/java/07-backbuffer/
-		graphic = Graphic.getInstance();
-		backbuffer = createImage(800, 600);
+		backbuffer = createImage(getWidth(), getHeight());
 		backg = backbuffer.getGraphics();
 		
-		graphic.init(this);
+		graphic = new Graphic(this);
 		
 		addMouseListener(this); 
 		addMouseMotionListener(this);
 	}
 	
 	public void start(){
-		Grid.getInstance().addBuilding(3, 1, AKW.newAKW("Unterweser", 1));
-		Grid.getInstance().addBuilding(8, 1, AKW.newAKW("Greifenwald", 3));
-		Grid.getInstance().addBuilding(4, 1, new HQ());
+		setSize(width, height);
+		
+		Grid grid = graphic.getMap().getGrid();
+		grid.addBuilding(3, 1, AKW.newAKW("Unterweser", 1));
+		grid.addBuilding(8, 1, AKW.newAKW("Greifenwald", 3));
+		grid.addBuilding(4, 1, new HQ());
 		
 		gt = new GameThread(this);
 		gt.start();
@@ -52,7 +53,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 	}
 	
 	public void update( Graphics g ) {
-		graphic.draw(backg);
+		graphic.draw();
 		g.drawImage( backbuffer, 0, 0, null );
 	}
 	
@@ -80,4 +81,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 	public void mousePressed(MouseEvent me) {}
 	public void mouseReleased(MouseEvent me) {}
 	public void mouseDragged(MouseEvent arg0) {}
+	
+	public Graphic getGraphic(){return graphic;}
+	public Graphics getBackbuffer(){return backg;}
 }

@@ -1,13 +1,13 @@
 package simrgy.graphic;
 
-import java.awt.*;
-import java.awt.font.TextLayout;
-import java.net.*;
-import javax.swing.*;
+import simrgy.applet.*;
 
-import simrgy.applet.Main;
+import java.awt.*;
+import java.awt.font.*;
 
 public class GUI implements GraphicObject {
+	
+	private Graphic graphic; //parent
 	
 	public int top;
 	public int left;
@@ -15,19 +15,13 @@ public class GUI implements GraphicObject {
 	public int height;
 	
 	private int selectedTab = 0;
-	
-	//Singleton
-	private static GUI instance = null;
-	private GUI(){
+
+	public GUI(Graphic g){
+		graphic = g;
 		top   = 0;
-		left  = Map.getInstance().getWidth();
-		width = 800-left;
-		height = 600;
-	}	
-	public static GUI getInstance(){
-		if(instance == null)
-			instance = new GUI();
-		return instance;
+		left  = getGraphic().getMap().getWidth();
+		width = getMain().getWidth()-left;
+		height = getMain().getHeight();
 	}
 	
 	protected void drawTab(Graphics g, String name, int width, Color background){
@@ -43,8 +37,8 @@ public class GUI implements GraphicObject {
 	}
 	
 	//GraphicObject Methods
-	public void draw(Graphics g){
-		
+	public void draw(){
+		Graphics g = getBackbuffer();
 		
 		//Hintergrund
 		g.setColor(Color.RED);
@@ -79,7 +73,6 @@ public class GUI implements GraphicObject {
 	}
 
 	public void click(int x, int y) {
-		System.out.println("GUI clicked at: ( "+String.valueOf(x)+", "+String.valueOf(y)+" )");
 		if( y>=0 && y<=60){ //einfache Tab-Auswahl (ohne round edge)
 			if(x>716) selectedTab=2;
 			else if(x>635) selectedTab=1;
@@ -89,4 +82,9 @@ public class GUI implements GraphicObject {
 	
 	public void mouseOver(int x, int y) {}
 	public void mouseOut() {}
+	
+	public Graphic getGraphic(){return graphic;}
+	public Main getMain(){return getGraphic().getMain();}
+	public Graphics getBackbuffer(){return getGraphic().getBackbuffer();}
+
 }

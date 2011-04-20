@@ -1,19 +1,18 @@
 package simrgy.graphic;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.font.TextLayout;
-import java.awt.geom.Rectangle2D;
+import simrgy.applet.*;
+import simrgy.game.*;
 
-import javax.swing.ImageIcon;
+import java.awt.*;
+import java.awt.font.*;
+import java.awt.geom.*;
 
-import simrgy.game.Building;
 
-public /*abstract*/ class GridObject {
+
+public class GridObject implements GraphicObject {
+	
+	private Grid grid; //parent
+	
 	private int left;
 	private int top;
 	private int width;
@@ -22,7 +21,8 @@ public /*abstract*/ class GridObject {
 	private boolean showName;
 	private Color highlightColor;
 	
-	protected GridObject(int left, int top, int width, int height, Building building){
+	public GridObject(Grid g, int left, int top, int width, int height, Building building){
+		grid = g;
 		this.left = left;
 		this.top = top;
 		this.width = width;
@@ -33,7 +33,8 @@ public /*abstract*/ class GridObject {
 		building.attachGridObject(this);
 	}
 	
-	public void draw(Graphics g){
+	public void draw(){
+		Graphics g = getBackbuffer();
 		//Highlight
 		if(highlightColor != null){
 			g.setColor(highlightColor);
@@ -58,7 +59,7 @@ public /*abstract*/ class GridObject {
 			int strleft = 0;
 			if(left==0) strleft=1; //links
 			else strleft = width/2-strwidth/2+left; //mittig ausrichten
-			if (strleft+strwidth+1>Map.getInstance().getWidth()) strleft=Map.getInstance().getWidth()-strwidth-1; //rechts
+			if (strleft+strwidth+1>getGrid().getMap().getWidth()) strleft=getGrid().getMap().getWidth()-strwidth-1; //rechts
 			//White Hintergrund
 			g.setColor(Color.WHITE);
 			g.fillRect(strleft-1, strtop-strheight-1, strwidth+2, strheight+2);
@@ -70,10 +71,16 @@ public /*abstract*/ class GridObject {
 	public void click(){
 		System.out.println(building.getName()+" clicked");
 	}
+	public void click(int x, int y){click();}
 	public void mouseOver(){highlightYellow(); this.showName = true;}
+	public void mouseOver(int x, int y){mouseOver();}
 	public void mouseOut(){highlightNone(); this.showName = false;}
 	
 	public void highlightRed(){highlightColor=Color.RED;}
 	public void highlightYellow(){highlightColor=Color.YELLOW;}
 	public void highlightNone(){highlightColor=null;}
+	
+	public Grid getGrid(){return grid;}
+	public Main getMain(){return getGrid().getMain();}
+	public Graphics getBackbuffer(){return getGrid().getBackbuffer();}
 }

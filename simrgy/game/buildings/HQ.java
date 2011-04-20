@@ -1,8 +1,6 @@
 package simrgy.game.buildings;
 
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
+import javax.swing.*;
 import simrgy.game.*;
 
 public class HQ extends BuildingAbstract implements Building {

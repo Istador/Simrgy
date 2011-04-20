@@ -1,16 +1,16 @@
 package simrgy.graphic;
 
-import java.awt.*;
-import java.awt.font.TextLayout;
-import java.awt.geom.Rectangle2D;
-import java.net.*;
-import javax.swing.*;
+import simrgy.applet.*;
 
-import simrgy.applet.Main;
-import simrgy.applet.Music;
+import java.awt.*;
+import java.awt.font.*;
+import java.awt.geom.*;
+
 
 public class Highscore implements GraphicObject {
 
+	protected Graphic graphic; //parent
+	
 	public int top = 0;
 	public int left = 0;
 	public int width = 800;
@@ -18,34 +18,25 @@ public class Highscore implements GraphicObject {
 	private Button[] buttons;
 	private Button over = null;
 	
-	//Singleton
-	private static Highscore instance = null;
-	private Highscore(){}	
-	public static Highscore getInstance(){
-		if(instance == null){
-			instance = new Highscore();
-			
-		}
-		return instance;
-	}
-	
-	public void init(Graphics g){
-		Runnable r1 = new Runnable() { 
+	public Highscore(Graphic g){
+		graphic = g;
+		Runnable r1 = new RunnableMain(getMain()) {
 			public void run() { 
-				Graphic.getInstance().getInstance().showmenu = true;
-				Graphic.getInstance().getInstance().showhighscore = false;
+				main.getGraphic().showmenu = true;
+				main.getGraphic().showhighscore = false;
 				//Music.play(Graphic.getInstance().main, "10 - War against life.mp3");
 			}
 		};
 		
 		Font f = new Font("Helvetica", Font.PLAIN, 30);
 		buttons = new Button[1];
-		buttons[0] = new CenteredButton(g, "Zurück zum Menü", Color.BLACK, Color.GREEN, width/2, 550, f, r1);
+		buttons[0] = new CenteredButton(this, "Zurück zum Menü", Color.BLACK, Color.GREEN, width/2, 550, f, r1);
 	}
 	
 	
 	//GraphicObject Methods
-	public void draw(Graphics g){
+	public void draw(){
+		Graphics g = getBackbuffer();
 		g.setColor(Color.WHITE);
 		g.fillRect(left+20, top+20, width-40, height-40);
 	
@@ -59,13 +50,13 @@ public class Highscore implements GraphicObject {
 		g.setColor(Color.BLACK);
 		g.drawString("Highscores", strleft, strtop);
 		
-		for(Button b : buttons) b.draw(g);
+		for(Button b : buttons) if(b!=null) b.draw();
 	}
 
-	public void click(int x, int y) { for(Button b : buttons) b.click(x,y); }
+	public void click(int x, int y) { for(Button b : buttons) if(b!=null) b.click(x,y); }
 	public void mouseOver(int x, int y) {
 		Button old = over; //alten Button zwischenspeichern
-		for(Button b : buttons) if(b.contains(x, y)) over = b; //neuen Button merken
+		for(Button b : buttons) if( b!=null && b.contains(x, y)) over = b; //neuen Button merken
 		//neuen mouseOver senden
 		if(over!=null && over!=old) over.mouseOver();
 		//alten mouseOut senden
@@ -80,7 +71,7 @@ public class Highscore implements GraphicObject {
 		}
 	}
 
-
-
-
+	public Graphic getGraphic(){return graphic;}
+	public Main getMain(){return getGraphic().getMain();}
+	public Graphics getBackbuffer(){return getGraphic().getBackbuffer();}
 }

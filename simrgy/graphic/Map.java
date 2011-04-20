@@ -1,52 +1,52 @@
 package simrgy.graphic;
 
+import simrgy.applet.*;
+
 import java.awt.*;
 import java.net.*;
 import javax.swing.*;
 
-import simrgy.applet.Main;
-
 public class Map implements GraphicObject {
 
+	private Graphic graphic; //parent
 	private Grid grid;
 	private Image img;
 	private int width;
 	private int height;
 	
-	//Singleton
-	private static Map instance = null;
-	private Map(){
+	public Map(Graphic g){
+		graphic = g; 
 		URL mapurl = getClass().getResource("../res/img/map.png");
 		img = new ImageIcon(mapurl).getImage();
-		height = 600;
+		height = getMain().getHeight();
 		width = img.getWidth(null)/(img.getHeight(null)/height);
+		grid = new Grid(this);
 		
-	}	
-	public static Map getInstance(){
-		if(instance == null){
-			instance = new Map();
-			instance.grid = Grid.getInstance();
-		}
-		return instance;
 	}
 	
 	
 	//GraphicObject Methods	
-	public void draw(Graphics g){
+	public void draw(){
+		Graphics g = getBackbuffer();
 		g.drawImage(img, 0, 0, width, height, null);
-		grid.draw(g);
+		grid.draw();
 	}
 
 	public void click(int x, int y) {
 		grid.click(x, y);
 	}
 	
-	public void mouseOver(int x, int y) {grid.mouseOver(x, y);}
-	public void mouseOut() {grid.mouseOut();}
+	public void mouseOver(int x, int y) {getGrid().mouseOver(x, y);}
+	public void mouseOut() {getGrid().mouseOut();}
 
 	
 	//Getter
 	public int getWidth() {return width;}
 	public int getHeight() {return height;}	
+	public Grid getGrid() {return grid;}
+	
+	public Graphic getGraphic(){return graphic;}
+	public Main getMain(){return getGraphic().getMain();}
+	public Graphics getBackbuffer(){return getGraphic().getBackbuffer();}
 	
 }

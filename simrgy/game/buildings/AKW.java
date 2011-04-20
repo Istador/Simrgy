@@ -1,12 +1,8 @@
 package simrgy.game.buildings;
 
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
-
-import simrgy.game.Building;
-import simrgy.game.BuildingAbstract;
-import simrgy.graphic.GridObject;
+import java.awt.*;
+import javax.swing.*;
+import simrgy.game.*;
 
 public class AKW extends BuildingAbstract implements Building {
 

@@ -1,65 +1,50 @@
 package simrgy.graphic;
 
-import java.applet.Applet;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
+import simrgy.applet.*;
 
-import simrgy.applet.Main;
+import java.awt.*;
 
 public class Graphic implements GraphicObject {
 
+	public Main main;  //parent
 	
+	//Childrens
 	private Map map;
 	private GUI gui;
 	private Menu menu;
 	private Settings settings;
-	private Highscore highscore;
-
-	public Main main;
+	private Highscore highscore;	
 	
 	public boolean showmenu;
 	public boolean showhighscore;
 	public boolean showsettings;
 	
-	//Singleton
-	private static Graphic instance = null;
-	private Graphic(){}
-	public static Graphic getInstance(){
-		if(instance == null){
-			instance = new Graphic();
-			instance.map = Map.getInstance();
-			instance.gui = GUI.getInstance();
-			instance.menu = Menu.getInstance();
-			instance.highscore = Highscore.getInstance();
-			instance.settings = Settings.getInstance();
-		}
-		return instance;
-	}
-	
-	public void init(Main m){
-		this.main = m;
+	public Graphic(Main m){
+		main = m;
 		showmenu = true;
 		showhighscore = false;
 		showsettings = false;
-		menu.init(m.backg);
-		highscore.init(m.backg);
-		settings.init(m.backg);
+		map = new Map(this);
+		gui = new GUI(this);
+		menu = new Menu(this);
+		highscore = new Highscore(this);
+		settings = new Settings(this);
 	}
 	
-	public void draw(Graphics g){
+	public void draw(){
+		Graphics g = getBackbuffer();
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, 800, 600);
+		g.fillRect(0, 0, getMain().getWidth(), getMain().getHeight());
 	
 		if(showmenu)
-			menu.draw(g);
+			menu.draw();
 		else if(showsettings)
-			settings.draw(g);
+			settings.draw();
 		else if(showhighscore)
-			highscore.draw(g);
+			highscore.draw();
 		else{
-			gui.draw(g);
-			map.draw(g);
+			getGUI().draw();
+			getMap().draw();
 			}
 	}
 	
@@ -71,8 +56,8 @@ public class Graphic implements GraphicObject {
 		else if(showhighscore)
 			highscore.click(x,y);
 		else{
-			if( x  < map.getWidth() && y <= 600 ) map.click(x,y);
-			if( x >= map.getWidth() && y <= 600 && x <= 800 ) gui.click(x,y);
+			if( x  < getMap().getWidth() && y <= getMain().getHeight() ) getMap().click(x,y);
+			if( x >= getMap().getWidth() && y <= getMain().getHeight() && x <= getMain().getWidth() ) getGUI().click(x,y);
 		}
 	}
 
@@ -84,8 +69,8 @@ public class Graphic implements GraphicObject {
 		else if(showhighscore)
 			highscore.mouseOver(x,y);
 		else{
-			if( x  < map.getWidth() && y <= 600 ){ map.mouseOver(x, y); gui.mouseOut(); }
-			if( x >= map.getWidth() && y <= 600 && x <= 800 ){ gui.mouseOver(x, y); map.mouseOut(); }
+			if( x  < getMap().getWidth() && y <= getMain().getHeight() ){ getMap().mouseOver(x, y); getGUI().mouseOut(); }
+			if( x >= getMap().getWidth() && y <= getMain().getHeight() && x <= getMain().getWidth() ){ getGUI().mouseOver(x, y); getMap().mouseOut(); }
 		}
 	}
 	public void mouseOut() {
@@ -101,4 +86,11 @@ public class Graphic implements GraphicObject {
 		}
 	}
 	
+	public Main getMain(){return main;}
+	public Map getMap(){return map;}
+	public GUI getGUI(){return gui;}
+	public Menu getMenu() {return menu;}
+	public Settings getSettings() {return settings;}
+	public Highscore getHighscore() {return highscore;}
+	public Graphics getBackbuffer(){return getMain().getBackbuffer();}
 }

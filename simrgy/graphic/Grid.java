@@ -1,12 +1,11 @@
 package simrgy.graphic;
 
-import java.awt.*;
-import java.net.URL;
-import java.util.*;
-import javax.swing.ImageIcon;
+import simrgy.applet.*;
+import simrgy.game.*;
 
-import simrgy.game.Building;
-import simrgy.game.buildings.*;
+import java.awt.*;
+
+
 
 public class Grid implements GraphicObject {
 	private int width;
@@ -19,27 +18,22 @@ public class Grid implements GraphicObject {
 	private boolean drawgrid = true;
 	GridObject over;
 	
-	//Singleton
-	private static Grid instance = null;
-	private Grid(){
-		Map map = Map.getInstance(); //ok, weil nur auf map interne methoden zugegriffen wird
-		width = map.getWidth();
-		height = map.getHeight();
+	private Map map;
+	
+	public Grid(Map m){
+		map = m;
+		width = getMap().getWidth();
+		height = getMap().getHeight();
 		elementwidth = width / xspacing;
 		elementheight = height / yspacing;
 		buildings = new GridObject[xspacing][yspacing];
 		//System.out.println(elementwidth+" "+elementheight);
 		
 	}	
-	public static Grid getInstance(){
-		if(instance == null)
-			instance = new Grid();
-		return instance;
-	}
-	
 
 	//GraphicObject Methods	
-	public void draw(Graphics g){
+	public void draw(){
+		Graphics g = getBackbuffer();
 		if(drawgrid){
 			g.setColor(Color.BLACK);
 			//Horizonteles Grid (oben nach unten)
@@ -52,9 +46,7 @@ public class Grid implements GraphicObject {
 		
 		//Gebäude zeichnen
 		for(GridObject[] a : buildings)
-			for(GridObject el : a)
-				if(el != null)
-					el.draw(g);
+			for(GridObject el : a) if(el!=null) el.draw();
 	}
 
 	public void click(int x, int y) {
@@ -90,10 +82,13 @@ public class Grid implements GraphicObject {
 	public boolean addBuilding(int x, int y, Building b){
 		if(x>=0 && y>=0 && x<xspacing && y<yspacing)
 			{
-			buildings[x][y] = new GridObject(x*elementwidth, y*elementheight, elementwidth, elementheight, b);
+			buildings[x][y] = new GridObject(this, x*elementwidth, y*elementheight, elementwidth, elementheight, b);
 			return true;
 			}
 		return false;
 	}
 	
+	public Map getMap(){return map;}
+	public Main getMain(){return getMap().getMain();}
+	public Graphics getBackbuffer(){return getMap().getBackbuffer();}
 }

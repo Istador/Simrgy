@@ -1,8 +1,5 @@
 package simrgy.applet;
 
-import java.util.TimerTask;
-
-import simrgy.graphic.Graphic;
 
 public class GameThread extends Thread{
 	protected Main main;

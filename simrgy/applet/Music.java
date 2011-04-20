@@ -11,7 +11,7 @@ public class Music {
 	
 	public static void play(Applet app, String filename){
 		try{
-			//if(mp!=null) mp.stop();
+			if(mp!=null) mp.stop();
 			//mp = Manager.createPlayer(app.getClass().getResource("../res/music/"+filename));
 			//mp.start();
 			

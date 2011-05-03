@@ -3,6 +3,7 @@ package simrgy.graphic;
 import simrgy.applet.*;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 
 
@@ -49,14 +50,17 @@ public class StatusTab implements GraphicObject {
 		
 		ttop+=40;
 		
+		g.drawString("Strombedarf:", tleft, ttop);
+		g.drawString(mw.format(getMain().getGame().strombedarf)+" MW", tright, ttop);
+		ttop+=20;
 		g.drawString("Stromerzeugung:", tleft, ttop);
-		g.drawString(mw.format(getMain().getGame().mwh)+" MW/h", tright, ttop);
+		g.drawString(mw.format(getMain().getGame().mw)+" MW", tright, ttop);
 		ttop+=20;
 		g.drawString("Atomkraft:", tleft, ttop);
-		g.drawString(mw.format(getMain().getGame().mwh_atom)+" MW/h", tright, ttop);
+		g.drawString(mw.format(getMain().getGame().mw_atom)+" MW", tright, ttop);
 		ttop+=20;
 		g.drawString("Windkraft:", tleft, ttop);
-		g.drawString(mw.format(getMain().getGame().mwh_wind)+" MW/h", tright, ttop);
+		g.drawString(mw.format(getMain().getGame().mw_wind)+" MW", tright, ttop);
 	}
 
 	public void click(int x, int y) {}
@@ -66,5 +70,5 @@ public class StatusTab implements GraphicObject {
 	public GUI getGUI(){return gui;}
 	public Main getMain() { return getGUI().getMain(); }
 	public Graphics getBackbuffer() { return getGUI().getBackbuffer(); }
-
+	public void keyPress(KeyEvent ke){}
 }

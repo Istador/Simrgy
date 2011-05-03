@@ -4,6 +4,7 @@ import simrgy.applet.*;
 import simrgy.game.*;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 
 
@@ -63,6 +64,19 @@ public class Grid implements GraphicObject {
 		int a = x/elementwidth; if(a>=cols)a--;
 		int b = y/elementheight; if(b>=rows)b--;
 		if(buildings[a][b]!=null) buildings[a][b].click();
+		
+		//Bauen
+		BuildTab bt = getMap().getGraphic().getGUI().getBuildTab();
+		if(getMap().getGraphic().getGUI().getSelectedTab() == bt ){
+			Building bts = bt.getSelectedBuilding();
+			if(bts != null){
+				//kann bauen?
+				if(buildings[a][b]==null)
+					//baue
+					if( getMain().getGame().buildBuilding(a, b, bts) )
+						bt.clearSelectedBuilding();
+			}
+		}
 	}
 	
 	public void mouseOver(int x, int y) {
@@ -76,7 +90,18 @@ public class Grid implements GraphicObject {
 		if(over!=null && over!=old) over.mouseOver();
 		//alten mouseOut senden
 		if(old!=null && over!=old) old.mouseOut();
-
+		
+		//Bauraster
+		BuildTab bt = getMap().getGraphic().getGUI().getBuildTab();
+		if(getMap().getGraphic().getGUI().getSelectedTab() == bt ){
+			Building bts = bt.getSelectedBuilding();
+			if(bts != null)
+				highlightUnderground(bts.getUnderground());
+			else
+				highlightUnderground(0);
+		}
+		else
+			highlightUnderground(0);
 	}
 	public void mouseOut() {
 		if(over!=null)
@@ -86,6 +111,7 @@ public class Grid implements GraphicObject {
 			//alten löschen
 			over=null;
 			}
+		//highlightUnderground(0); //TODO
 	}	
 	
 	public boolean addBuilding(int x, int y, Building b){
@@ -130,4 +156,5 @@ public class Grid implements GraphicObject {
 	public Map getMap(){return map;}
 	public Main getMain(){return getMap().getMain();}
 	public Graphics getBackbuffer(){return getMap().getBackbuffer();}
+	public void keyPress(KeyEvent ke){}
 }

@@ -3,6 +3,7 @@ package simrgy.graphic;
 import simrgy.applet.*;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.net.*;
 import javax.swing.*;
 
@@ -48,5 +49,6 @@ public class Map implements GraphicObject {
 	public Graphic getGraphic(){return graphic;}
 	public Main getMain(){return getGraphic().getMain();}
 	public Graphics getBackbuffer(){return getGraphic().getBackbuffer();}
+	public void keyPress(KeyEvent ke){}
 	
 }

@@ -3,6 +3,7 @@ package simrgy.graphic;
 import simrgy.applet.*;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.font.*;
 import java.text.DecimalFormat;
 
@@ -108,7 +109,10 @@ public class GUI implements GraphicObject {
 		getSelectedTab().draw();
 		
 		//Ernergiebalken
-		drawEnergy(g, 80, 90);
+		double max = getMain().getGame().max_strombedarf;
+		int target = ((int)(100.0/max*(double)getMain().getGame().strombedarf))%100;
+		int actual = ((int)(100.0/max*(double)getMain().getGame().mw))%100;
+		drawEnergy(g, target, actual);
 		
 		//Rand
 		g.setColor(Color.BLACK);
@@ -139,5 +143,5 @@ public class GUI implements GraphicObject {
 	public Graphic getGraphic(){return graphic;}
 	public Main getMain(){return getGraphic().getMain();}
 	public Graphics getBackbuffer(){return getGraphic().getBackbuffer();}
-
+	public void keyPress(KeyEvent ke){}
 }

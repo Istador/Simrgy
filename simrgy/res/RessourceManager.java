@@ -12,6 +12,7 @@ public class RessourceManager {
 	
 	public static final Image hq = new ImageIcon(RessourceManager.class.getResource("img/buildings/hq.png")).getImage();
 	
+	public static final Image akw_0 = new ImageIcon(RessourceManager.class.getResource("img/buildings/akw_0.png")).getImage();
 	public static final Image akw_1 = new ImageIcon(RessourceManager.class.getResource("img/buildings/akw_1.png")).getImage();
 	public static final Image akw_2 = new ImageIcon(RessourceManager.class.getResource("img/buildings/akw_2.png")).getImage();
 	public static final Image akw_3 = new ImageIcon(RessourceManager.class.getResource("img/buildings/akw_3.png")).getImage();
@@ -24,4 +25,5 @@ public class RessourceManager {
 	
 	public static final Image staudamm = new ImageIcon(RessourceManager.class.getResource("img/buildings/staudamm.png")).getImage();
 	
+	//TODO: Fonts und eigene Farben sammeln
 }

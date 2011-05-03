@@ -4,6 +4,7 @@ import simrgy.applet.*;
 import simrgy.game.*;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.font.*;
 import java.awt.geom.*;
 
@@ -42,6 +43,14 @@ public class GridObject implements GraphicObject {
 		}
 		//Image
 		g.drawImage(building.getImage(), left, top, width, height, null);
+		//Baustatus
+		if(building.getBaustatus() < 1.0){
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillRect(left+1, top+height-5, width-1, 5);
+			g.setColor(Color.GREEN);
+			g.fillRect(left+1, top+height-5, (int)((width-1)*building.getBaustatus()), 5);
+			//System.out.println(building.getBaustatus());
+		}
 		//Name
 		if(showName){
 			//Schriftart
@@ -69,7 +78,8 @@ public class GridObject implements GraphicObject {
 		}
 	}
 	public void click(){
-		System.out.println(building.getName()+" clicked");
+		//System.out.println(building.getName()+" clicked");
+		RechtsklickTab.getInstance().run(building);
 	}
 	public void click(int x, int y){click();}
 	public void mouseOver(){highlightYellow(); this.showName = true;}
@@ -83,4 +93,5 @@ public class GridObject implements GraphicObject {
 	public Grid getGrid(){return grid;}
 	public Main getMain(){return getGrid().getMain();}
 	public Graphics getBackbuffer(){return getGrid().getBackbuffer();}
+	public void keyPress(KeyEvent ke){}
 }

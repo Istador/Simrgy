@@ -19,6 +19,7 @@ public class Game {
 	
 	public double money; // Geld in €
 	public long time; // millisekunden runtime
+	private long last_update_time;
 	protected boolean running;
 	Building[][] buildings;
 	protected int[][] bautyp; // 0=nicht baubar, 1=land, 2=land+see/fluß, 3=wasser - nicht public setzen, x und y vertauscht!
@@ -27,9 +28,14 @@ public class Game {
 	public double windpower = 1.0; // 0.0..1.0 Overall power
 	public double windrichtung = 90.0; // grad.  90°=N, 0°=E
 	
-	public double mwh;
-	public double mwh_atom;
-	public double mwh_wind;
+	public double mw;
+	public double mw_atom;
+	public double mw_wind;
+	
+	public long personal;
+	
+	public double strombedarf; //in MW
+	public double max_strombedarf; //in MW
 	
 	//Konstruktor
 	public Game(Main m){
@@ -43,11 +49,16 @@ public class Game {
 		running = false;
 		money = 100000000.0;
 		time = 0;
+		last_update_time=time;
 		
-		mwh = 0.0;
-		mwh_atom = 0.0;
-		mwh_wind = 0.0;
+		mw = 0.0;
+		mw_atom = 0.0;
+		mw_wind = 0.0;
 		
+		personal = 0;
+		
+		strombedarf = 171527.777; //617,5 Mrd kWh = 617,5 Mil MWh = 171527,777 MW
+		max_strombedarf = 200000.0;
 
 		//Wind initialisieren
 		windpower = 1.0;
@@ -85,18 +96,35 @@ public class Game {
 		
 		//Wind
 		placeBuilding(4, 0, new Windrad(this, "Windanlage Nord"));
-		
+	
 		//AKWs
-		placeBuilding(3, 1, AKW.newAKW(this, "Unterweser", 1));
-		placeBuilding(8, 1, AKW.newAKW(this, "Greifenwald", 3));
-		
+		// http://de.wikipedia.org/wiki/Liste_der_Kernreaktoren_in_Deutschland
+		boolean moratorium = true; // zeige AKWs im Moratorium
+		placeBuilding(7, 8, AKW.newFinishedAKW(this, "Isar/Ohu", (moratorium ? 2 : 1), 1193.5)); // 1 Reaktor Moratorium
+		placeBuilding(3, 1, AKW.newFinishedAKW(this, "Brokdorf", 1, 1480.0));
+		if(moratorium) placeBuilding(2, 6, AKW.newFinishedAKW(this, "Biblis", 2, 1262.5)); // Moratorium
+		placeBuilding(2, 7, AKW.newFinishedAKW(this, "Philippsburg", (moratorium ? 2 : 1), 1197.0)); // 1 Reaktor Moratorium
+		placeBuilding(3, 3, AKW.newFinishedAKW(this, "Grohnde", 1, 1430.0));
+		if(moratorium) placeBuilding(3, 2, AKW.newFinishedAKW(this, "Unterweser", 1, 1410.0)); //Moratorium
+		if(moratorium) placeBuilding(5, 2, AKW.newFinishedAKW(this, "Krümmel", 1, 1402.0)); // Moratorium
+		placeBuilding(1, 3, AKW.newFinishedAKW(this, "Emsland", 1, 1400.0));
+		placeBuilding(3, 7, AKW.newFinishedAKW(this, "Neckarwestheim", 2, 1120.0));
+		placeBuilding(4, 6, AKW.newFinishedAKW(this, "Grafenrheinfeld", 1, 1345.0));
+		placeBuilding(4, 8, AKW.newFinishedAKW(this, "Gundremmingen", 2, 1344.0));
 		
 	}
 	
 	public void start(){ running = true; }
-	public void pause(){ running = false; }
+	public void pause(){ running = !running; }
 	public void restart(){ stop(); start(); }
 	public void stop(){ init(); }
+	
+	public boolean buildBuilding(int x, int y, Building b){
+		if( (getBautyp(x,y) & b.getUnderground()) != 0 ){
+			return placeBuilding(x,y,b);
+		}
+		return false;
+	}
 	
 	private boolean placeBuilding(int x, int y, Building b){
 		Grid grid = getMain().getGraphic().getMap().getGrid();
@@ -144,45 +172,61 @@ public class Game {
 	
 	public void tick(long timeDiff){
 		if(running){
-			//timeDiff in halben Sekunden
-			double tds = timeDiff/500.0;
+			//Uhrzeit
+			time += timeDiff;
 			
 			//Usereingaben auswerten (die zwischendurch in einer Queue zwischengelagert werden)
 			//...
 			
 			//nur einmal alle halbe sekunde
-			if(new Long((time+timeDiff)/500) > new Long(time/500))
+
+
+			if(new Long(time/1000) > new Long(last_update_time/1000))
 			{
-				//Wetterverhältnisse ändern
-				windrichtung = (windrichtung-180.0 + (rnd.nextDouble()-0.5)*20*3.6) % 180.0 +180.0; //Windrichtung max 36° pro halbe sekunde ändern
-				windpower = (windpower-0.5 + (rnd.nextDouble()-0.5)/10*2) % 0.5 + 0.5; //Windkraft um max. 10% pro halbe sekunde ändern
-			
-				//Gelderzeugung
-				for(Building[] tmp : buildings)
-					for(Building b : tmp)
-						if(b != null)
-							money += b.getMoneyPerSecond()*tds;
+				//timeDiff seit letztem statusupdate
+				long tdms = time-last_update_time;
+				double tds = tdms/1000;
 				
-				//anzeige der Stromerzeugung
-				mwh = 0.0;
-				mwh_atom = 0.0;
-				mwh_wind = 0.0;
+				//Wetterverhältnisse ändern
+				windrichtung = (windrichtung-180.0 + (rnd.nextDouble()-0.5)*20*3.6*tds) % 180.0 +180.0; //Windrichtung max 36° pro sekunde ändern
+				windpower = (windpower-0.5 + (rnd.nextDouble()-0.5)/10*2*tds) % 0.5 + 0.5; //Windkraft um max. 10% pro sekunde ändern
+			
+				//Gebäude
+				mw = 0.0;
+				mw_atom = 0.0;
+				mw_wind = 0.0;
+				personal = 0;
 				for(Building[] tmp : buildings)
 					for(Building b : tmp)
 						if(b != null){
-							if( b instanceof AKW ) mwh_atom += b.getPowerPerSecond();
-							else if( b instanceof Windrad ) mwh_wind += b.getPowerPerSecond();
-							else mwh += b.getPowerPerSecond();
+							//Personal zählen
+							personal += b.getPersonal();
+							//Gebäudekosten
+							money -= b.getMoneyCostH() * tds;
+							//Stromerzeugung
+							if( b instanceof AKW ) mw_atom += b.getMW();
+							else if( b instanceof Windrad ) mw_wind += b.getMW();
+							else mw += b.getMW();
+							
 						}
-				mwh += mwh_atom + mwh_wind;
+				mw += mw_atom + mw_wind;
+				
+				//Stromverkauf
+				money += mw * getStrompreis() * tds;
+				
+				//Update Zeit aktualisieren
+				last_update_time=time;
 			}
-			
+
+			//Gebäude tick
+			for(Building[] tmp : buildings)
+				for(Building b : tmp)
+					if(b != null)
+						b.tick(timeDiff);
 			
 			//Spezielle Gebäudefunktionen
 			//...
-			
-			//Uhrzeit
-			time += timeDiff;
+	
 			
 			//Zufällige Ereignisse
 			//...

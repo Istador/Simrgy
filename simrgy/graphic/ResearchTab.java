@@ -3,6 +3,7 @@ package simrgy.graphic;
 import simrgy.applet.*;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class ResearchTab implements GraphicObject {
 	public int top;
@@ -34,4 +35,6 @@ public class ResearchTab implements GraphicObject {
 	public GUI getGUI(){return gui;}
 	public Main getMain() { return getGUI().getMain(); }
 	public Graphics getBackbuffer() { return getGUI().getBackbuffer(); }
+	public void keyPress(KeyEvent ke){}
+	
 }

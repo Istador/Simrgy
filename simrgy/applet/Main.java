@@ -4,10 +4,11 @@ import java.applet.Applet;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import simrgy.graphic.*;
 import simrgy.game.Game;
 
-public class Main extends Applet implements MouseListener, MouseMotionListener {
+public class Main extends Applet implements MouseListener, MouseMotionListener, KeyListener {
 	private static final long serialVersionUID = -7673817554230011101L;
 
 	Graphic graphic;
@@ -38,6 +39,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 		
 		addMouseListener(this); 
 		addMouseMotionListener(this);
+		addKeyListener(this);
 	}
 	
 	public void start(){
@@ -83,4 +85,12 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 	public Game getGame(){return game;}
 	public Graphic getGraphic(){return graphic;}
 	public Graphics getBackbuffer(){return backg;}
+
+	public void keyPressed(KeyEvent ke) {
+		if( ke.getKeyCode()==KeyEvent.VK_PAUSE && getGame().time>0) getGame().pause();
+		else getGraphic().keyPress(ke);
+		ke.consume();
+	}
+	public void keyReleased(KeyEvent ke) {}
+	public void keyTyped(KeyEvent ke) {}
 }

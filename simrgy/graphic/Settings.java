@@ -3,6 +3,7 @@ package simrgy.graphic;
 import simrgy.applet.*;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.font.*;
 import java.awt.geom.*;
 
@@ -77,5 +78,6 @@ public class Settings implements GraphicObject {
 	public Graphic getGraphic(){return graphic;}
 	public Main getMain(){return getGraphic().getMain();}
 	public Graphics getBackbuffer(){return getGraphic().getBackbuffer();}
-
+	public void keyPress(KeyEvent ke){}
+	
 }

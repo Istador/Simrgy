@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 
@@ -77,4 +78,6 @@ public class TabSelection implements GraphicObject {
 		Rectangle2D bounds = new TextLayout(name, tabFont, ((Graphics2D)g).getFontRenderContext()).getBounds();
 		g.drawString(name, left+width-((int)bounds.getWidth())-round/2, 55);
 	}
+	
+	public void keyPress(KeyEvent ke){}
 }

@@ -3,6 +3,7 @@ package simrgy.graphic;
 import simrgy.applet.*;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 
 
@@ -14,5 +15,7 @@ public interface GraphicObject {
 	public void mouseOut();
 	public Graphics getBackbuffer();
 	public Main getMain();
+	
+	public void keyPress(KeyEvent ke);
 	
 }

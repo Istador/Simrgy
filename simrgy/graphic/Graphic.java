@@ -3,6 +3,7 @@ package simrgy.graphic;
 import simrgy.applet.*;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class Graphic implements GraphicObject {
 
@@ -14,6 +15,8 @@ public class Graphic implements GraphicObject {
 	private Menu menu;
 	private Settings settings;
 	private Highscore highscore;	
+	
+	private GraphicObject overlay = null;
 	
 	public boolean showmenu;
 	public boolean showhighscore;
@@ -46,10 +49,14 @@ public class Graphic implements GraphicObject {
 			getGUI().draw();
 			getMap().draw();
 			}
+		
+		if(overlay != null) overlay.draw();
 	}
 	
 	public void click(int x, int y) {
-		if(showmenu)
+		if(overlay != null)
+			overlay.click(x,y);
+		else if(showmenu)
 			menu.click(x,y);
 		else if(showsettings)
 			settings.click(x,y);
@@ -62,7 +69,9 @@ public class Graphic implements GraphicObject {
 	}
 
 	public void mouseOver(int x, int y) {
-		if(showmenu)
+		if(overlay != null)
+			overlay.mouseOver(x,y);
+		else if(showmenu)
 			menu.mouseOver(x,y);
 		else if(showsettings)
 			settings.mouseOver(x,y);
@@ -74,7 +83,9 @@ public class Graphic implements GraphicObject {
 		}
 	}
 	public void mouseOut() {
-		if(showmenu)
+		if(overlay != null)
+			overlay.mouseOut();
+		else if(showmenu)
 			menu.mouseOut();
 		else if(showsettings)
 			settings.mouseOut();
@@ -85,6 +96,8 @@ public class Graphic implements GraphicObject {
 			gui.mouseOut();
 		}
 	}
+	public void setOverlay(GraphicObject go){overlay=go;}
+	public void removeOverlay(){overlay=null;}
 	
 	public Main getMain(){return main;}
 	public Map getMap(){return map;}
@@ -93,4 +106,8 @@ public class Graphic implements GraphicObject {
 	public Settings getSettings() {return settings;}
 	public Highscore getHighscore() {return highscore;}
 	public Graphics getBackbuffer(){return getMain().getBackbuffer();}
+	public void keyPress(KeyEvent ke){
+		if(overlay != null)
+			overlay.keyPress(ke);
+	}
 }

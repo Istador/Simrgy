@@ -3,6 +3,7 @@ package simrgy.graphic;
 import simrgy.applet.*;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.font.*;
 import java.awt.geom.*;
 
@@ -70,5 +71,5 @@ public class CenteredButton implements Button {
 	public GraphicObject getParent(){return parent;}
 	public Main getMain() {return getParent().getMain();}
 	public Graphics getBackbuffer(){return getParent().getBackbuffer();}
-
+	public void keyPress(KeyEvent ke){}
 }

@@ -4,6 +4,7 @@ import simrgy.applet.*;
 
 import java.awt.*;
 import java.awt.font.*;
+import java.text.DecimalFormat;
 
 public class GUI implements GraphicObject {
 	
@@ -86,12 +87,13 @@ public class GUI implements GraphicObject {
 		g.fillRect(left, top, width, height);
 		
 		//Geld
-		String dollar = "123456.78"; 
+		DecimalFormat df = new DecimalFormat("#");
+		String money = df.format(getMain().getGame().money); 
 		g.setFont(dollarFont);
-		int strwidth = (int) new TextLayout(dollar, dollarFont, ((Graphics2D)g).getFontRenderContext()).getBounds().getWidth();
+		int strwidth = (int) new TextLayout(money, dollarFont, ((Graphics2D)g).getFontRenderContext()).getBounds().getWidth();
 		g.setColor(Color.BLACK);
-		g.drawString("$", left+5, 25);
-		g.drawString(dollar, left+width-10-strwidth, 25);
+		g.drawString("€", left+5, 25);
+		g.drawString(money, left+width-10-strwidth, 25);
 		
 		//TabSelection
 		getTabSelection().draw();
@@ -115,12 +117,13 @@ public class GUI implements GraphicObject {
 
 	public void click(int x, int y) {
 		if( y>=0 && y<=60) getTabSelection().click(x, y);
-		else if( y>60 && y<=height ) getSelectedTab().click(x, y);
+		else if( y>60 && y<=height && x>=left+25 ) getSelectedTab().click(x, y);
 	}
 	
 	public void mouseOver(int x, int y) {
-		if( y>=0 && y<=60) getTabSelection().mouseOver(x, y);
-		else if( y>60 && y<=height ) getSelectedTab().mouseOver(x, y);
+		if( y>=0 && y<=60) { getTabSelection().mouseOver(x, y); getSelectedTab().mouseOut(); }
+		else if( y>60 && y<=height && x>=left+25 ) { getSelectedTab().mouseOver(x, y); getTabSelection().mouseOut(); }
+		else getSelectedTab().mouseOut(); getTabSelection().mouseOut();
 	}
 	public void mouseOut() {
 		getTabSelection().mouseOut();

@@ -1,12 +1,20 @@
 package simrgy.game.buildings;
 
-import javax.swing.*;
+import java.awt.Image;
+
 import simrgy.game.*;
+import simrgy.res.RessourceManager;
 
 public class Kohle extends BuildingAbstract implements Building {
 
-	public Kohle(String name){
-		super(name);
-		img = new ImageIcon(getClass().getResource("../../res/img/buildings/kohle.png")).getImage();
+	public static int underground = 1; //Land benötigt
+	
+	public Kohle(Game g, String name){
+		super(g, name);
 	}
+
+	public double getMoneyPerSecond(){return 0.0;}
+	public double getPowerPerSecond(){return 0.0;}
+	
+	public Image getImage(){ return RessourceManager.kohle; }
 }

@@ -10,9 +10,19 @@ public class GameThread extends Thread{
 		this.main=m;
 	}
 	
-	public void run() {
+	public void run() {		
 		running=true;
-		while(running)	main.repaint();
+		long lastTime = System.currentTimeMillis();
+		while(running){
+			long currTime = System.currentTimeMillis();
+			long timeDiff = currTime - lastTime;
+			lastTime = currTime;
+			if(timeDiff != 0)
+				{
+				main.getGame().tick(timeDiff);
+				main.repaint();
+				}
+		}
 	}
 
 

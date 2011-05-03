@@ -47,10 +47,12 @@ public class TabSelection implements GraphicObject {
 	}
 	
 	public void click(int x, int y) {
+		GraphicObject tmp = selectedTab;
 		//einfache Tab-Auswahl (ohne round edge)
 		if(x<left+width && x>left+tabwidth*2) selectedTab=getResearchTab();
 		else if(x<left+width && x>left+tabwidth) selectedTab=getBuildTab();
 		else if(x<left+width && x>left) selectedTab=getStatusTab();
+		if(tmp!=null && tmp != selectedTab) tmp.mouseOut(); //Bugfix, das tmp weiterhin denkt er sei mouseOver, wenn schneller wechsel.
 	}
 	public void mouseOver(int x, int y) {}
 	public void mouseOut(){}

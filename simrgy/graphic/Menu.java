@@ -30,6 +30,7 @@ public class Menu implements GraphicObject {
 		Runnable r1 = new RunnableMain(getMain()) { 
 			public void run() {
 				main.getGraphic().showmenu = false;
+				main.getGame().start();
 				//Music.play(Graphic.getInstance().main, "09 - Atmosphere.mp3");
 			}
 		};

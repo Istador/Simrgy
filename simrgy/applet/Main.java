@@ -5,7 +5,7 @@ import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.*;
 import simrgy.graphic.*;
-import simrgy.game.buildings.*;
+import simrgy.game.Game;
 
 public class Main extends Applet implements MouseListener, MouseMotionListener {
 	private static final long serialVersionUID = -7673817554230011101L;
@@ -13,6 +13,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 	Graphic graphic;
 	private Image backbuffer;
 	private Graphics backg;
+	private Game game;
 	private GameThread gt;
 	
 	public int top = 0;
@@ -33,6 +34,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 		backg = backbuffer.getGraphics();
 		
 		graphic = new Graphic(this);
+		game = new Game(this);
 		
 		addMouseListener(this); 
 		addMouseMotionListener(this);
@@ -40,12 +42,6 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 	
 	public void start(){
 		setSize(width, height);
-		
-		Grid grid = getGraphic().getMap().getGrid();
-		grid.addBuilding(3, 1, AKW.newAKW("Unterweser", 1));
-		grid.addBuilding(8, 1, AKW.newAKW("Greifenwald", 3));
-		grid.addBuilding(4, 1, new HQ());
-		
 		gt = new GameThread(this);
 		gt.start();
 	}
@@ -84,6 +80,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 	public void mouseReleased(MouseEvent me) {}
 	public void mouseDragged(MouseEvent arg0) {}
 	
+	public Game getGame(){return game;}
 	public Graphic getGraphic(){return graphic;}
 	public Graphics getBackbuffer(){return backg;}
 }

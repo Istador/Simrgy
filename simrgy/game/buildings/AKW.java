@@ -1,35 +1,35 @@
 package simrgy.game.buildings;
 
 import java.awt.*;
-import javax.swing.*;
 import simrgy.game.*;
+import simrgy.res.RessourceManager;
 
 public class AKW extends BuildingAbstract implements Building {
-
-	private static Image img1;
-	private static Image img2;
-	private static Image img3;
+	
+	public static int underground = 6; //Fluss oder See benötigt benötigt
 	
 	int modules = 1;
+	int personal = 100;
+	double leistung = 0.0;
 	
-	protected AKW(String name){
-		super(name);
-		img1 = new ImageIcon(getClass().getResource("../../res/img/buildings/akw_1.png")).getImage();
-		img2 = new ImageIcon(getClass().getResource("../../res/img/buildings/akw_2.png")).getImage();
-		img3 = new ImageIcon(getClass().getResource("../../res/img/buildings/akw_3.png")).getImage();
+	protected AKW(Game g, String name){
+		super(g, name);
 	}
 	
-	public static AKW newAKW(String name, int module){
-		AKW ret = new AKW(name);
+	public static AKW newAKW(Game g, String name, int module){
+		AKW ret = new AKW(g, name);
 		ret.modules=module;
 		return ret;
 	}
 	
 	public Image getImage() {
-		if(modules==1) return img1;
-		if(modules==2) return img2;
-		if(modules==3) return img3;
-		return img;
+		if(modules==1) return RessourceManager.akw_1;
+		if(modules==2) return RessourceManager.akw_2;
+		if(modules==3) return RessourceManager.akw_3;
+		return super.getImage();
 	}
 
+	public double getMoneyPerSecond(){ return getPowerPerSecond() * getGame().getStrompreis() - personal * getGame().getPersonalkosten() ;}
+	public double getPowerPerSecond(){ return modules * 1600.0 * leistung; }
+	
 }

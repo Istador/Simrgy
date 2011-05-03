@@ -3,6 +3,7 @@ package simrgy.graphic;
 import simrgy.applet.*;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 
 
 public class StatusTab implements GraphicObject {
@@ -11,6 +12,8 @@ public class StatusTab implements GraphicObject {
 	public int width;
 	public int height;
 
+	private Font font = new Font("Helvetica", Font.PLAIN, 14);
+	
 	private GUI gui;
 	
 	public StatusTab(GUI g){
@@ -21,7 +24,40 @@ public class StatusTab implements GraphicObject {
 		height = getMain().getHeight()-top-1;
 	}	
 
-	public void draw() {}
+	public void draw() {
+		Graphics g = getBackbuffer();
+		g.setFont(font);
+		g.setColor(Color.BLACK);
+		
+		int ttop = top+15;
+		int tleft = left+5;
+		int tright = left+150;
+		
+		DecimalFormat ein = new DecimalFormat("0");
+		DecimalFormat mw = new DecimalFormat("0.00");
+		
+		g.drawString("Zeit:", tleft, ttop);
+		g.drawString(String.valueOf(getMain().getGame().time/1000), tright, ttop);
+		
+		ttop+=40;
+		
+		g.drawString("Windstärke:", tleft, ttop);
+		g.drawString(ein.format(getMain().getGame().windpower*100.0)+" %", tright, ttop);
+		ttop+=20;
+		g.drawString("Windrichtung:", tleft, ttop);
+		g.drawString(ein.format(getMain().getGame().windrichtung)+" °", tright, ttop);
+		
+		ttop+=40;
+		
+		g.drawString("Stromerzeugung:", tleft, ttop);
+		g.drawString(mw.format(getMain().getGame().mwh)+" MW/h", tright, ttop);
+		ttop+=20;
+		g.drawString("Atomkraft:", tleft, ttop);
+		g.drawString(mw.format(getMain().getGame().mwh_atom)+" MW/h", tright, ttop);
+		ttop+=20;
+		g.drawString("Windkraft:", tleft, ttop);
+		g.drawString(mw.format(getMain().getGame().mwh_wind)+" MW/h", tright, ttop);
+	}
 
 	public void click(int x, int y) {}
 	public void mouseOver(int x, int y) {}

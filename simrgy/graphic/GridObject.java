@@ -76,8 +76,8 @@ public class GridObject implements GraphicObject {
 	public void mouseOver(int x, int y){mouseOver();}
 	public void mouseOut(){highlightNone(); this.showName = false;}
 	
-	public void highlightRed(){highlightColor=Color.RED;}
-	public void highlightYellow(){highlightColor=Color.YELLOW;}
+	public void highlightRed(){highlightColor=new Color(1,0,0,0.3f);}
+	public void highlightYellow(){highlightColor=new Color(1,1,0,0.3f);}
 	public void highlightNone(){highlightColor=null;}
 	
 	public Grid getGrid(){return grid;}

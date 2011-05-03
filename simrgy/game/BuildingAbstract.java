@@ -2,23 +2,26 @@ package simrgy.game;
 
 import java.awt.Image;
 
-import javax.swing.ImageIcon;
-
 import simrgy.graphic.GridObject;
+import simrgy.res.RessourceManager;
 
 public abstract class BuildingAbstract implements Building {
 
+	public static int underground = 0;
+	
+	protected Game game;
+	
 	protected String name;
-	protected static Image img;
 	protected GridObject gridObject;
 
-	protected BuildingAbstract(String n){
+	protected BuildingAbstract(Game g, String n){
+		game = g;
 		name = n;
-		img = new ImageIcon(getClass().getResource("../../res/img/buildings/none.png")).getImage();
 	}
 
-	public Image getImage() {return img;}
+	public Image getImage() {return RessourceManager.none;}
 	public String getName() {return name;}
 	public void attachGridObject(GridObject o) {gridObject=o;}
 
+	public Game getGame(){return game;}
 }

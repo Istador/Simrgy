@@ -95,7 +95,7 @@ public class Game {
 		placeBuilding(4, 1, new HQ(this));
 		
 		//Wind
-		placeBuilding(4, 0, new Windrad(this, "Windanlage Nord"));
+		//placeBuilding(4, 0, new Windrad(this, "Windanlage Nord"));
 	
 		//AKWs
 		// http://de.wikipedia.org/wiki/Liste_der_Kernreaktoren_in_Deutschland
@@ -185,7 +185,7 @@ public class Game {
 			{
 				//timeDiff seit letztem statusupdate
 				long tdms = time-last_update_time;
-				double tds = tdms/1000;
+				double tds = ((double)tdms)/1000.0;
 				
 				//Wetterverhältnisse ändern
 				windrichtung = (windrichtung-180.0 + (rnd.nextDouble()-0.5)*20*3.6*tds) % 180.0 +180.0; //Windrichtung max 36° pro sekunde ändern

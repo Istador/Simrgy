@@ -51,9 +51,9 @@ public class Menu implements GraphicObject {
 		
 		Font f = new Font("Helvetica", Font.PLAIN, 30);
 		buttons = new Button[3];
-		buttons[0] = new CenteredButton(this, "Spiel starten", Color.BLACK, Color.GREEN, width/2, height/6*2, f, r1);
-		buttons[1] = new CenteredButton(this, "Highscores", Color.BLACK, Color.GREEN, width/2, height/6*3, f, r2);
-		buttons[2] = new CenteredButton(this, "Einstellungen", Color.BLACK, Color.GREEN, width/2, height/6*4, f, r3);
+		buttons[0] = new ButtonCenteredText(this, "Spiel starten", Color.BLACK, Color.GREEN, width/2, height/6*2, f, r1);
+		buttons[1] = new ButtonCenteredText(this, "Highscores", Color.BLACK, Color.GREEN, width/2, height/6*3, f, r2);
+		buttons[2] = new ButtonCenteredText(this, "Einstellungen", Color.BLACK, Color.GREEN, width/2, height/6*4, f, r3);
 	}
 	
 	

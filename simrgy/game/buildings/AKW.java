@@ -23,6 +23,7 @@ public class AKW extends BuildingAbstract implements Building {
 	protected AKW(Game g, String name){
 		super(g, name);
 		actions.add(Rename.getInstance());
+		setPersonal(personal);
 	}
 	
 	public static AKW newAKW(Game g, String name, int module){

@@ -12,7 +12,7 @@ public class GameThread extends Thread{
 	
 	public void run() {		
 		running=true;
-		long lastTime = System.currentTimeMillis();
+		long lastTime = System.currentTimeMillis(); // TODO suche OS unabhängige Version
 		while(running){
 			long currTime = System.currentTimeMillis();
 			long timeDiff = currTime - lastTime;

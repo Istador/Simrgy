@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.font.*;
 import java.awt.geom.*;
 
-public class CenteredButton implements Button {
+public class ButtonCenteredText implements Button {
 
 	protected GraphicObject parent;
 	
@@ -23,8 +23,8 @@ public class CenteredButton implements Button {
 	protected int height;
 	
 	
-	protected CenteredButton(){}
-	public CenteredButton(GraphicObject parent, String name, Color fontcolor, Color highlightcolor, int x, int y, Font f, Runnable action){
+	protected ButtonCenteredText(){}
+	public ButtonCenteredText(GraphicObject parent, String name, Color fontcolor, Color highlightcolor, int x, int y, Font f, Runnable action){
 		this.parent = parent;
 		this.name = name;
 		this.fontcolor = fontcolor;
@@ -72,4 +72,13 @@ public class CenteredButton implements Button {
 	public Main getMain() {return getParent().getMain();}
 	public Graphics getBackbuffer(){return getParent().getBackbuffer();}
 	public void keyPress(KeyEvent ke){}
+	public int getHeight() { return height; }
+	public int getWidth() { return width; }
+	public Point getTL() {return new Point(left, top);}
+	public Point getBL() {return new Point(left, top+height);}
+	public Point getTR() {return new Point(left+width, top);}
+	public Point getBR() {return new Point(left+width, top+height);}
+	public void markiere(Color c) {}
+	
+	
 }

@@ -16,9 +16,10 @@ public class Grid implements GraphicObject {
 	private int elementwidth;
 	private int elementheight;
 	private GridObject[][] buildings;
-	private boolean drawgrid = true;
+	private boolean drawgrid = false;
 	GridObject over;
 	
+	private Building highlightUndergroundBuilding = null;
 	private int highlightUnderground = 0;
 	
 	private Map map;
@@ -38,9 +39,24 @@ public class Grid implements GraphicObject {
 	public void draw(){
 		Graphics g = getBackbuffer();
 		
+		//Bauraster bestimmen
+		BuildTab bt = getMap().getGraphic().getGUI().getBuildTab();
+		//nur wenn Bauraster an
+		if(getMap().getGraphic().getGUI().getSelectedTab() == bt ){
+			Building bts = bt.getSelectedBuilding();
+			//nur wenn Gebäude ausgewählt und (es sich geändert hat, oder nicht gesetzt) ist überschreiben
+			if(bts != null && (bts!=highlightUndergroundBuilding || highlightUnderground==0 ))
+				highlightUnderground(bts.getUnderground());
+			highlightUndergroundBuilding = bts;
+		}
+		else
+			highlightUnderground(0); //nicht im Bautab
+		
+		//Bauraster zeichnen
 		if(highlightUnderground != 0)
 			drawHighlightUnderground();
 		
+		//Grid
 		if(drawgrid){
 			g.setColor(Color.BLACK);
 			//Horizonteles Grid (oben nach unten)
@@ -90,18 +106,6 @@ public class Grid implements GraphicObject {
 		if(over!=null && over!=old) over.mouseOver();
 		//alten mouseOut senden
 		if(old!=null && over!=old) old.mouseOut();
-		
-		//Bauraster
-		BuildTab bt = getMap().getGraphic().getGUI().getBuildTab();
-		if(getMap().getGraphic().getGUI().getSelectedTab() == bt ){
-			Building bts = bt.getSelectedBuilding();
-			if(bts != null)
-				highlightUnderground(bts.getUnderground());
-			else
-				highlightUnderground(0);
-		}
-		else
-			highlightUnderground(0);
 	}
 	public void mouseOut() {
 		if(over!=null)
@@ -111,7 +115,6 @@ public class Grid implements GraphicObject {
 			//alten löschen
 			over=null;
 			}
-		//highlightUnderground(0); //TODO
 	}	
 	
 	public boolean addBuilding(int x, int y, Building b){
@@ -130,25 +133,33 @@ public class Grid implements GraphicObject {
 		highlightUnderground = underground;
 	}
 	
+	//Bauraster zeichnen
 	protected void drawHighlightUnderground(){
 		Graphics g = getBackbuffer();
 		//Transparente Farben
-		Color green = new Color(0,1,0,0.4f);
-		Color red = new Color(1,0,0,0.4f);
 		Game game = getMain().getGame();
+		//Building b = getMain().getGraphic().getGUI().getBuildTab().getSelectedBuilding();
+
+		float attr = 1.0f; //attraktivität (0.0 .. 1.0)
+		float red = 2.0f - (attr*2>1.0f ? attr*2 : 1.0f );
+		float green = (attr*2>1.0f ? 1.0f : attr*2 );
+		Color baubar = new Color(red, green, 0, 0.4f);//variabel (funktioniert)!
+		Color nichtbaubar = new Color(0,0,0,0.6f); //ausschwärtzen
+
 		//Für alle Felder
 		for(int x=0; x<cols; x++)
 			for(int y=0; y<rows; y++){
 				//auf dem kein Gebäude steht
 				if(game.getBuilding(x, y)==null)
 					if( (game.getBautyp(x, y) & highlightUnderground) != 0 )
-						g.setColor(green); //Färbe grün bei passendem Untergrund
-					else g.setColor(red); //Färbe rot bei ungünstigem Untergrund
-				else g.setColor(red); //Färbe rot, wenn da schon ein Gebäude steht.
+						//TODO Color baubar erst hier berechnen abhängig vom Gebäudetyp
+						g.setColor(baubar); //Färbe grün bei passendem Untergrund
+					else g.setColor(nichtbaubar); //Färbe rot bei ungünstigem Untergrund
+				else g.setColor(nichtbaubar); //Färbe rot, wenn da schon ein Gebäude steht.
 				g.fillRect(x*elementwidth, y*elementheight, elementwidth, elementheight);
 			}
 		//Färbe den überschüssigen Rand rot
-		g.setColor(red);
+		g.setColor(nichtbaubar);
 		int tmp = cols*elementwidth;
 		g.fillRect(tmp, 0, width-tmp, height);
 	}

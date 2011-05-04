@@ -35,6 +35,8 @@ public class GridObject implements GraphicObject {
 	}
 	
 	public void draw(){
+		//TODO: +1 -1 nicht bei drawGrid==false
+		
 		Graphics g = getBackbuffer();
 		//Highlight
 		if(highlightColor != null){

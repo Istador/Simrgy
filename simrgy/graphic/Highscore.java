@@ -37,7 +37,7 @@ public class Highscore implements GraphicObject {
 		
 		Font f = new Font("Helvetica", Font.PLAIN, 30);
 		buttons = new Button[1];
-		buttons[0] = new CenteredButton(this, "Zurück zum Menü", Color.BLACK, Color.GREEN, width/2, height/60*55, f, r1);
+		buttons[0] = new ButtonCenteredText(this, "Zurück zum Menü", Color.BLACK, Color.GREEN, width/2, height/60*55, f, r1);
 	}
 	
 	

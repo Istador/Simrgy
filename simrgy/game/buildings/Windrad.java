@@ -8,7 +8,7 @@ import simrgy.res.RessourceManager;
 
 public class Windrad extends BuildingAbstract implements Building {
 
-	public static int underground = 1; //Land benötigt
+	public static int underground = 9; //Land benötigt
 	
 	static double baukosten_per_module = 3570000.0; //pro Rad
 	static int personal_per_module = 1; //?

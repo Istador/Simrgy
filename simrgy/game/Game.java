@@ -5,6 +5,9 @@ import java.util.Random;
 import simrgy.applet.Main;
 import simrgy.game.buildings.AKW;
 import simrgy.game.buildings.HQ;
+import simrgy.game.buildings.Kohle;
+import simrgy.game.buildings.Solar;
+import simrgy.game.buildings.Staudamm;
 import simrgy.game.buildings.Windrad;
 import simrgy.graphic.Grid;
 
@@ -25,12 +28,20 @@ public class Game {
 	protected int[][] bautyp; // 0=nicht baubar, 1=land, 2=land+see/fluﬂ, 3=wasser - nicht public setzen, x und y vertauscht!
 	
 	double[][] windrel; //Wind ralativ zur Position
+	double[][] sonnenrel; //Sonne relativ zur Position
 	public double windpower = 1.0; // 0.0..1.0 Overall power
 	public double windrichtung = 90.0; // grad.  90∞=N, 0∞=E
+	public double sonnenintensit‰t = 1.0;
 	
 	public double mw;
 	public double mw_atom;
 	public double mw_wind;
+	public double mw_kohle;
+    public double mw_sonne;
+    public double mw_wasser;
+    
+    public double CO2;
+    public int zufriedenheit;
 	
 	public long personal;
 	
@@ -54,8 +65,12 @@ public class Game {
 		mw = 0.0;
 		mw_atom = 0.0;
 		mw_wind = 0.0;
+		mw_kohle = 0.0;
+        mw_sonne = 0.0;
+        mw_wasser = 0.0;
 		
 		personal = 0;
+		zufriedenheit = 0;
 		
 		strombedarf = 171527.777; //617,5 Mrd kWh = 617,5 Mil MWh = 171527,777 MW
 		max_strombedarf = 200000.0;
@@ -71,6 +86,18 @@ public class Game {
 				windrel[x][y] = rel + (rnd.nextDouble()-0.5)*2/5; 
 			}
 		}
+		
+		//Sonne initialisieren
+        sonnenintensit‰t = 1.0;
+        sonnenrel = new double[cols][rows];
+        for(int y=0; y<rows; y++)
+        {
+            double rels = 1-(1.0/(y+1));
+            for(int x=0; x<cols; x++)
+            {
+                sonnenrel[x][y] = rels + (rnd.nextDouble()-0.5)*2/5;
+            }
+        }
 		
 		// bit f¸r bit betrachten (verundet)
 		// 0=nicht bebaubar, 1=land, 2=see, 4=fluss, 8=wasser
@@ -152,6 +179,18 @@ public class Game {
 		return 0.0;
 	}
 	
+	public double getSolarPower(Building b)
+    {
+        for(int y=0; y<rows; y++){
+            for(int x=0; x<cols; x++){
+                if(b == buildings[x][y]){
+                    return sonnenrel[x][y] * sonnenintensit‰t;
+                }
+            }
+        }
+        return 0.0;
+    }
+	
 	public int getBautyp(int x, int y){
 		if( x>=0 && y>=0 && x<cols && y<rows ) return bautyp[y][x]; //da bei erzeugung vertauscht, hier so ausgeben
 		return 0;
@@ -190,12 +229,19 @@ public class Game {
 				//Wetterverh‰ltnisse ‰ndern
 				windrichtung = (windrichtung-180.0 + (rnd.nextDouble()-0.5)*20*3.6*tds) % 180.0 +180.0; //Windrichtung max 36∞ pro sekunde ‰ndern
 				windpower = (windpower-0.5 + (rnd.nextDouble()-0.5)/10*2*tds) % 0.5 + 0.5; //Windkraft um max. 10% pro sekunde ‰ndern
+				sonnenintensit‰t = (sonnenintensit‰t-0.5 + (rnd.nextDouble()-0.5)/10*2*tds) % 0.5 + 0.5;
 			
 				//Geb‰ude
 				mw = 0.0;
+				
 				mw_atom = 0.0;
 				mw_wind = 0.0;
+				mw_kohle = 0.0;
+                mw_sonne = 0.0;
+                mw_wasser = 0.0;
 				personal = 0;
+				CO2 = 0.0;
+				zufriedenheit = 0;
 				for(Building[] tmp : buildings)
 					for(Building b : tmp)
 						if(b != null){
@@ -203,13 +249,18 @@ public class Game {
 							personal += b.getPersonal();
 							//Geb‰udekosten
 							money -= b.getMoneyCostH() * tds;
+							//CO2
+							//CO2 += b.getCo2();
 							//Stromerzeugung
-							if( b instanceof AKW ) mw_atom += b.getMW();
-							else if( b instanceof Windrad ) mw_wind += b.getMW();
+							if( b instanceof AKW ) { mw_atom += b.getMW(); CO2 += b.getCo2(); }
+							else if( b instanceof Windrad )  { mw_wind += b.getMW(); CO2 += b.getCo2(); }
+							else if( b instanceof Kohle ) { mw_kohle += b.getMW(); CO2 += b.getCo2(); }
+                            else if( b instanceof Solar ) { mw_sonne += b.getMW(); CO2 += b.getCo2(); }
+                            else if( b instanceof Staudamm ) { mw_wasser += b.getMW(); CO2 += b.getCo2(); }
 							else mw += b.getMW();
 							
 						}
-				mw += mw_atom + mw_wind;
+				mw += mw_atom + mw_wind + mw_kohle + mw_sonne + mw_wasser;
 				
 				//Stromverkauf
 				money += mw * getStrompreis() * tds;

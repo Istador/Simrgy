@@ -47,6 +47,9 @@ public class StatusTab implements GraphicObject {
 		ttop+=20;
 		g.drawString("Windrichtung:", tleft, ttop);
 		g.drawString(ein.format(getMain().getGame().windrichtung)+" ∞", tright, ttop);
+		ttop+=20;
+        g.drawString("Sonnenintensit‰t:", tleft, ttop);
+        g.drawString(ein.format(getMain().getGame().sonnenintensit‰t*100.0)+" %", tright, ttop);
 		
 		ttop+=40;
 		
@@ -61,6 +64,22 @@ public class StatusTab implements GraphicObject {
 		ttop+=20;
 		g.drawString("Windkraft:", tleft, ttop);
 		g.drawString(mw.format(getMain().getGame().mw_wind)+" MW", tright, ttop);
+		ttop+=20;
+        g.drawString("Kohlekraft:", tleft, ttop);
+        g.drawString(mw.format(getMain().getGame().mw_kohle)+" MW", tright, ttop);
+        ttop+=20;
+        g.drawString("Sonnenkraft:", tleft, ttop);
+        g.drawString(mw.format(getMain().getGame().mw_sonne)+" MW", tright, ttop);
+        ttop+=20;
+        g.drawString("Wasserkraft:", tleft, ttop);
+        g.drawString(mw.format(getMain().getGame().mw_wasser)+" MW", tright, ttop);
+        
+        ttop+=40;
+        g.drawString("CO2 Ausstoﬂ:", tleft, ttop);
+        g.drawString(mw.format(getMain().getGame().CO2)+" t", tright, ttop);
+        ttop+=40;
+        g.drawString("Zufriedenheit:", tleft, ttop);
+        g.drawString(mw.format(getMain().getGame().zufriedenheit), tright, ttop);
 	}
 
 	public void click(int x, int y) {}

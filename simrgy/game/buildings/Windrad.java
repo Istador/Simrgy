@@ -20,6 +20,8 @@ public class Windrad extends BuildingAbstract implements Building {
 	
 	private int modules = 1;
 	private int max_modules = 100;
+	protected double co2_kg = 1.0;
+	protected int zufriedenheit = 8;
 	
 	public Windrad(Game g, String name){
 		super(g, name);
@@ -37,6 +39,9 @@ public class Windrad extends BuildingAbstract implements Building {
 		double pro = 2.0 + 4.0 * getGame().getWindpower(this) * getGradFaktor();
 		return pro * activeModules() ;
 		}
+	
+	public double getCo2() {return co2_kg * activeModules();}
+	public int getZufriedenheit() {return zufriedenheit * activeModules();}
 	
 	public int getPersonal(){
 		return personal_per_module * modules;

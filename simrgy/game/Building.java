@@ -12,6 +12,8 @@ public interface Building {
 	
 	public double getMoneyCostH();
 	public double getMW();
+	public double getCo2();
+	public int getZufriedenheit();
 	
 	public int getUnderground();
 	

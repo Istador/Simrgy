@@ -17,6 +17,8 @@ public class Kohle extends BuildingAbstract implements Building {
 	protected static long bauzeit_per_module = 24000;
 	
 	protected double mw_module = 600 ;
+	protected double co2_kg = 1000.0;
+	protected int zufriedenheit = 3;
 	
 	public Kohle(Game g, String name){
 		super(g, name);
@@ -25,6 +27,8 @@ public class Kohle extends BuildingAbstract implements Building {
 
 	public double getMoneyCostH(){return getPersonal() * getGame().getPersonalkosten();}
 	public double getMW(){return mw_module * activeModules();}
+	public double getCo2() {return co2_kg * activeModules();}
+	public int getZufriedenheit() {return zufriedenheit * activeModules();}
 	
 	public Image getImage(){ return RessourceManager.kohle; }
 

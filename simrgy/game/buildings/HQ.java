@@ -14,6 +14,8 @@ public class HQ extends BuildingAbstract implements Building {
 
 	public double getMoneyCostH(){return 0.0;}
 	public double getMW(){return 0.0;}
+	public double getCo2() {return 0.0;}
+	public int getZufriedenheit() {return 0;}
 	
 	public Image getImage(){ return RessourceManager.hq; }
 

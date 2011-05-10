@@ -19,6 +19,8 @@ public class AKW extends BuildingAbstract implements Building {
 	protected static int min_personal_per_module = 10; //?
 	protected double leistung = 1.0;
 	protected double mw_module = 1600;
+	protected double co2_kg = 3.0;
+	protected int zufriedenheit = 1; 
 	
 	protected AKW(Game g, String name){
 		super(g, name);
@@ -51,6 +53,8 @@ public class AKW extends BuildingAbstract implements Building {
 
 	public double getMoneyCostH(){ return personal * getGame().getPersonalkosten() ;}
 	public double getMW(){ return activeModules() * mw_module * leistung; }
+	public double getCo2() {return co2_kg * activeModules();}
+	public int getZufriedenheit() {return zufriedenheit * activeModules();}
 	
 	public void setLeistung(double leistung){
 		this.leistung = ( leistung>=1.0 ? 1.0 : ( leistung<=0.0 ? 0.0 : leistung ) );

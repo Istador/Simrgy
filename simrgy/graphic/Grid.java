@@ -2,6 +2,8 @@ package simrgy.graphic;
 
 import simrgy.applet.*;
 import simrgy.game.*;
+import simrgy.game.buildings.Solar;
+import simrgy.game.buildings.Windrad;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -16,12 +18,11 @@ public class Grid implements GraphicObject {
 	private int elementwidth;
 	private int elementheight;
 	private GridObject[][] buildings;
-	private boolean drawgrid = false;
+	public boolean drawgrid = false;
 	GridObject over;
 	
-	private Building highlightUndergroundBuilding = null;
-	private int highlightUnderground = 0;
-	
+	private Font prozent_font = new Font("Helvetica", Font.PLAIN, 18);
+		
 	private Map map;
 	
 	public Grid(Map m){
@@ -30,33 +31,17 @@ public class Grid implements GraphicObject {
 		height = getMap().getHeight();
 		elementwidth = width / cols;
 		elementheight = height / rows;
-		buildings = new GridObject[cols][rows];
-		//System.out.println(elementwidth+" "+elementheight);
-		
+		buildings = new GridObject[cols][rows];		
 	}	
 
 	//GraphicObject Methods	
 	public void draw(){
 		Graphics g = getBackbuffer();
-		
-		//Bauraster bestimmen
-		BuildTab bt = getMap().getGraphic().getGUI().getBuildTab();
-		//nur wenn Bauraster an
-		if(getMap().getGraphic().getGUI().getSelectedTab() == bt ){
-			Building bts = bt.getSelectedBuilding();
-			//nur wenn Gebäude ausgewählt und (es sich geändert hat, oder nicht gesetzt) ist überschreiben
-			if(bts != null && (bts!=highlightUndergroundBuilding || highlightUnderground==0 ))
-				highlightUnderground(bts.getUnderground());
-			highlightUndergroundBuilding = bts;
-		}
-		else
-			highlightUnderground(0); //nicht im Bautab
-		
+				
 		//Bauraster zeichnen
-		if(highlightUnderground != 0)
-			drawHighlightUnderground();
+		drawHighlightUnderground();
 		
-		//Grid
+		//Grid zeichnen
 		if(drawgrid){
 			g.setColor(Color.BLACK);
 			//Horizonteles Grid (oben nach unten)
@@ -70,6 +55,7 @@ public class Grid implements GraphicObject {
 		//Gebäude zeichnen
 		for(GridObject[] a : buildings)
 			for(GridObject el : a) if(el!=null) el.draw();
+		
 		//Das Gebäude über dem wir sind nochmal zeichnen (wegen Namensschildern)
 		if(over!=null)
 			over.draw();
@@ -89,8 +75,7 @@ public class Grid implements GraphicObject {
 				//kann bauen?
 				if(buildings[a][b]==null)
 					//baue
-					if( getMain().getGame().buildBuilding(a, b, bts) )
-						bt.clearSelectedBuilding();
+					getMain().getGame().buildBuilding(a, b, bts);
 			}
 		}
 	}
@@ -107,6 +92,7 @@ public class Grid implements GraphicObject {
 		//alten mouseOut senden
 		if(old!=null && over!=old) old.mouseOut();
 	}
+	
 	public void mouseOut() {
 		if(over!=null)
 			{
@@ -128,35 +114,57 @@ public class Grid implements GraphicObject {
 	public void removeBuilding(int x, int y){
 			buildings[x][y] = null;
 	}
-	
-	public void highlightUnderground(int underground){
-		highlightUnderground = underground;
-	}
-	
+		
 	//Bauraster zeichnen
 	protected void drawHighlightUnderground(){
 		Graphics g = getBackbuffer();
-		//Transparente Farben
 		Game game = getMain().getGame();
-		//Building b = getMain().getGraphic().getGUI().getBuildTab().getSelectedBuilding();
+		GUI gui = getMap().getGraphic().getGUI();
+		Building b = gui.getBuildTab().getSelectedBuilding();
+		
+		//wenn Bautab nicht an
+		if(gui.getSelectedTab() != gui.getBuildTab() ) return;
+		
+		//wenn kein Gebäude ausgewählt
+		if(b==null) return;
+		
+		int highlightUnderground = b.getUnderground();
+		if(highlightUnderground==0) return;
 
-		float attr = 1.0f; //attraktivität (0.0 .. 1.0)
-		float red = 2.0f - (attr*2>1.0f ? attr*2 : 1.0f );
-		float green = (attr*2>1.0f ? 1.0f : attr*2 );
-		Color baubar = new Color(red, green, 0, 0.4f);//variabel (funktioniert)!
 		Color nichtbaubar = new Color(0,0,0,0.6f); //ausschwärtzen
+		g.setFont(prozent_font);
 
 		//Für alle Felder
 		for(int x=0; x<cols; x++)
 			for(int y=0; y<rows; y++){
+				String proz = ""; //Prozentzahl für Gebäude mit variablen Untergrund
 				//auf dem kein Gebäude steht
 				if(game.getBuilding(x, y)==null)
-					if( (game.getBautyp(x, y) & highlightUnderground) != 0 )
-						//TODO Color baubar erst hier berechnen abhängig vom Gebäudetyp
+					if( (game.getBautyp(x, y) & highlightUnderground) != 0 ){
+						//Color baubar dynamisch
+						Color baubar = new Color(0, 1, 0, 0.4f);
+						if( b instanceof Windrad || b instanceof Solar ){
+							float attr = 0.0f; //attraktivität (0.0 .. 1.0)
+							if( b instanceof Windrad ){
+								attr = (float) game.getWindpower(x, y);
+							}
+							else{
+								attr = (float) game.getSolarPower(x, y);
+							}
+							proz = String.valueOf((int)(attr*100))+"%";
+							float red = 2.0f - (attr*2>1.0f ? attr*2 : 1.0f );
+							float green = (attr*2>1.0f ? 1.0f : attr*2 );
+							baubar = new Color(red, green, 0, 0.4f);//variabel (funktioniert)!
+							}						
 						g.setColor(baubar); //Färbe grün bei passendem Untergrund
+					}
 					else g.setColor(nichtbaubar); //Färbe rot bei ungünstigem Untergrund
 				else g.setColor(nichtbaubar); //Färbe rot, wenn da schon ein Gebäude steht.
 				g.fillRect(x*elementwidth, y*elementheight, elementwidth, elementheight);
+				if(!proz.equals("")){
+					g.setColor(Color.BLACK);
+					g.drawString(proz, x*elementwidth+5, (y+1)*elementheight-5);
+				}
 			}
 		//Färbe den überschüssigen Rand rot
 		g.setColor(nichtbaubar);

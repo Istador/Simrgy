@@ -24,6 +24,11 @@ public class Rename implements Action {
 	}
 	
 	public void run(Building b) {
+		if( !b.getActions().contains(instance) ) return;
+
+		/**
+		 * Klassen Start
+		 */
 		GraphicObject go = new OverlayBuilding(b) {
 			int top;
 			int left;
@@ -114,9 +119,11 @@ public class Rename implements Action {
 			}
 
 		};
+		/**
+		 * Klassen Ende
+		 */
 		b.getGame().pause();
 		b.getGame().getMain().getGraphic().setOverlay(go);
-		
 	}
 
 	

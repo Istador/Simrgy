@@ -77,6 +77,7 @@ public class RechtsklickTab implements Action{
 			}
 			
 			public void draw() {
+				init();
 				Graphics g = getBackbuffer(); 
 				g.setColor(Color.BLACK);
 				g.fillRect(left, top, width, height);

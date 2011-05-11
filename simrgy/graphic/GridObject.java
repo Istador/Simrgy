@@ -41,7 +41,8 @@ public class GridObject implements GraphicObject {
 		//Highlight
 		if(highlightColor != null){
 			g.setColor(highlightColor);
-			g.fillRect(left+1, top+1, width-1, height-1);
+			int dgrid = ( getGrid().drawgrid ? 1 : 0 );
+			g.fillRect(left+dgrid, top+dgrid, width-dgrid, height-dgrid);
 		}
 		//Image
 		g.drawImage(building.getImage(), left, top, width, height, null);

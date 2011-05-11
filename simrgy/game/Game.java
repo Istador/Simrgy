@@ -83,19 +83,22 @@ public class Game {
 			double rel = 1.0/(y+1);
 			for(int x=0; x<cols; x++){
 				// rel +- random[-0.2, +0.1999~]
-				windrel[x][y] = rel + (rnd.nextDouble()-0.5)*2/5; 
+				rel = rel + (rnd.nextDouble()-0.5)*2/5;
+				rel = (rel>1.0 ? 1.0 : ( rel<0.0 ? 0.0 : rel ) ); //0.0 bis 1.0 einhalten
+				windrel[x][y] = rel; 
 			}
 		}
 		
 		//Sonne initialisieren
         sonnenintensität = 1.0;
         sonnenrel = new double[cols][rows];
-        for(int y=0; y<rows; y++)
-        {
+        for(int y=0; y<rows; y++){
             double rels = 1-(1.0/(y+1));
-            for(int x=0; x<cols; x++)
-            {
-                sonnenrel[x][y] = rels + (rnd.nextDouble()-0.5)*2/5;
+            for(int x=0; x<cols; x++){
+            	// rels +- random[-0.2, +0.1999~]
+				rels = rels + (rnd.nextDouble()-0.5)*2/5;
+				rels = (rels>1.0 ? 1.0 : ( rels<0.0 ? 0.0 : rels ) ); //0.0 bis 1.0 einhalten
+                sonnenrel[x][y] = rels;
             }
         }
 		
@@ -148,7 +151,10 @@ public class Game {
 	
 	public boolean buildBuilding(int x, int y, Building b){
 		if( (getBautyp(x,y) & b.getUnderground()) != 0 ){
-			return placeBuilding(x,y,b);
+			if(placeBuilding(x,y,b)){
+				money -= b.getBaukosten();
+				return true;
+			}
 		}
 		return false;
 	}
@@ -161,7 +167,17 @@ public class Game {
 		return true;
 	}
 	
-	@SuppressWarnings("unused")
+	public void removeBuilding(Building b){
+        for(int y=0; y<rows; y++){
+            for(int x=0; x<cols; x++){
+                if(b == buildings[x][y]){
+                	removeBuilding(x, y);
+                	money += (double)(b.getBaukosten()/2);
+                }
+            }
+        }
+	}
+	
 	private void removeBuilding(int x, int y){
 		Grid grid = getMain().getGraphic().getMap().getGrid();
 		buildings[x][y]=null;
@@ -179,6 +195,11 @@ public class Game {
 		return 0.0;
 	}
 	
+	public double getWindpower(int x, int y){
+		if( x>=0 && y>=0 && x<cols && y<rows ) return windrel[x][y];
+		return 0.0;
+    }
+	
 	public double getSolarPower(Building b)
     {
         for(int y=0; y<rows; y++){
@@ -189,6 +210,11 @@ public class Game {
             }
         }
         return 0.0;
+    }
+	
+	public double getSolarPower(int x, int y){
+		if( x>=0 && y>=0 && x<cols && y<rows ) return sonnenrel[x][y];
+		return 0.0;
     }
 	
 	public int getBautyp(int x, int y){

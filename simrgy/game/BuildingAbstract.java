@@ -17,6 +17,8 @@ public abstract class BuildingAbstract implements Building {
 	protected GridObject gridObject;
 	
 	protected List<Action> actions;
+	
+	protected boolean building = true; //bauen oder abreiﬂen
 
 	protected BuildingAbstract(Game g, String n){
 		game = g;
@@ -33,5 +35,13 @@ public abstract class BuildingAbstract implements Building {
 		return new ArrayList<Action>(actions);
 	}
 	
+	public void removeAction(Action a){
+		actions.remove(a);
+	}
+
 	public Game getGame(){return game;}
+	
+	public void deploy(){
+		building = false;
+	}
 }

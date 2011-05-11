@@ -24,10 +24,16 @@ public interface Building {
 	public double getBaustatus(); // 0.0 - 1.0
 	
 	public List<Action> getActions();
+	public void removeAction(Action a);
 	
 	public void setName(String name);
 	
 	public void tick(long miliseconds);
 	
 	public Game getGame();
+	
+	public boolean newModule();
+	public boolean moreModulesPossible();
+	
+	public void deploy(); //abreiﬂen
 }

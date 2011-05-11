@@ -3,7 +3,7 @@ package simrgy.game.buildings;
 import java.awt.Image;
 
 import simrgy.game.*;
-import simrgy.game.actions.Rename;
+import simrgy.game.actions.*;
 import simrgy.res.RessourceManager;
 
 public class Windrad extends BuildingAbstract implements Building {
@@ -26,6 +26,8 @@ public class Windrad extends BuildingAbstract implements Building {
 	public Windrad(Game g, String name){
 		super(g, name);
 		actions.add(Rename.getInstance());
+		actions.add(IncModules.getInstance());
+		actions.add(Deploy.getInstance());
 	}
 	
 	public Image getImage(){ return RessourceManager.windrad; }
@@ -62,17 +64,21 @@ public class Windrad extends BuildingAbstract implements Building {
 	}
 	
 	public long getBauzeit() { return bauzeit_per_module; }
-	public double getBaukosten() { return baukosten_per_module; }
+	public double getBaukosten() { return baukosten_per_module * modules; }
 	
 	protected int activeModules(){
 		return (int) (bauzeit_so_far / bauzeit_per_module) ;
 	}
 	
 	public boolean newModule(){
-		if(modules+1>max_modules) return false;
-		getGame().money-=getBaukosten();
+		if(!moreModulesPossible()) return false;
+		getGame().money-=baukosten_per_module;
 		modules++;
 		return true;
+	}
+	
+	public boolean moreModulesPossible(){
+		return modules+1<=max_modules;
 	}
 	
 	public void tick(long miliseconds){
@@ -82,6 +88,11 @@ public class Windrad extends BuildingAbstract implements Building {
 			bauzeit_so_far += miliseconds;
 			bauzeit_so_far = (bauzeit_so_far > max_bauzeit ? max_bauzeit : bauzeit_so_far) ; 
 		}	
+		else if(!building){
+			bauzeit_so_far -= miliseconds*2;
+			bauzeit_so_far = (bauzeit_so_far < 0 ? 0 : bauzeit_so_far) ;
+			if(bauzeit_so_far == 0) game.removeBuilding(this);
+		}
 	}
 	
 	public double getBaustatus() {

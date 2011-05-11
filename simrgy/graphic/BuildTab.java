@@ -7,6 +7,10 @@ import simrgy.res.RessourceManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.font.TextLayout;
+import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
+import java.util.Locale;
 
 public class BuildTab implements GraphicObject {
 	public int top;
@@ -14,11 +18,12 @@ public class BuildTab implements GraphicObject {
 	public int width;
 	public int height;
 	private Color backgroundColor = new Color(0xBEE554); //CatEye
+	private Font font = new Font("Helvetica", Font.PLAIN, 14);
+	private Font caption_font = new Font("Helvetica", Font.PLAIN, 18);
 	
 	//private boolean mouseOverBuilding = false;
 	
-	private Building selected = null;
-	private Button selected_button = null;
+	private Button selected = null;
 	private Button over = null;
 	
 	private java.util.Map<Button,Integer> buttons; 
@@ -49,15 +54,15 @@ public class BuildTab implements GraphicObject {
 		//Kohle
 		but = new ButtonImage(this, RessourceManager.kohle, Color.WHITE, hc, left+5, top+10+box, box, box, null);
 		buttons.put(but, 3);
-		//Solar
-		but = new ButtonImage(this, RessourceManager.solar, Color.WHITE, hc, left+5, top+15+2*box, box, box, null);
-		buttons.put(but, 4);
+		//Staudamm
+		but = new ButtonImage(this, RessourceManager.staudamm, Color.WHITE, hc, left+5, top+15+2*box, box, box, null);
+		buttons.put(but, 6);
 		//Wind
 		but = new ButtonImage(this, RessourceManager.windrad, Color.WHITE, hc, left+5, top+20+3*box, box, box, null);
 		buttons.put(but, 5);
-		//Staudamm
-		but = new ButtonImage(this, RessourceManager.staudamm, Color.WHITE, hc, left+5, top+25+4*box, box, box, null);
-		buttons.put(but, 6);
+		//Solar
+		but = new ButtonImage(this, RessourceManager.solar, Color.WHITE, hc, left+5, top+25+4*box, box, box, null);
+		buttons.put(but, 4);
 	}
 
 	public void draw() {
@@ -66,8 +71,35 @@ public class BuildTab implements GraphicObject {
 		g.setColor(backgroundColor);
 		g.fillRect(left, top, width, height);
 		
+		//Gebäude Buttons
 		for(Button b : buttons.keySet()){
 			if(b!=null) b.draw();
+		}
+		
+		//mouse Over Gebäudeinfos
+		Button infos = ( over!=null ? over : selected ); 
+		if(infos!=null){
+			//Gebäude
+			Building b = getBuilding(buttons.get(infos));
+			//Untergrund
+			g.setColor(Color.YELLOW);
+			g.fillRect(left+width-2*box, top+height-box, 2*box, box);
+			//Rand
+			g.setColor(Color.BLACK);
+			g.drawRect(left+width-2*box, top+height-box, 2*box, box);
+			//Name
+			g.setColor(Color.BLACK);
+			g.setFont(caption_font);
+			g.drawString(b.getName(), left+width+5-2*box, top+height-box+20);
+			//Baukosten
+			g.setColor(Color.BLACK);
+			g.setFont(font);
+			DecimalFormat ein = (DecimalFormat) DecimalFormat.getInstance(Locale.GERMAN);
+			g.drawString("€", left+width+5-2*box, top+height-5);
+			String kosten = ein.format(b.getBaukosten());
+			Rectangle2D bounds = new TextLayout(kosten, font, ((Graphics2D)g).getFontRenderContext()).getBounds();
+			int strwidth = (int) Math.ceil(bounds.getWidth()); 
+			g.drawString(kosten, left+width-5-strwidth, top+height-5);
 		}
 	}
 
@@ -75,8 +107,7 @@ public class BuildTab implements GraphicObject {
 		clearSelectedBuilding();
 		for(Button b : buttons.keySet()){
 			if(b!=null && b.contains(x, y)){
-				selected = getBuilding(buttons.get(b));
-				selected_button = b;
+				selected = b;
 				b.markiere(Color.BLACK);
 			}
 		}
@@ -91,19 +122,12 @@ public class BuildTab implements GraphicObject {
 		}
 		if(over!=null && over!=old) over.mouseOver();
 		if(old!=null && over!=old) old.mouseOut();
-		
-		//highlight bauplätze
-		if(over!=null)
-			getMain().getGraphic().getMap().getGrid().highlightUnderground(getBuilding(buttons.get(over)).getUnderground());
-		else
-			getMain().getGraphic().getMap().getGrid().highlightUnderground(0);
 	}
+	
 	public void mouseOut() {
 		if(over!=null){
 			over.mouseOut();
-			getMain().getGraphic().getMap().getGrid().highlightUnderground(0);
 			over = null;
-			
 		}
 	}
 
@@ -113,13 +137,14 @@ public class BuildTab implements GraphicObject {
 	public void keyPress(KeyEvent ke){}
 	
 	public Building getSelectedBuilding(){
-		return selected;
+		if(over!=null) return getBuilding(buttons.get(over));
+		if(selected!=null) return getBuilding(buttons.get(selected));
+		return null;
 	}
 	
 	public void clearSelectedBuilding(){
+		if(selected!=null) selected.markiere(null);
 		selected = null;
-		if(selected_button!=null) selected_button.markiere(null);
-		selected_button = null;
 		
 	}
 	

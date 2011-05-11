@@ -26,4 +26,7 @@ public class HQ extends BuildingAbstract implements Building {
 	
 	public double getBaustatus() { return 1.0; }
 	public int getUnderground(){return underground;}
+
+	public boolean newModule() {return false;}
+	public boolean moreModulesPossible() {return false;}
 }

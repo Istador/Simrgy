@@ -2,7 +2,7 @@ package simrgy.game.buildings;
 
 import java.awt.*;
 import simrgy.game.*;
-import simrgy.game.actions.Rename;
+import simrgy.game.actions.*;
 import simrgy.res.RessourceManager;
 
 public class AKW extends BuildingAbstract implements Building {
@@ -25,12 +25,15 @@ public class AKW extends BuildingAbstract implements Building {
 	protected AKW(Game g, String name){
 		super(g, name);
 		actions.add(Rename.getInstance());
+		actions.add(IncModules.getInstance());
+		actions.add(Deploy.getInstance());
 		setPersonal(personal);
 	}
 	
 	public static AKW newAKW(Game g, String name, int module){
 		AKW ret = new AKW(g, name);
 		ret.modules=module;
+		if(!ret.moreModulesPossible()) ret.removeAction(IncModules.getInstance());
 		return ret;
 	}
 	
@@ -39,6 +42,7 @@ public class AKW extends BuildingAbstract implements Building {
 		ret.modules=module;
 		ret.bauzeit_so_far = AKW.bauzeit_per_module * ret.modules;
 		ret.mw_module=mw;
+		if(!ret.moreModulesPossible()) ret.removeAction(IncModules.getInstance());
 		return ret;
 	}
 	
@@ -79,7 +83,7 @@ public class AKW extends BuildingAbstract implements Building {
 	}
 
 	public double getBaukosten() {
-		return baukosten_per_module;
+		return baukosten_per_module * modules;
 	}
 	
 	protected int activeModules(){
@@ -87,20 +91,29 @@ public class AKW extends BuildingAbstract implements Building {
 	}
 	
 	public boolean newModule(){
-		if(modules+1>max_modules) return false;
-		getGame().money-=getBaukosten();
+		if(!moreModulesPossible()) return false;
+		getGame().money-=baukosten_per_module;
 		modules++;
 		setPersonal(personal); //Personalanpassung, damit min_personal
 		return true;
 	}
 	
+	public boolean moreModulesPossible(){
+		return modules+1<=max_modules;
+	}
+	
 	public void tick(long miliseconds){
 		//bau im gange
 		long max_bauzeit = modules * bauzeit_per_module; 
-		if( max_bauzeit > bauzeit_so_far ){
+		if( building && max_bauzeit > bauzeit_so_far ){
 			bauzeit_so_far += miliseconds;
-			bauzeit_so_far = (bauzeit_so_far > max_bauzeit ? max_bauzeit : bauzeit_so_far) ; 
+			bauzeit_so_far = (bauzeit_so_far > max_bauzeit ? max_bauzeit : bauzeit_so_far) ;
 		}	
+		else if(!building){
+			bauzeit_so_far -= miliseconds*2;
+			bauzeit_so_far = (bauzeit_so_far < 0 ? 0 : bauzeit_so_far) ;
+			if(bauzeit_so_far == 0) game.removeBuilding(this);
+		}
 	}
 
 	public double getBaustatus() {

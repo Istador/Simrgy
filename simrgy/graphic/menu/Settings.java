@@ -1,17 +1,20 @@
-package simrgy.graphic;
+package simrgy.graphic.menu;
 
 import simrgy.applet.*;
+import simrgy.graphic.Button;
+import simrgy.graphic.ButtonCenteredText;
+import simrgy.graphic.Graphic;
+import simrgy.graphic.GraphicObject;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.font.*;
 import java.awt.geom.*;
 
-
-public class Highscore implements GraphicObject {
-
-	protected Graphic graphic; //parent
+public class Settings implements GraphicObject {
 	
+	protected Graphic graphic; //parent
+
 	public int top;
 	public int left;
 	public int width;
@@ -19,7 +22,7 @@ public class Highscore implements GraphicObject {
 	private Button[] buttons;
 	private Button over = null;
 	
-	public Highscore(Graphic g){
+	public Settings(Graphic g){
 		graphic = g;
 		
 		top=getMain().top;
@@ -29,9 +32,7 @@ public class Highscore implements GraphicObject {
 		
 		Runnable r1 = new RunnableMain(getMain()) {
 			public void run() { 
-				main.getGraphic().showmenu = true;
-				main.getGraphic().showhighscore = false;
-				//Music.play(Graphic.getInstance().main, "10 - War against life.mp3");
+				main.getGraphic().showMenu();
 			}
 		};
 		
@@ -39,8 +40,7 @@ public class Highscore implements GraphicObject {
 		buttons = new Button[1];
 		buttons[0] = new ButtonCenteredText(this, "Zurück zum Menü", Color.BLACK, Color.GREEN, width/2, height/60*55, f, r1);
 	}
-	
-	
+		
 	//GraphicObject Methods
 	public void draw(){
 		Graphics g = getBackbuffer();
@@ -49,13 +49,13 @@ public class Highscore implements GraphicObject {
 	
 		Font f = new Font("Helvetica", Font.PLAIN, 48);
 		g.setFont(f);
-		Rectangle2D bounds = new TextLayout("Highscores", f, ((Graphics2D)g).getFontRenderContext()).getBounds();
+		Rectangle2D bounds = new TextLayout("Einstellungen", f, ((Graphics2D)g).getFontRenderContext()).getBounds();
 		int strheight = (int) Math.ceil(bounds.getHeight());
 		int strwidth = (int) Math.ceil(bounds.getWidth()); 
 		int strtop = 40+strheight;
 		int strleft = width/2-strwidth/2+left;
 		g.setColor(Color.BLACK);
-		g.drawString("Highscores", strleft, strtop);
+		g.drawString("Einstellungen", strleft, strtop);
 		
 		for(Button b : buttons) if(b!=null) b.draw();
 	}

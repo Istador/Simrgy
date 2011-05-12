@@ -1,16 +1,21 @@
-package simrgy.graphic;
+package simrgy.graphic.menu;
 
 import simrgy.applet.*;
+import simrgy.graphic.Button;
+import simrgy.graphic.ButtonCenteredText;
+import simrgy.graphic.Graphic;
+import simrgy.graphic.GraphicObject;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.font.*;
 import java.awt.geom.*;
 
-public class Settings implements GraphicObject {
-	
-	protected Graphic graphic; //parent
 
+public class Intro implements GraphicObject {
+
+	protected Graphic graphic; //parent
+	
 	public int top;
 	public int left;
 	public int width;
@@ -18,7 +23,7 @@ public class Settings implements GraphicObject {
 	private Button[] buttons;
 	private Button over = null;
 	
-	public Settings(Graphic g){
+	public Intro(Graphic g){
 		graphic = g;
 		
 		top=getMain().top;
@@ -28,16 +33,24 @@ public class Settings implements GraphicObject {
 		
 		Runnable r1 = new RunnableMain(getMain()) {
 			public void run() { 
-				main.getGraphic().showmenu = true;
-				main.getGraphic().showsettings = false;
+				main.getGraphic().showGame();
+				main.getGame().start();
+			}
+		};
+		Runnable r2 = new RunnableMain(getMain()) {
+			public void run() { 
+				main.getGraphic().showMenu();
 			}
 		};
 		
 		Font f = new Font("Helvetica", Font.PLAIN, 30);
-		buttons = new Button[1];
-		buttons[0] = new ButtonCenteredText(this, "Zurück zum Menü", Color.BLACK, Color.GREEN, width/2, height/60*55, f, r1);
-	}
+		buttons = new Button[2];
+		buttons[0] = new ButtonCenteredText(this, "Starte Spiel", Color.BLACK, Color.GREEN, width/2, height/60*50, f, r1);
+		buttons[1] = new ButtonCenteredText(this, "Zurück zum Menü", Color.BLACK, Color.GREEN, width/2, height/60*55, f, r2);
 		
+	}
+	
+	
 	//GraphicObject Methods
 	public void draw(){
 		Graphics g = getBackbuffer();
@@ -46,13 +59,15 @@ public class Settings implements GraphicObject {
 	
 		Font f = new Font("Helvetica", Font.PLAIN, 48);
 		g.setFont(f);
-		Rectangle2D bounds = new TextLayout("Einstellungen", f, ((Graphics2D)g).getFontRenderContext()).getBounds();
+		Rectangle2D bounds = new TextLayout("Sim'rgy", f, ((Graphics2D)g).getFontRenderContext()).getBounds();
 		int strheight = (int) Math.ceil(bounds.getHeight());
 		int strwidth = (int) Math.ceil(bounds.getWidth()); 
 		int strtop = 40+strheight;
 		int strleft = width/2-strwidth/2+left;
 		g.setColor(Color.BLACK);
-		g.drawString("Einstellungen", strleft, strtop);
+		g.drawString("Sim'rgy", strleft, strtop);
+		
+		//TODO Text und Sound
 		
 		for(Button b : buttons) if(b!=null) b.draw();
 	}

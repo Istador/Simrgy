@@ -1,4 +1,4 @@
-package simrgy.graphic;
+package simrgy.graphic.menu;
 
 import simrgy.applet.*;
 

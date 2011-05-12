@@ -1,6 +1,8 @@
 package simrgy.graphic;
 
 import simrgy.applet.*;
+import simrgy.graphic.menu.*;
+import simrgy.graphic.menu.Menu;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -15,23 +17,24 @@ public class Graphic implements GraphicObject {
 	private Menu menu;
 	private Settings settings;
 	private Highscore highscore;	
+	private About about;
+	private Intro intro;
 	
 	private GraphicObject overlay = null;
 	
-	public boolean showmenu;
-	public boolean showhighscore;
-	public boolean showsettings;
+	private GraphicObject show;
 	
 	public Graphic(Main m){
 		main = m;
-		showmenu = true;
-		showhighscore = false;
-		showsettings = false;
+		
 		map = new Map(this);
 		gui = new GUI(this);
 		menu = new Menu(this);
 		highscore = new Highscore(this);
 		settings = new Settings(this);
+		about = new About(this);
+		intro = new Intro(this);
+		show = menu;
 	}
 	
 	public void draw(){
@@ -39,12 +42,8 @@ public class Graphic implements GraphicObject {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, getMain().getWidth(), getMain().getHeight());
 	
-		if(showmenu)
-			menu.draw();
-		else if(showsettings)
-			settings.draw();
-		else if(showhighscore)
-			highscore.draw();
+		if(show!=null)
+			show.draw();
 		else{
 			getGUI().draw();
 			getMap().draw();
@@ -56,12 +55,8 @@ public class Graphic implements GraphicObject {
 	public void click(int x, int y) {
 		if(overlay != null)
 			overlay.click(x,y);
-		else if(showmenu)
-			menu.click(x,y);
-		else if(showsettings)
-			settings.click(x,y);
-		else if(showhighscore)
-			highscore.click(x,y);
+		else if(show!=null)
+			show.click(x,y);
 		else{
 			if( x  < getMap().getWidth() && y <= getMain().getHeight() ) getMap().click(x,y);
 			if( x >= getMap().getWidth() && y <= getMain().getHeight() && x <= getMain().getWidth() ) getGUI().click(x,y);
@@ -71,12 +66,8 @@ public class Graphic implements GraphicObject {
 	public void mouseOver(int x, int y) {
 		if(overlay != null)
 			overlay.mouseOver(x,y);
-		else if(showmenu)
-			menu.mouseOver(x,y);
-		else if(showsettings)
-			settings.mouseOver(x,y);
-		else if(showhighscore)
-			highscore.mouseOver(x,y);
+		else if(show!=null)
+			show.mouseOver(x,y);
 		else{
 			if( x  < getMap().getWidth() && y <= getMain().getHeight() ){ getMap().mouseOver(x, y); getGUI().mouseOut(); }
 			if( x >= getMap().getWidth() && y <= getMain().getHeight() && x <= getMain().getWidth() ){ getGUI().mouseOver(x, y); getMap().mouseOut(); }
@@ -85,12 +76,8 @@ public class Graphic implements GraphicObject {
 	public void mouseOut() {
 		if(overlay != null)
 			overlay.mouseOut();
-		else if(showmenu)
-			menu.mouseOut();
-		else if(showsettings)
-			settings.mouseOut();
-		else if(showhighscore)
-			highscore.mouseOut();
+		else if(show!=null)
+			show.mouseOut();
 		else{
 			map.mouseOut();
 			gui.mouseOut();
@@ -110,4 +97,11 @@ public class Graphic implements GraphicObject {
 		if(overlay != null)
 			overlay.keyPress(ke);
 	}
+	
+	public void showMenu(){ show = menu; }
+	public void showHighscore(){ show = highscore; }
+	public void showSettings(){ show = settings; }
+	public void showAbout(){ show = about; }
+	public void showIntro(){ show = intro; }
+	public void showGame(){ show = null; }
 }

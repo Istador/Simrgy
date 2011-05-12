@@ -1,0 +1,107 @@
+package simrgy.graphic.menu;
+
+import simrgy.applet.*;
+import simrgy.graphic.Button;
+import simrgy.graphic.ButtonCenteredText;
+import simrgy.graphic.Graphic;
+import simrgy.graphic.GraphicObject;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.font.*;
+import java.awt.geom.*;
+
+public class Menu implements GraphicObject {
+
+	protected Graphic graphic; //parent
+	
+	public int top;
+	public int left;
+	public int width;
+	public int height;
+	
+	private Button[] buttons;
+	private Button over = null;
+	
+	public Menu(Graphic g){
+		graphic = g;
+		//Music.play(Graphic.getInstance().main, "10 - War against life.mp3");
+		
+		top=getMain().top;
+		left=getMain().left;
+		width=getMain().width;
+		height=getMain().height;
+		
+		Runnable r1 = new RunnableMain(getMain()) { 
+			public void run() {
+				main.getGraphic().showIntro();
+			}
+		};
+		Runnable r2 = new RunnableMain(getMain()) {
+			public void run() {
+				main.getGraphic().showHighscore();
+			}
+		};
+		Runnable r3 = new RunnableMain(getMain()) { 
+			public void run() {
+				main.getGraphic().showSettings();
+			}
+		};
+		Runnable r4 = new RunnableMain(getMain()) { 
+			public void run() {
+				main.getGraphic().showAbout();
+			}
+		};
+		
+		Font f = new Font("Helvetica", Font.PLAIN, 30);
+		buttons = new Button[4];
+		buttons[0] = new ButtonCenteredText(this, "Spiel starten", Color.BLACK, Color.GREEN, width/2, height/6*2, f, r1);
+		buttons[1] = new ButtonCenteredText(this, "Highscores", Color.BLACK, Color.GREEN, width/2, height/6*3, f, r2);
+		buttons[2] = new ButtonCenteredText(this, "Einstellungen", Color.BLACK, Color.GREEN, width/2, height/6*4, f, r3);
+		buttons[3] = new ButtonCenteredText(this, "Credits", Color.BLACK, Color.GREEN, width/2, height/6*5, f, r4);
+	}
+	
+	
+	
+	//GraphicObject Methods
+	public void draw(){
+		Graphics g = graphic.getMain().getBackbuffer();
+		g.setColor(Color.WHITE);
+		g.fillRect(left+20, top+20, width-40, height-40);
+	
+		Font f = new Font("Helvetica", Font.PLAIN, 48);
+		g.setFont(f);
+		Rectangle2D bounds = new TextLayout("Sim'rgy", f, ((Graphics2D)g).getFontRenderContext()).getBounds();
+		int strheight = (int) Math.ceil(bounds.getHeight());
+		int strwidth = (int) Math.ceil(bounds.getWidth()); 
+		int strtop = 40+strheight;
+		int strleft = width/2-strwidth/2+left;
+		g.setColor(Color.BLACK);
+		g.drawString("Sim'rgy", strleft, strtop);
+		
+		for(Button b : buttons) if(b!=null) b.draw();
+	}
+
+	public void click(int x, int y) { for(Button b : buttons) if(b!=null) b.click(x,y); }
+	public void mouseOver(int x, int y) {
+		Button old = over; //alten Button zwischenspeichern
+		for(Button b : buttons) if( b!=null && b.contains(x, y)) over = b; //neuen Button merken
+		//neuen mouseOver senden
+		if(over!=null && over!=old) over.mouseOver();
+		//alten mouseOut senden
+		if(old!=null && over!=old) old.mouseOut();		
+	}
+	public void mouseOut() {
+		if(over!=null){
+			//alten mouseOut senden
+			over.mouseOut();
+			//alten löschen
+			over=null;
+		}
+	}
+
+	public Graphic getGraphic(){return graphic;}
+	public Main getMain(){return getGraphic().getMain();}
+	public Graphics getBackbuffer(){return getGraphic().getBackbuffer();}
+	public void keyPress(KeyEvent ke){}
+}

@@ -1,13 +1,18 @@
-package simrgy.graphic;
+package simrgy.graphic.menu;
 
 import simrgy.applet.*;
+import simrgy.graphic.Button;
+import simrgy.graphic.ButtonCenteredText;
+import simrgy.graphic.Graphic;
+import simrgy.graphic.GraphicObject;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.font.*;
 import java.awt.geom.*;
 
-public class Menu implements GraphicObject {
+
+public class Highscore implements GraphicObject {
 
 	protected Graphic graphic; //parent
 	
@@ -15,64 +20,44 @@ public class Menu implements GraphicObject {
 	public int left;
 	public int width;
 	public int height;
-	
 	private Button[] buttons;
 	private Button over = null;
 	
-	public Menu(Graphic g){
+	public Highscore(Graphic g){
 		graphic = g;
-		//Music.play(Graphic.getInstance().main, "10 - War against life.mp3");
 		
 		top=getMain().top;
 		left=getMain().left;
 		width=getMain().width;
 		height=getMain().height;
 		
-		Runnable r1 = new RunnableMain(getMain()) { 
-			public void run() {
-				main.getGraphic().showmenu = false;
-				main.getGame().start();
-				//Music.play(Graphic.getInstance().main, "09 - Atmosphere.mp3");
-			}
-		};
-		Runnable r2 = new RunnableMain(getMain()) {
-			public void run() {
-				main.getGraphic().showhighscore = true;
-				main.getGraphic().showmenu = false;
-				//Music.play(Graphic.getInstance().main, "07 - game over.mp3");
-			}
-		};
-		Runnable r3 = new RunnableMain(getMain()) { 
-			public void run() {
-				main.getGraphic().showsettings = true;
-				main.getGraphic().showmenu = false;
+		Runnable r1 = new RunnableMain(getMain()) {
+			public void run() { 
+				main.getGraphic().showMenu();
 			}
 		};
 		
 		Font f = new Font("Helvetica", Font.PLAIN, 30);
-		buttons = new Button[3];
-		buttons[0] = new ButtonCenteredText(this, "Spiel starten", Color.BLACK, Color.GREEN, width/2, height/6*2, f, r1);
-		buttons[1] = new ButtonCenteredText(this, "Highscores", Color.BLACK, Color.GREEN, width/2, height/6*3, f, r2);
-		buttons[2] = new ButtonCenteredText(this, "Einstellungen", Color.BLACK, Color.GREEN, width/2, height/6*4, f, r3);
+		buttons = new Button[1];
+		buttons[0] = new ButtonCenteredText(this, "Zurück zum Menü", Color.BLACK, Color.GREEN, width/2, height/60*55, f, r1);
 	}
-	
 	
 	
 	//GraphicObject Methods
 	public void draw(){
-		Graphics g = graphic.getMain().getBackbuffer();
+		Graphics g = getBackbuffer();
 		g.setColor(Color.WHITE);
 		g.fillRect(left+20, top+20, width-40, height-40);
 	
 		Font f = new Font("Helvetica", Font.PLAIN, 48);
 		g.setFont(f);
-		Rectangle2D bounds = new TextLayout("Sim'rgy", f, ((Graphics2D)g).getFontRenderContext()).getBounds();
+		Rectangle2D bounds = new TextLayout("Highscores", f, ((Graphics2D)g).getFontRenderContext()).getBounds();
 		int strheight = (int) Math.ceil(bounds.getHeight());
 		int strwidth = (int) Math.ceil(bounds.getWidth()); 
 		int strtop = 40+strheight;
 		int strleft = width/2-strwidth/2+left;
 		g.setColor(Color.BLACK);
-		g.drawString("Sim'rgy", strleft, strtop);
+		g.drawString("Highscores", strleft, strtop);
 		
 		for(Button b : buttons) if(b!=null) b.draw();
 	}
@@ -99,4 +84,5 @@ public class Menu implements GraphicObject {
 	public Main getMain(){return getGraphic().getMain();}
 	public Graphics getBackbuffer(){return getGraphic().getBackbuffer();}
 	public void keyPress(KeyEvent ke){}
+	
 }

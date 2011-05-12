@@ -8,6 +8,8 @@ public class RessourceManager {
 
 	public static final Image map = new ImageIcon(RessourceManager.class.getResource("img/map.png")).getImage();
 	
+	public static final Image rcl = new ImageIcon(RessourceManager.class.getResource("img/rcl.jpg")).getImage();
+	
 	public static final Image none = new ImageIcon(RessourceManager.class.getResource("img/buildings/none.png")).getImage();
 	
 	public static final Image hq = new ImageIcon(RessourceManager.class.getResource("img/buildings/hq.png")).getImage();

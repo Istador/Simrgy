@@ -1,0 +1,94 @@
+package simrgy.graphic.gui;
+
+import simrgy.applet.*;
+import simrgy.graphic.GraphicObject;
+import static simrgy.res.RessourceManager.*;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
+
+
+public class StatusTab implements GraphicObject {
+	public int top;
+	public int left;
+	public int width;
+	public int height;
+	
+	private GUI gui;
+	
+	public StatusTab(GUI g){
+		gui = g;
+		top   = 61;
+		left  = getGUI().left+26;
+		width = getMain().getWidth()-left-1;
+		height = getMain().getHeight()-top-1;
+	}	
+
+	public void draw() {
+		Graphics g = getBackbuffer();
+		g.setFont(f_status);
+		g.setColor(cBlack);
+		
+		int ttop = top+15;
+		int tleft = left+5;
+		int tright = left+130;
+		
+		g.drawString("Zeit:", tleft, ttop);
+		g.drawString(String.valueOf(getMain().getGame().time/1000), tright, ttop);
+		
+		ttop+=40;
+		
+		g.drawString("Windstärke:", tleft, ttop); //max 74 km/h = stürmischer Wind
+		g.drawString(df_float1.format(getMain().getGame().windpower*74.0)+" km/h", tright, ttop);
+		ttop+=20;
+        g.drawString("Sonnenintensität:", tleft, ttop);
+        g.drawString(df_int.format(getMain().getGame().sonnenintensität*100.0)+" %", tright, ttop);
+		
+		ttop+=40;
+		
+		g.drawString("Strombedarf:", tleft, ttop);
+		g.drawString(df_int.format(getMain().getGame().strombedarf)+" MW", tright, ttop);
+		ttop+=20;
+		g.drawString("Stromerzeugung:", tleft, ttop);
+		g.drawString(df_int.format(getMain().getGame().mw)+" MW", tright, ttop);
+		ttop+=20;
+		g.drawString("Atomkraft:", tleft, ttop);
+		g.drawString(df_int.format(getMain().getGame().mw_atom)+" MW", tright, ttop);
+		ttop+=20;
+		g.drawString("Windkraft:", tleft, ttop);
+		g.drawString(df_int.format(getMain().getGame().mw_wind)+" MW", tright, ttop);
+		ttop+=20;
+        g.drawString("Kohlekraft:", tleft, ttop);
+        g.drawString(df_int.format(getMain().getGame().mw_kohle)+" MW", tright, ttop);
+        ttop+=20;
+        g.drawString("Sonnenkraft:", tleft, ttop);
+        g.drawString(df_int.format(getMain().getGame().mw_sonne)+" MW", tright, ttop);
+        ttop+=20;
+        g.drawString("Wasserkraft:", tleft, ttop);
+        g.drawString(df_int.format(getMain().getGame().mw_wasser)+" MW", tright, ttop);
+        
+        ttop+=40;
+        g.drawString("CO2 Ausstoß:", tleft, ttop);
+        g.drawString(df_int.format(getMain().getGame().CO2)+" t", tright, ttop);
+        ttop+=40;
+        g.drawString("Zufriedenheit:", tleft, ttop);
+        g.drawString(df_int.format(getMain().getGame().zufriedenheit), tright, ttop);
+        
+        ttop+=40;
+        g.drawString("Uran:", tleft, ttop);
+        g.drawString(df_int.format(getMain().getGame().uran)+"/"+df_int.format(getMain().getGame().uran_max), tright, ttop);
+        ttop+=20;
+        g.drawString("Kohle:", tleft, ttop);
+        g.drawString(df_int.format(getMain().getGame().kohle)+"/"+df_int.format(getMain().getGame().kohle_max), tright, ttop);
+        
+	}
+
+	public void click(int x, int y) {}
+	public void mouseOver(int x, int y) {}
+	public void mouseOut(){}
+	
+	public GUI getGUI(){return gui;}
+	public Main getMain() { return getGUI().getMain(); }
+	public Graphics getBackbuffer() { return getGUI().getBackbuffer(); }
+	public void keyPress(KeyEvent ke){}
+}

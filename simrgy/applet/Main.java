@@ -16,14 +16,14 @@ public class Main extends Applet implements MouseListener, MouseMotionListener, 
 	private Graphics backg;
 	private Game game;
 	private GameThread gt;
-	
+		
 	public int top = 0;
 	public int left = 0;
 	public int width = 800;
 	public int height = 600;
-	
+		
 	public void init(){		
-		Dimension d = new Dimension(width,height);
+		Dimension d = new Dimension(width, height);
 		setPreferredSize(d);
 		setMinimumSize(d);
 		setMaximumSize(d);
@@ -31,9 +31,9 @@ public class Main extends Applet implements MouseListener, MouseMotionListener, 
 		
 		//init Graphic, with backbuffer (no flickering)
 		//Source: http://profs.etsmtl.ca/mmcguffin/learn/java/07-backbuffer/
-		backbuffer = createImage(getWidth(), getHeight());
+		backbuffer = createImage(width, height);
 		backg = backbuffer.getGraphics();
-		
+				
 		graphic = new Graphic(this);
 		game = new Game(this);
 		

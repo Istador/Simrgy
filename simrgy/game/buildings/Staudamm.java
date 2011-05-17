@@ -34,6 +34,8 @@ public class Staudamm extends BuildingAbstract implements Building {
     public double getCo2() {return co2_kg * activeModules();}
     public int getZufriedenheit() {return zufriedenheit * activeModules();}
     
+    public double consumeMW(){ return getMW(); }
+    
     public Image getImage(){ return RessourceManager.staudamm; }
     
     public int getPersonal() { return personal_per_module * modules; }
@@ -52,6 +54,7 @@ public class Staudamm extends BuildingAbstract implements Building {
 	}
 	
 	public boolean moreModulesPossible(){
+		if(baukosten_per_module>=game.money) return false;
 		return modules+1<=max_modules;
 	}
     

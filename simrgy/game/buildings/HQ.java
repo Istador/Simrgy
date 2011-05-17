@@ -29,4 +29,6 @@ public class HQ extends BuildingAbstract implements Building {
 
 	public boolean newModule() {return false;}
 	public boolean moreModulesPossible() {return false;}
+
+	public double consumeMW() {return 0.0;}
 }

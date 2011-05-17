@@ -2,22 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/ffmpeg-java.jar"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/gstreamer-java.jar"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/jdom.jar"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/jheora-patch.jar"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/jl1.0.jar"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/jna.jar"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/jogg-0.0.7.jar"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/jorbis-0.0.15.jar"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/jspeex.jar"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/lti-civil-no_s_w_t.jar"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/mp3spi1.9.4.jar"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/theora-java.jar"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/tritonus_share.jar"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/vorbisspi1.0.2.jar"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/fmj-applet.jar"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/fmj-nojmf.jar"/>
-	<classpathentry kind="lib" path="simrgy/lib/fmj/fmj.jar"/>
+	<classpathentry kind="lib" path="simrgy/lib/jl1.0.1.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>

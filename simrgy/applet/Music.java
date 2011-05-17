@@ -1,23 +1,43 @@
 package simrgy.applet;
 
-//import java.io.*;
-import java.applet.*;
+import java.io.ByteArrayInputStream;
 
-import javax.media.*;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.*;
 
-public class Music {
+public class Music extends Thread {
 	
-	private static Player mp;
-	
-	public static void play(Applet app, String filename){
-		try{
-			if(mp!=null) mp.stop();
-			//mp = Manager.createPlayer(app.getClass().getResource("../res/music/"+filename));
-			//mp.start();
-			
-			//nur wav
-			//app.play(app.getClass().getResource("../res/music/"+filename));
+	private Player mp;
+	@SuppressWarnings("unused")	private Music(){}
+	public Music(Player mp){
+		this.mp = mp;
+	}
+	public void run(){
+		try {
+			mp.play();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		catch(Exception e){System.out.println("Error with music");}
+	}
+	public void close(){
+		mp.close();
+	}
+	
+	private static Music thread;
+	public static void play_music(byte[] file){
+		stop_music();
+		try {
+			thread = new Music(new Player(new ByteArrayInputStream(file)));
+			thread.start();
+		} catch (JavaLayerException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void stop_music(){
+		if(thread!=null){
+			thread.close();
+			thread = null;
+		}
 	}
 }

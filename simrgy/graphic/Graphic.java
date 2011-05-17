@@ -1,8 +1,11 @@
 package simrgy.graphic;
 
 import simrgy.applet.*;
+import simrgy.graphic.gui.GUI;
+import simrgy.graphic.map.Map;
 import simrgy.graphic.menu.*;
 import simrgy.graphic.menu.Menu;
+import static simrgy.res.RessourceManager.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -39,7 +42,7 @@ public class Graphic implements GraphicObject {
 	
 	public void draw(){
 		Graphics g = getBackbuffer();
-		g.setColor(Color.BLACK);
+		g.setColor(c_menu_rand);
 		g.fillRect(0, 0, getMain().getWidth(), getMain().getHeight());
 	
 		if(show!=null)

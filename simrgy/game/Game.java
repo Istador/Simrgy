@@ -9,7 +9,7 @@ import simrgy.game.buildings.Kohle;
 import simrgy.game.buildings.Solar;
 import simrgy.game.buildings.Staudamm;
 import simrgy.game.buildings.Windrad;
-import simrgy.graphic.Grid;
+import simrgy.graphic.map.Grid;
 
 public class Game {
 
@@ -30,8 +30,12 @@ public class Game {
 	double[][] windrel; //Wind ralativ zur Position
 	double[][] sonnenrel; //Sonne relativ zur Position
 	public double windpower = 1.0; // 0.0..1.0 Overall power
-	public double windrichtung = 90.0; // grad.  90°=N, 0°=E
 	public double sonnenintensität = 1.0;
+	
+	public int uran = 20000;
+	public int uran_max = 20000;
+	public int kohle = 50000;
+	public int kohle_max = 50000;
 	
 	public double mw;
 	public double mw_atom;
@@ -72,12 +76,11 @@ public class Game {
 		personal = 0;
 		zufriedenheit = 0;
 		
-		strombedarf = 171527.777; //617,5 Mrd kWh = 617,5 Mil MWh = 171527,777 MW
-		max_strombedarf = 200000.0;
+		strombedarf = 50000; //171527.777; //617,5 Mrd kWh = 617,5 Mil MWh = 171527,777 MW
+		max_strombedarf = 100000.0;
 
 		//Wind initialisieren
 		windpower = 1.0;
-		windrichtung = 90.0;
 		windrel = new double[cols][rows];
 		for(int y=0; y<rows; y++){
 			double rel = 1.0/(y+1);
@@ -151,7 +154,7 @@ public class Game {
 	
 	public boolean buildBuilding(int x, int y, Building b){
 		if( (getBautyp(x,y) & b.getUnderground()) != 0 ){
-			if(placeBuilding(x,y,b)){
+			if( money-b.getBaukosten()>=0 && placeBuilding(x,y,b) ){
 				money -= b.getBaukosten();
 				return true;
 			}
@@ -242,9 +245,6 @@ public class Game {
 			
 			//Usereingaben auswerten (die zwischendurch in einer Queue zwischengelagert werden)
 			//...
-			
-			//nur einmal alle halbe sekunde
-
 
 			if(new Long(time/1000) > new Long(last_update_time/1000))
 			{
@@ -252,10 +252,15 @@ public class Game {
 				long tdms = time-last_update_time;
 				double tds = ((double)tdms)/1000.0;
 				
+				//Strombedarf berechnen
+				strombedarf = 50000.0 + time/1000*5; //ansteigender Strombedarf (5MW/s)
+				strombedarf = strombedarf + 12500.0*Math.sin(((time/100.0)%360.0)/180.0*Math.PI);
+				strombedarf = (strombedarf >= max_strombedarf ? max_strombedarf : strombedarf ); //nicht > als max
+				
 				//Wetterverhältnisse ändern
-				windrichtung = (windrichtung-180.0 + (rnd.nextDouble()-0.5)*20*3.6*tds) % 180.0 +180.0; //Windrichtung max 36° pro sekunde ändern
 				windpower = (windpower-0.5 + (rnd.nextDouble()-0.5)/10*2*tds) % 0.5 + 0.5; //Windkraft um max. 10% pro sekunde ändern
 				sonnenintensität = (sonnenintensität-0.5 + (rnd.nextDouble()-0.5)/10*2*tds) % 0.5 + 0.5;
+				//TODO Sonne wie Stromverbrauch abhängig von der Uhrzeit (sinus * -1 für den gegenteiligen Effekt (Nachts wenig Sonne, viel Stromverbrauch))
 			
 				//Gebäude
 				mw = 0.0;
@@ -278,12 +283,12 @@ public class Game {
 							//CO2
 							//CO2 += b.getCo2();
 							//Stromerzeugung
-							if( b instanceof AKW ) { mw_atom += b.getMW(); CO2 += b.getCo2(); }
-							else if( b instanceof Windrad )  { mw_wind += b.getMW(); CO2 += b.getCo2(); }
-							else if( b instanceof Kohle ) { mw_kohle += b.getMW(); CO2 += b.getCo2(); }
-                            else if( b instanceof Solar ) { mw_sonne += b.getMW(); CO2 += b.getCo2(); }
-                            else if( b instanceof Staudamm ) { mw_wasser += b.getMW(); CO2 += b.getCo2(); }
-							else mw += b.getMW();
+							if( b instanceof AKW ) { mw_atom += b.consumeMW(); CO2 += b.getCo2(); }
+							else if( b instanceof Windrad )  { mw_wind += b.consumeMW(); CO2 += b.getCo2(); }
+							else if( b instanceof Kohle ) { mw_kohle += b.consumeMW(); CO2 += b.getCo2(); }
+                            else if( b instanceof Solar ) { mw_sonne += b.consumeMW(); CO2 += b.getCo2(); }
+                            else if( b instanceof Staudamm ) { mw_wasser += b.consumeMW(); CO2 += b.getCo2(); }
+							else mw += b.consumeMW();
 							
 						}
 				mw += mw_atom + mw_wind + mw_kohle + mw_sonne + mw_wasser;
@@ -303,11 +308,26 @@ public class Game {
 			
 			//Spezielle Gebäudefunktionen
 			//...
-	
 			
 			//Zufällige Ereignisse
 			//...
 		}
+	}
+	
+	public boolean consumeUran(){
+		if(uran-1>=0){
+			uran-=1;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean consumeKohle(){
+		if(kohle-1>=0){
+			kohle-=1;
+			return true;
+		}
+		return false;
 	}
 	
 	public Main getMain(){return main;}

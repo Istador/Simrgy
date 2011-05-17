@@ -60,6 +60,15 @@ public class AKW extends BuildingAbstract implements Building {
 	public double getCo2() {return co2_kg * activeModules();}
 	public int getZufriedenheit() {return zufriedenheit * activeModules();}
 	
+	//MW produzieren - und Uran verbrauchen
+	public double consumeMW(){
+		double mw = 0.0;
+		for(int i=0; i<activeModules(); i++){
+			if(game.consumeUran()) mw += mw_module * leistung; 
+		}
+		return mw;
+	}
+	
 	public void setLeistung(double leistung){
 		this.leistung = ( leistung>=1.0 ? 1.0 : ( leistung<=0.0 ? 0.0 : leistung ) );
 	}
@@ -99,6 +108,7 @@ public class AKW extends BuildingAbstract implements Building {
 	}
 	
 	public boolean moreModulesPossible(){
+		if(baukosten_per_module>=game.money) return false;
 		return modules+1<=max_modules;
 	}
 	

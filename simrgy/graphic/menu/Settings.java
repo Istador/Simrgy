@@ -5,11 +5,10 @@ import simrgy.graphic.Button;
 import simrgy.graphic.ButtonCenteredText;
 import simrgy.graphic.Graphic;
 import simrgy.graphic.GraphicObject;
+import static simrgy.res.RessourceManager.*;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.awt.font.*;
-import java.awt.geom.*;
 
 public class Settings implements GraphicObject {
 	
@@ -20,7 +19,6 @@ public class Settings implements GraphicObject {
 	public int width;
 	public int height;
 	private Button[] buttons;
-	private Button over = null;
 	
 	public Settings(Graphic g){
 		graphic = g;
@@ -36,46 +34,35 @@ public class Settings implements GraphicObject {
 			}
 		};
 		
-		Font f = new Font("Helvetica", Font.PLAIN, 30);
 		buttons = new Button[1];
-		buttons[0] = new ButtonCenteredText(this, "Zurück zum Menü", Color.BLACK, Color.GREEN, width/2, height/60*55, f, r1);
+		buttons[0] = new ButtonCenteredText(this, "Zurück zum Menü", c_menu_button_text, c_menu_button_highlight, width/2, height/60*55, f_menu_button, r1);
 	}
 		
 	//GraphicObject Methods
 	public void draw(){
 		Graphics g = getBackbuffer();
-		g.setColor(Color.WHITE);
+		g.setColor(c_menu_bg);
 		g.fillRect(left+20, top+20, width-40, height-40);
 	
-		Font f = new Font("Helvetica", Font.PLAIN, 48);
-		g.setFont(f);
-		Rectangle2D bounds = new TextLayout("Einstellungen", f, ((Graphics2D)g).getFontRenderContext()).getBounds();
-		int strheight = (int) Math.ceil(bounds.getHeight());
-		int strwidth = (int) Math.ceil(bounds.getWidth()); 
+		g.setFont(f_menu_caption);
+		g.setColor(c_menu_caption);
+		int[] f = f_size(g, f_menu_caption, "Einstellungen");
+		int strheight = f[0];
+		int strwidth = f[1]; 
 		int strtop = 40+strheight;
 		int strleft = width/2-strwidth/2+left;
-		g.setColor(Color.BLACK);
 		g.drawString("Einstellungen", strleft, strtop);
 		
 		for(Button b : buttons) if(b!=null) b.draw();
 	}
 
 	public void click(int x, int y) { for(Button b : buttons) if(b!=null) b.click(x,y); }
+
 	public void mouseOver(int x, int y) {
-		Button old = over; //alten Button zwischenspeichern
-		for(Button b : buttons) if( b!=null && b.contains(x, y)) over = b; //neuen Button merken
-		//neuen mouseOver senden
-		if(over!=null && over!=old) over.mouseOver();
-		//alten mouseOut senden
-		if(old!=null && over!=old) old.mouseOut();		
+		for(Button b : buttons) if(b!=null) b.mouseOver(x, y);
 	}
 	public void mouseOut() {
-		if(over!=null){
-			//alten mouseOut senden
-			over.mouseOut();
-			//alten löschen
-			over=null;
-		}
+		for(Button b : buttons) if(b!=null) b.mouseOut();
 	}
 
 	public Graphic getGraphic(){return graphic;}

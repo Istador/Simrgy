@@ -1,6 +1,7 @@
 package simrgy.graphic;
 
 import simrgy.applet.*;
+import static simrgy.res.RessourceManager.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -59,7 +60,7 @@ public class ButtonImage implements Button {
 				
 		if(markierung==null){
 			//normale bounding Box
-			g.setColor(Color.BLACK);
+			g.setColor(cBlack);
 			g.drawRect(left, top, width, height);
 		}
 		else{
@@ -77,7 +78,7 @@ public class ButtonImage implements Button {
 	public void click(int x, int y) { if(contains(x,y)) click(); }
 
 	public void mouseOver() {highlight = true;}
-	public void mouseOver(int x, int y) { if(contains(x,y)) mouseOver(); }
+	public void mouseOver(int x, int y) { if(contains(x,y)) mouseOver(); else mouseOut(); }
 	public void mouseOut() {highlight = false;}
 
 	public boolean contains(int x, int y){

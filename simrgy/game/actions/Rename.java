@@ -1,12 +1,8 @@
 package simrgy.game.actions;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.awt.font.TextLayout;
-import java.awt.geom.Rectangle2D;
+import static simrgy.res.RessourceManager.*;
 
 import simrgy.game.Action;
 import simrgy.game.Building;
@@ -24,7 +20,7 @@ public class Rename implements Action {
 	}
 	
 	public void run(Building b) {
-		if( !b.getActions().contains(instance) ) return;
+		if( !isPossible(b) ) return;
 
 		/**
 		 * Klassen Start
@@ -34,12 +30,8 @@ public class Rename implements Action {
 			int left;
 			int width;
 			int height;
-			
-			protected Font f_caption;
-			protected Font f_name;
-			
+						
 			protected String name;
-			//int name_height;
 			int name_width;
 			protected String caption;
 			int caption_height;
@@ -48,20 +40,16 @@ public class Rename implements Action {
 			public void init(){
 				name =  building.getName();
 				caption = "\""+name+"\" Umbenennen";
-				f_caption = new Font("Helvetica", Font.PLAIN, 18);
-				f_name = new Font("Helvetica", Font.PLAIN, 14);
 				
-				Rectangle2D bounds = new TextLayout(caption, f_caption, ((Graphics2D)getBackbuffer()).getFontRenderContext()).getBounds();
-				caption_height = (int) Math.ceil(bounds.getHeight());
-				caption_width = (int) Math.ceil(bounds.getWidth()); 
+				int[] f = f_size(getBackbuffer(), f_menu_medtext, caption);
+				caption_height = f[0];
+				caption_width = f[1]; 
 				
 				calc_constrains();
 			}
 			
 			protected void calc_constrains(){
-				Rectangle2D bounds = new TextLayout(name, f_name, ((Graphics2D)getBackbuffer()).getFontRenderContext()).getBounds();
-				//name_height = (int) Math.ceil(bounds.getHeight());
-				name_width = (int) Math.ceil(bounds.getWidth()); 
+				name_width = f_size(getBackbuffer(), f_menu_smaltext, name)[1]; 
 				
 				int tmp_width = ( name_width>caption_width ? name_width : caption_width );
 				width = tmp_width + 30;
@@ -72,14 +60,14 @@ public class Rename implements Action {
 			
 			public void draw() {
 				Graphics g = getBackbuffer(); 
-				g.setColor(Color.BLACK);
+				g.setColor(cBlack);
 				g.fillRect(left, top, width, height);
-				g.setColor(Color.WHITE);
+				g.setColor(cWhite);
 				g.fillRect(left+10, top+10, width-20, height-20);
-				g.setColor(Color.BLACK);
-				g.setFont(f_caption);
+				g.setColor(cBlack);
+				g.setFont(f_menu_medtext);
 				g.drawString(caption, left+(width-caption_width)/2, top+10+5+caption_height);
-				g.setFont(f_name); 
+				g.setFont(f_menu_smaltext); 
 				g.drawString(name, left+(width-name_width)/2, top+60);
 			}
 
@@ -122,13 +110,16 @@ public class Rename implements Action {
 		/**
 		 * Klassen Ende
 		 */
-		b.getGame().pause();
 		b.getGame().getMain().getGraphic().setOverlay(go);
 	}
 
 	
 	public String getName(){
 		return "Umbenennen";
+	}
+	
+	public boolean isPossible(Building b){
+		return b.getActions().contains(instance);
 	}
 	
 }

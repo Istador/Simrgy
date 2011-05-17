@@ -10,7 +10,7 @@ public class Kohle extends BuildingAbstract implements Building {
 
 	public static int underground = 1; //Land benötigt
 	private int modules = 1;
-	private int max_modules = 5;
+	private int max_modules = 10;
 	private static int personal_per_module = 10; //?
 	
 	protected double baukosten_per_module = 478800000.0; //478,8 Mio per Module
@@ -34,6 +34,15 @@ public class Kohle extends BuildingAbstract implements Building {
 	public double getCo2() {return co2_kg * activeModules();}
 	public int getZufriedenheit() {return zufriedenheit * activeModules();}
 	
+	//MW produzieren - und Kohle verbrauchen
+	public double consumeMW(){
+		double mw = 0.0;
+		for(int i=0; i<activeModules(); i++){
+			if(game.consumeKohle()) mw += mw_module; 
+		}
+		return mw;
+	}
+	
 	public Image getImage(){ return RessourceManager.kohle; }
 
 	public int getPersonal() { return personal_per_module * modules; }
@@ -52,6 +61,7 @@ public class Kohle extends BuildingAbstract implements Building {
 	}
 	
 	public boolean moreModulesPossible(){
+		if(baukosten_per_module>=game.money) return false;
 		return modules+1<=max_modules;
 	}
 	

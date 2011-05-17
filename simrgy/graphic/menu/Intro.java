@@ -5,11 +5,10 @@ import simrgy.graphic.Button;
 import simrgy.graphic.ButtonCenteredText;
 import simrgy.graphic.Graphic;
 import simrgy.graphic.GraphicObject;
+import static simrgy.res.RessourceManager.*;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.awt.font.*;
-import java.awt.geom.*;
 
 
 public class Intro implements GraphicObject {
@@ -21,11 +20,9 @@ public class Intro implements GraphicObject {
 	public int width;
 	public int height;
 	private Button[] buttons;
-	private Button over = null;
-	
+		
 	public Intro(Graphic g){
 		graphic = g;
-		
 		top=getMain().top;
 		left=getMain().left;
 		width=getMain().width;
@@ -33,61 +30,80 @@ public class Intro implements GraphicObject {
 		
 		Runnable r1 = new RunnableMain(getMain()) {
 			public void run() { 
+				Music.stop_music();
 				main.getGraphic().showGame();
 				main.getGame().start();
 			}
 		};
 		Runnable r2 = new RunnableMain(getMain()) {
 			public void run() { 
+				Music.stop_music();
 				main.getGraphic().showMenu();
 			}
 		};
 		
-		Font f = new Font("Helvetica", Font.PLAIN, 30);
 		buttons = new Button[2];
-		buttons[0] = new ButtonCenteredText(this, "Starte Spiel", Color.BLACK, Color.GREEN, width/2, height/60*50, f, r1);
-		buttons[1] = new ButtonCenteredText(this, "Zurück zum Menü", Color.BLACK, Color.GREEN, width/2, height/60*55, f, r2);
+		buttons[0] = new ButtonCenteredText(this, "Starte Spiel", c_menu_button_text, c_menu_button_highlight, width/2, height/60*50, f_menu_button, r1);
+		buttons[1] = new ButtonCenteredText(this, "Zurück zum Menü", c_menu_button_text, c_menu_button_highlight, width/2, height/60*55, f_menu_button, r2);
 		
 	}
 	
 	
 	//GraphicObject Methods
 	public void draw(){
+		//Rand
 		Graphics g = getBackbuffer();
-		g.setColor(Color.WHITE);
+		g.setColor(c_menu_bg);
 		g.fillRect(left+20, top+20, width-40, height-40);
 	
-		Font f = new Font("Helvetica", Font.PLAIN, 48);
-		g.setFont(f);
-		Rectangle2D bounds = new TextLayout("Sim'rgy", f, ((Graphics2D)g).getFontRenderContext()).getBounds();
-		int strheight = (int) Math.ceil(bounds.getHeight());
-		int strwidth = (int) Math.ceil(bounds.getWidth()); 
+		//Überschrift
+		g.setFont(f_menu_caption);
+		g.setColor(c_menu_caption);
+		int[] f = f_size(g, f_menu_caption, "Sim'rgy");
+		int strheight = f[0];
+		int strwidth = f[1]; 
 		int strtop = 40+strheight;
 		int strleft = width/2-strwidth/2+left;
-		g.setColor(Color.BLACK);
 		g.drawString("Sim'rgy", strleft, strtop);
 		
-		//TODO Text und Sound
+		strtop+=50;
 		
+		//Text
+		g.setFont(f_menu_medtext);
+		g.setColor(c_menu_text);
+		g.drawString("Die Welt wie wir sie kennen steht vor einem Wandel. Die zunehmende Überbevölkerung",left+40,strtop);		
+		strtop+=25;
+		g.drawString("sorgt dafür, das unser Ressourcen- und Energiebedarf steigt. Die fossilen Brennstoffe, die",left+40,strtop);
+		strtop+=25;
+		g.drawString("uns bisher scheinbar günstig und zuverlässig mit Strom versorgten, nähern sich dem Ende.",left+40,strtop);
+		
+		strtop+=50;
+		
+		g.drawString("In einer Ära, in der technische Geräte zunehmend Verbreitung finden, und selbst Kühl-",left+40,strtop);
+		strtop+=25;
+		g.drawString("schränke und Toaster einen eigenen Internetanschluss erhalten, übernehmen Sie die",left+40,strtop);
+		strtop+=25;
+		g.drawString("Führung des renommierten Energieerzeugers \"Wattenfail\", um die Energieversorgung",left+40,strtop);
+		strtop+=25;
+		g.drawString("Deutschlands, in dieser schweren Zeit, sicherzustellen.",left+40,strtop);
+		
+		strtop+=50;
+		
+		g.drawString("Schaffen Sie den Ausstieg aus der Abhängigkeit von fossilen Brennstoffen hin zu",left+40,strtop);
+		strtop+=25;
+		g.drawString("eneuerbaren Energien?",left+40,strtop);
+		
+		//Buttons
 		for(Button b : buttons) if(b!=null) b.draw();
 	}
 
 	public void click(int x, int y) { for(Button b : buttons) if(b!=null) b.click(x,y); }
+
 	public void mouseOver(int x, int y) {
-		Button old = over; //alten Button zwischenspeichern
-		for(Button b : buttons) if( b!=null && b.contains(x, y)) over = b; //neuen Button merken
-		//neuen mouseOver senden
-		if(over!=null && over!=old) over.mouseOver();
-		//alten mouseOut senden
-		if(old!=null && over!=old) old.mouseOut();		
+		for(Button b : buttons) if(b!=null) b.mouseOver(x, y);
 	}
 	public void mouseOut() {
-		if(over!=null){
-			//alten mouseOut senden
-			over.mouseOut();
-			//alten löschen
-			over=null;
-		}
+		for(Button b : buttons) if(b!=null) b.mouseOut();
 	}
 
 	public Graphic getGraphic(){return graphic;}

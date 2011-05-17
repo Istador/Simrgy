@@ -15,10 +15,8 @@ public class IncModules implements Action {
 	}
 	
 	public void run(Building b) {
-		if( b.getActions().contains(instance) ){
+		if( isPossible(b) ){
 			b.newModule();
-			if(b.moreModulesPossible()) return;
-			b.removeAction(instance);
 		}
 	}
 
@@ -27,4 +25,10 @@ public class IncModules implements Action {
 		return "weiteres Modul";
 	}
 	
+	public boolean isPossible(Building b){
+		if(!b.getActions().contains(instance)) return false;
+		if(b.isDeploying()) return false;
+		if(!b.moreModulesPossible()) return false;
+		return true;
+	}
 }

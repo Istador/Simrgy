@@ -12,8 +12,6 @@ public class Windrad extends BuildingAbstract implements Building {
 	
 	static double baukosten_per_module = 3570000.0; //pro Rad
 	static int personal_per_module = 1; //?
-		
-	private double grad = 90.0; //90°=N, 0°=E
 	
 	protected long bauzeit_so_far = 0;
 	protected static long bauzeit_per_module = 5000; //4 Wochen -> 1 Minuten / 12 -> 5 Sekunden
@@ -38,9 +36,11 @@ public class Windrad extends BuildingAbstract implements Building {
 	
 	public double getMW(){
 		//Pro Windrad: 2-6 MW, Wetterabhängig
-		double pro = 2.0 + 4.0 * getGame().getWindpower(this) * getGradFaktor();
+		double pro = 2.0 + 4.0 * getGame().getWindpower(this);
 		return pro * activeModules() ;
 		}
+	
+	public double consumeMW(){ return getMW(); }
 	
 	public double getCo2() {return co2_kg * activeModules();}
 	public int getZufriedenheit() {return zufriedenheit * activeModules();}
@@ -48,21 +48,7 @@ public class Windrad extends BuildingAbstract implements Building {
 	public int getPersonal(){
 		return personal_per_module * modules;
 	}
-	
-	// Optimal: Grad wie Windrichtung
-	// 20% Optimal: Grad entgegen Windrichtung
-	private double getGradFaktor(){
-		double res = 0.8; // 20-100% Spielraum
-		double windrichtung = getGame().windrichtung; 
-		if( grad > windrichtung ){
-			res *= ( 360.0-(grad-windrichtung) )/360.0 ;
-		}
-		else if( grad < windrichtung ){
-			res *= ( 360.0-(windrichtung-grad) )/360.0 ;
-		}
-		return res+0.2;
-	}
-	
+		
 	public long getBauzeit() { return bauzeit_per_module; }
 	public double getBaukosten() { return baukosten_per_module * modules; }
 	
@@ -78,6 +64,7 @@ public class Windrad extends BuildingAbstract implements Building {
 	}
 	
 	public boolean moreModulesPossible(){
+		if(baukosten_per_module>=game.money) return false;
 		return modules+1<=max_modules;
 	}
 	

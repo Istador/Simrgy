@@ -4,7 +4,7 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
-import simrgy.graphic.GridObject;
+import simrgy.graphic.map.GridObject;
 import simrgy.res.RessourceManager;
 
 public abstract class BuildingAbstract implements Building {
@@ -41,7 +41,14 @@ public abstract class BuildingAbstract implements Building {
 
 	public Game getGame(){return game;}
 	
+	public boolean enoughMoney(){
+		return game.money >= getBaukosten();
+	}
+	
 	public void deploy(){
 		building = false;
+	}
+	public boolean isDeploying(){
+		return !building;
 	}
 }

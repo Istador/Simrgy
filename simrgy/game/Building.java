@@ -3,7 +3,7 @@ package simrgy.game;
 import java.awt.Image;
 import java.util.List;
 
-import simrgy.graphic.GridObject;
+import simrgy.graphic.map.GridObject;
 
 public interface Building {
 	public Image getImage();
@@ -12,6 +12,7 @@ public interface Building {
 	
 	public double getMoneyCostH();
 	public double getMW();
+	public double consumeMW();
 	public double getCo2();
 	public int getZufriedenheit();
 	
@@ -35,5 +36,8 @@ public interface Building {
 	public boolean newModule();
 	public boolean moreModulesPossible();
 	
+	public boolean enoughMoney();
+	
 	public void deploy(); //abreiﬂen
+	public boolean isDeploying();
 }

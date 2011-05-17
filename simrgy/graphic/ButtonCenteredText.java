@@ -1,11 +1,10 @@
 package simrgy.graphic;
 
 import simrgy.applet.*;
+import static simrgy.res.RessourceManager.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.font.*;
-import java.awt.geom.*;
 
 public class ButtonCenteredText implements Button {
 
@@ -31,9 +30,9 @@ public class ButtonCenteredText implements Button {
 		this.highlightcolor = highlightcolor;
 		this.action = action;
 		this.font = f;
-		Rectangle2D bounds = new TextLayout(name, f, ((Graphics2D)getBackbuffer()).getFontRenderContext()).getBounds();
-		width = (int) Math.ceil(bounds.getWidth())+80;
-		height = (int) Math.ceil(bounds.getHeight())+20;
+		int[] b = f_size(getBackbuffer(), f, name);
+		width = b[1]+80;
+		height = b[0]+20;
 		left = x-width/2;
 		top = y-height/2;
 	}
@@ -61,7 +60,7 @@ public class ButtonCenteredText implements Button {
 	public void click(int x, int y) { if(contains(x,y)) click(); }
 
 	public void mouseOver() {highlight = true;}
-	public void mouseOver(int x, int y) { if(contains(x,y)) mouseOver(); }
+	public void mouseOver(int x, int y) { if(contains(x,y)) mouseOver(); else mouseOut(); }
 	public void mouseOut() {highlight = false;}
 
 	public boolean contains(int x, int y){
@@ -80,5 +79,8 @@ public class ButtonCenteredText implements Button {
 	public Point getBR() {return new Point(left+width, top+height);}
 	public void markiere(Color c) {}
 	
+	public String getText(){
+		return name;
+	}
 	
 }

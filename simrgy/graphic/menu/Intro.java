@@ -30,14 +30,13 @@ public class Intro implements GraphicObject {
 		
 		Runnable r1 = new RunnableMain(getMain()) {
 			public void run() { 
-				Music.stop_music();
+				Music.play_music(getRandomBackgroundMusic());
 				main.getGraphic().showGame();
 				main.getGame().start();
 			}
 		};
 		Runnable r2 = new RunnableMain(getMain()) {
 			public void run() { 
-				Music.stop_music();
 				main.getGraphic().showMenu();
 			}
 		};

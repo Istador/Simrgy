@@ -93,16 +93,9 @@ public class Deploy implements Action {
 				}
 			}
 
-			public void mouseOver(int x, int y) {
-				for(Button b : buttons) if(b!=null) b.mouseOver(x, y);
-			}
-			
-			public void mouseOut() {
-				for(Button b : buttons) if(b!=null) b.mouseOut();
-			}
-			
-			public void keyPress(KeyEvent ke){
-			}
+			public void mouseOver(int x, int y) { for(Button b : buttons) if(b!=null) b.mouseOver(x, y); }
+			public void mouseOut() { for(Button b : buttons) if(b!=null) b.mouseOut(); }
+			public void keyPress(KeyEvent ke){}
 
 		};
 		/**

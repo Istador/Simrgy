@@ -13,6 +13,7 @@ public class ButtonCenteredText implements Button {
 	protected String name;
 	protected boolean highlight = false;
 	protected Color highlightcolor;
+	protected Color markierung;
 	protected Color fontcolor;
 	protected Runnable action;
 	protected Font font;
@@ -39,6 +40,13 @@ public class ButtonCenteredText implements Button {
 	
 	public void draw() {
 		Graphics g = getBackbuffer();
+		
+		//Markierung
+		if(markierung != null){
+			g.setColor(markierung);
+			g.fillRect(left, top, width, height);
+		}
+		
 		//Highlight
 		if(highlight){
 			g.setColor(highlightcolor);
@@ -77,7 +85,9 @@ public class ButtonCenteredText implements Button {
 	public Point getBL() {return new Point(left, top+height);}
 	public Point getTR() {return new Point(left+width, top);}
 	public Point getBR() {return new Point(left+width, top+height);}
-	public void markiere(Color c) {}
+	public void markiere(Color c) {
+		markierung = c;
+	}
 	
 	public String getText(){
 		return name;

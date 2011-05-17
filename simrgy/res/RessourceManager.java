@@ -91,8 +91,11 @@ public class RessourceManager {
 	
 	//Standard Fonts
 	public static final Font f_h14 = new Font("Helvetica", Font.PLAIN, 14);
+	public static final Font f_h15 = new Font("Helvetica", Font.PLAIN, 15);
 	public static final Font f_h16 = new Font("Helvetica", Font.PLAIN, 16);
+	public static final Font f_h17 = new Font("Helvetica", Font.PLAIN, 17);
 	public static final Font f_h18 = new Font("Helvetica", Font.PLAIN, 18);
+	public static final Font f_h19 = new Font("Helvetica", Font.PLAIN, 19);
 	public static final Font f_h20 = new Font("Helvetica", Font.PLAIN, 20);
 	public static final Font f_h30 = new Font("Helvetica", Font.PLAIN, 30);
 	public static final Font f_h48 = new Font("Helvetica", Font.PLAIN, 48);
@@ -106,13 +109,17 @@ public class RessourceManager {
 	public static final Font f_menu_medtext = f_h18;
 	public static final Font f_menu_bigtext = f_h20;
 	
-	public static final Font f_build_caption = f_h18;
+	public static final Font f_build_caption = f_h17;
 	public static final Font f_build_text = f_h14;
+	
+	public static final Font f_research_caption = f_h17;
+	public static final Font f_research_text = f_h14;
 	
 	public static final Font f_gridobj_nameplate = f_h16;
 	
 	public static final Font f_grid_prozent = f_h18;
 	
+	public static final Font f_rclick_text = f_h14;
 	public static final Font f_rclick_caption = f_h18;
 	public static final Font f_rclick_button = f_h14;
 	
@@ -158,7 +165,9 @@ public class RessourceManager {
 	public static final Color cWhite = Color.WHITE;
 	public static final Color cRed = Color.RED;
 	public static final Color cGreen = Color.GREEN;
+	public static final Color cBlue = Color.BLUE;
 	public static final Color cYellow = Color.YELLOW;
+	public static final Color cOrange = Color.ORANGE;
 	public static final Color cLightGray = Color.LIGHT_GRAY;
 	
 	//Spezielle Farben
@@ -169,8 +178,12 @@ public class RessourceManager {
 	
 	//Transparente Farben
 	public static final Color cGreen30 = new Color(0, 1, 0, 0.3f);
+	public static final Color cGreen60 = new Color(0, 1, 0, 0.6f);
 	public static final Color cRed30 = new Color(1, 0, 0, 0.3f);
+	public static final Color cRed60 = new Color(1, 0, 0, 0.6f);
 	public static final Color cYellow30 = new Color(1, 1, 0, 0.3f);
+	public static final Color cYellow60 = new Color(1, 1, 0, 0.6f);
+	public static final Color cBlack30 = new Color(0, 0, 0, 0.3f);
 	public static final Color cBlack60 = new Color(0, 0, 0, 0.6f);
 	
 	
@@ -178,8 +191,6 @@ public class RessourceManager {
 	public static final Color c_gui_bg = cMelon;
 	
 	public static final Color c_grid_nichtbaubar = cBlack60;
-	
-	public static final Color c_research_bg = cBabyBlue;
 	
 	public static final Color c_tabselect_bg = cMelon;
 	public static final Color c_tabselect_highlight = cDarkOrange;
@@ -193,6 +204,7 @@ public class RessourceManager {
 	
 	public static final Color c_rclick_rand = cBlack;
 	public static final Color c_rclick_bg = cWhite;
+	public static final Color c_rclick_text = cBlack;
 	public static final Color c_rclick_caption = cBlack;
 	public static final Color c_rclick_button_highlight = cGreen;
 	
@@ -202,6 +214,15 @@ public class RessourceManager {
 	public static final Color c_build_mouseOver_rand = cBlack;
 	public static final Color c_build_mouseOver_caption = cBlack;
 
+	public static final Color c_research_bg = cBabyBlue;
+	public static final Color c_research_highlight = cGreen30; 
+	public static final Color c_research_mouseOver_bg = cYellow;
+	public static final Color c_research_mouseOver_rand = cBlack;
+	public static final Color c_research_mouseOver_caption = cBlack;
+	public static final Color c_research_mouseOver_text = cBlack;
+	public static final Color c_research_todo = cBlack;
+	public static final Color c_research_done = cBabyBlue.darker();
+	
 	public static final Color c_gridobj_build_todo = cLightGray;
 	public static final Color c_gridobj_build_done = cGreen;
 	public static final Color c_gridobj_name = cBlack;

@@ -1,6 +1,6 @@
 package simrgy.game;
 
-import java.util.Random;
+import java.util.*;
 
 import simrgy.applet.Main;
 import simrgy.game.buildings.AKW;
@@ -31,6 +31,9 @@ public class Game {
 	double[][] sonnenrel; //Sonne relativ zur Position
 	public double windpower = 1.0; // 0.0..1.0 Overall power
 	public double sonnenintensität = 1.0;
+	
+	protected Map<Research, Long> researching; //Zeit in ms die bisher geforscht
+	protected Set<Research> finishedResearch;
 	
 	public int uran = 20000;
 	public int uran_max = 20000;
@@ -79,6 +82,10 @@ public class Game {
 		strombedarf = 50000; //171527.777; //617,5 Mrd kWh = 617,5 Mil MWh = 171527,777 MW
 		max_strombedarf = 100000.0;
 
+		//Forschung init
+		researching = new HashMap<Research, Long>();
+		finishedResearch = new HashSet<Research>();
+		
 		//Wind initialisieren
 		windpower = 1.0;
 		windrel = new double[cols][rows];
@@ -306,6 +313,16 @@ public class Game {
 					if(b != null)
 						b.tick(timeDiff);
 			
+			//Forschung tick
+			for(Research r : researching.keySet()){
+				researching.put(r, researching.get(r)+timeDiff); //Zeit erhöhen
+				if( r.isDone(this) ){
+					researching.remove(r);
+					finishedResearch.add(r);
+					r.researchEffect(this); //Forschung ausführen
+				}
+			}
+			
 			//Spezielle Gebäudefunktionen
 			//...
 			
@@ -328,6 +345,23 @@ public class Game {
 			return true;
 		}
 		return false;
+	}
+		
+	public boolean isResearching(Research r){
+		return researching.containsKey(r);
+	}
+	public boolean isResearchDone(Research r){
+		return finishedResearch.contains(r);
+	}
+	public long getResearchTime(Research r){
+		if(researching.containsKey(r)) return (long) researching.get(r);
+		return 0;
+	}
+	public boolean addResearch(Research r){
+		if(isResearchDone(r)) return false;
+		if(isResearching(r)) return false;
+		researching.put(r, (long) 0);
+		return true;
 	}
 	
 	public Main getMain(){return main;}

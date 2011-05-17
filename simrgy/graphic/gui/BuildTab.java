@@ -8,7 +8,7 @@ import simrgy.graphic.ButtonImage;
 import simrgy.graphic.GraphicObject;
 import static simrgy.res.RessourceManager.*;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class BuildTab implements GraphicObject {
@@ -17,12 +17,12 @@ public class BuildTab implements GraphicObject {
 	public int width;
 	public int height;
 	
-	private Button selected = null;
-	private Button over = null;
+	private Button selected = null; //markiertes gebäude per klick
+	private Button over = null; //gebäude über dem man mit der maus ist
 	
 	private java.util.Map<Button,Integer> buttons; 
 	
-	private int box;
+	private int box; //ausmaße eines Icons
 	
 	private GUI gui;
 
@@ -65,8 +65,21 @@ public class BuildTab implements GraphicObject {
 		g.fillRect(left, top, width, height);
 		
 		//Gebäude Buttons
-		for(Button b : buttons.keySet()){
-			if(b!=null) b.draw();
+		for(Button butt : buttons.keySet()){
+			if(butt!=null){				
+				Building b = getBuilding(buttons.get(butt));
+				
+				//Button zeichnen
+				butt.draw();
+				
+				//einfärben, wenn nicht genug geld
+				if(!b.enoughMoney()){
+					Point p = butt.getTL();
+					g.setColor(cRed30);
+					g.fillRect( (int)p.getX(), (int)p.getY(), butt.getWidth(), butt.getHeight() );
+				}
+				
+			}
 		}
 		
 		//mouse Over Gebäudeinfos

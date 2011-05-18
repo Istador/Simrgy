@@ -18,7 +18,7 @@ public class AKW extends BuildingAbstract implements Building {
 	protected static int max_personal_per_module = 100; //?
 	protected static int min_personal_per_module = 10; //?
 	protected double leistung = 1.0;
-	protected double mw_module = 1600;
+	protected double mw_module = 1600.0;
 	protected double co2_kg = 3.0;
 	protected int zufriedenheit = 1; 
 	

@@ -48,7 +48,7 @@ public class Game {
     public double mw_wasser;
     
     public double CO2;
-    public int zufriedenheit;
+    public double zufriedenheit;
 	
 	public long personal;
 	
@@ -65,7 +65,7 @@ public class Game {
 	private void init(){
 		rnd = new Random();
 		running = false;
-		money = 100000000.0;
+		money = 99000000000.0;//100000000.0;
 		time = 0;
 		last_update_time=time;
 		
@@ -77,7 +77,7 @@ public class Game {
         mw_wasser = 0.0;
 		
 		personal = 0;
-		zufriedenheit = 0;
+		zufriedenheit = 50.0;
 		
 		strombedarf = 50000; //171527.777; //617,5 Mrd kWh = 617,5 Mil MWh = 171527,777 MW
 		max_strombedarf = 100000.0;
@@ -111,6 +111,7 @@ public class Game {
                 sonnenrel[x][y] = rels;
             }
         }
+        
 		
 		// bit für bit betrachten (verundet)
 		// 0=nicht bebaubar, 1=land, 2=see, 4=fluss, 8=wasser
@@ -245,6 +246,30 @@ public class Game {
 		return 2000.0/31/24; // €/h
 	}
 	
+	public double getZufriedenheit()
+	{
+		double tmp = 0.0;
+		double differenz = max_strombedarf - strombedarf;
+		double tmp1 = max_strombedarf/100;
+		double tmp2 = strombedarf/100;
+		
+		if(mw < strombedarf)
+	    {
+			tmp -= 1;
+	    }
+		else
+		{
+			tmp += 1;
+		}
+		
+	    if(CO2 > 500)
+	    {
+	        tmp -= 1;
+	    }
+
+		return tmp;
+	}
+	
 	public void tick(long timeDiff){
 		if(running){
 			//Uhrzeit
@@ -279,7 +304,7 @@ public class Game {
                 mw_wasser = 0.0;
 				personal = 0;
 				CO2 = 0.0;
-				zufriedenheit = 0;
+				//zufriedenheit = 0;
 				for(Building[] tmp : buildings)
 					for(Building b : tmp)
 						if(b != null){
@@ -301,7 +326,19 @@ public class Game {
 				mw += mw_atom + mw_wind + mw_kohle + mw_sonne + mw_wasser;
 				
 				//Stromverkauf
-				money += mw * getStrompreis() * tds;
+				money += (double)mw * getStrompreis() * tds;
+				
+				//Zufriedenheit
+		        zufriedenheit += getZufriedenheit() * tds;
+		        if(zufriedenheit>100.0)
+		        {
+		        	zufriedenheit = 100.0;
+		        }
+		        if(zufriedenheit<0.0)
+		        {
+		        	zufriedenheit = 0.0;
+		        }
+		        
 				
 				//Update Zeit aktualisieren
 				last_update_time=time;

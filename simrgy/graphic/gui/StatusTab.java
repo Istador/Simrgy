@@ -72,14 +72,17 @@ public class StatusTab implements GraphicObject {
         g.drawString(df_int.format(getMain().getGame().CO2)+" t", tright, ttop);
         ttop+=40;
         g.drawString("Zufriedenheit:", tleft, ttop);
-        g.drawString(df_int.format(getMain().getGame().zufriedenheit), tright, ttop);
+        g.drawString(df_int.format(getMain().getGame().zufriedenheit)+" %", tright, ttop);
         
         ttop+=40;
         g.drawString("Uran:", tleft, ttop);
-        g.drawString(df_int.format(getMain().getGame().uran)+"/"+df_int.format(getMain().getGame().uran_max), tright, ttop);
+        g.drawString(df_int.format(getMain().getGame().uran)+"/"+df_int.format(getMain().getGame().uran_max)+" kg", tright-14, ttop);
         ttop+=20;
         g.drawString("Kohle:", tleft, ttop);
-        g.drawString(df_int.format(getMain().getGame().kohle)+"/"+df_int.format(getMain().getGame().kohle_max), tright, ttop);
+        g.drawString(df_int.format(getMain().getGame().kohle)+"/"+df_int.format(getMain().getGame().kohle_max)+" kg", tright-14, ttop);
+        ttop+=20;
+        g.drawString("Atommüll:", tleft, ttop);
+        g.drawString(df_int.format(getMain().getGame().uran_max-getMain().getGame().uran)+" kg", tright-14, ttop);
         
 	}
 

@@ -85,7 +85,7 @@ public class GUI implements GraphicObject {
 		g.fillRect(left, top, width, height);
 		
 		//Geld
-		String money = df_money.format((int)getMain().getGame().money); 
+		String money = df_money.format((long)getMain().getGame().money); 
 		g.setFont(f_money);
 		int strwidth = f_size(g, f_money, money)[1];
 		g.setColor(cBlack);

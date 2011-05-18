@@ -36,7 +36,7 @@ public class Windrad extends BuildingAbstract implements Building {
 	
 	public double getMW(){
 		//Pro Windrad: 2-6 MW, Wetterabhängig
-		double pro = 2.0 + 4.0 * getGame().getWindpower(this);
+		double pro = 20000.0 + 4.0 * getGame().getWindpower(this);
 		return pro * activeModules() ;
 		}
 	

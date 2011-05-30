@@ -80,7 +80,15 @@ public class RessourceManager {
 	public static final Image staudamm = new ImageIcon(RessourceManager.class.getResource("img/buildings/staudamm.png")).getImage();
 	
 	
-	
+	public static final Image rUran = new ImageIcon(RessourceManager.class.getResource("img/research/uran.png")).getImage();
+	public static final Image rSarkophag = new ImageIcon(RessourceManager.class.getResource("img/research/sarkophag.png")).getImage();
+	public static final Image rEndlager = new ImageIcon(RessourceManager.class.getResource("img/research/endlager.png")).getImage();
+	public static final Image rGlueh = new ImageIcon(RessourceManager.class.getResource("img/research/glueh.png")).getImage();
+	public static final Image rWind = new ImageIcon(RessourceManager.class.getResource("img/research/2xwindrad.png")).getImage();
+	public static final Image rCO2 = new ImageIcon(RessourceManager.class.getResource("img/research/co2filter.png")).getImage();
+	public static final Image rStaudamm = new ImageIcon(RessourceManager.class.getResource("img/research/extstaudamm.png")).getImage();
+	public static final Image rSolar = new ImageIcon(RessourceManager.class.getResource("img/research/solarpanel.png")).getImage();
+	public static final Image rSonne = new ImageIcon(RessourceManager.class.getResource("img/research/sonne.png")).getImage();
 	
 	
 	/**

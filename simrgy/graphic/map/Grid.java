@@ -22,7 +22,6 @@ public class Grid implements GraphicObject {
 	private int elementwidth;
 	private int elementheight;
 	private GridObject[][] buildings;
-	public boolean drawgrid = false;
 	GridObject over;
 			
 	private Map map;
@@ -44,7 +43,7 @@ public class Grid implements GraphicObject {
 		drawHighlightUnderground();
 		
 		//Grid zeichnen
-		if(drawgrid){
+		if(getMain().getGraphic().getSettings().drawgrid){
 			g.setColor(cBlack);
 			//Horizonteles Grid (oben nach unten)
 			for(int i=0; i<cols; i++)

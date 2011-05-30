@@ -41,7 +41,7 @@ public class GridObject implements GraphicObject {
 		//Highlight
 		if(highlightColor != null){
 			g.setColor(highlightColor);
-			int dgrid = ( getGrid().drawgrid ? 1 : 0 );
+			int dgrid = ( getMain().getGraphic().getSettings().drawgrid ? 1 : 0 );
 			g.fillRect(left+dgrid, top+dgrid, width-dgrid, height-dgrid);
 		}
 		//Image

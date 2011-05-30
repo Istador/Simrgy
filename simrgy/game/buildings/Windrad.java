@@ -28,6 +28,13 @@ public class Windrad extends BuildingAbstract implements Building {
 		actions.add(Deploy.getInstance());
 	}
 	
+	public static Windrad newFinishedWindrad(Game g, String name, int module){
+		Windrad ret = new Windrad(g, name);
+		ret.modules=module;
+		ret.bauzeit_so_far = bauzeit_per_module * ret.modules;
+		return ret;
+	}
+	
 	public Image getImage(){ return RessourceManager.windrad; }
 	
 	public double getMoneyCostH(){
@@ -36,7 +43,7 @@ public class Windrad extends BuildingAbstract implements Building {
 	
 	public double getMW(){
 		//Pro Windrad: 2-6 MW, Wetterabhängig
-		double pro = 20000.0 + 4.0 * getGame().getWindpower(this);
+		double pro = 2.0 + 4.0 * getGame().getWindpower(this);
 		return pro * activeModules() ;
 		}
 	

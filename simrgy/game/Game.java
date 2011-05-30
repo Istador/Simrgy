@@ -1,6 +1,8 @@
 package simrgy.game;
 
 import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import simrgy.applet.Main;
 import simrgy.game.buildings.AKW;
@@ -32,6 +34,7 @@ public class Game {
 	public double windpower = 1.0; // 0.0..1.0 Overall power
 	public double sonnenintensität = 1.0;
 	
+	protected Lock research_mutex = new ReentrantLock();
 	protected Map<Research, Long> researching; //Zeit in ms die bisher geforscht
 	protected Set<Research> finishedResearch;
 	
@@ -65,7 +68,7 @@ public class Game {
 	private void init(){
 		rnd = new Random();
 		running = false;
-		money = 99000000000.0;//100000000.0;
+		money = 100000000.0;
 		time = 0;
 		last_update_time=time;
 		
@@ -134,10 +137,30 @@ public class Game {
 		
 		//Hauptquatier
 		placeBuilding(4, 1, new HQ(this));
+		//http://de.wikipedia.org/wiki/Liste_deutscher_Kraftwerke
 		
 		//Wind
-		//placeBuilding(4, 0, new Windrad(this, "Windanlage Nord"));
-	
+		placeBuilding(7, 0, Windrad.newFinishedWindrad(this, "Baltic 2", 80));
+		placeBuilding(3, 0, Windrad.newFinishedWindrad(this, "Windpark Reußenköge", 68));
+		placeBuilding(2, 1, Windrad.newFinishedWindrad(this, "Windpark Holtriem", 40));
+		placeBuilding(6, 3, Windrad.newFinishedWindrad(this, "Windparks Sachsen Anhalt", 60));
+		placeBuilding(3, 4, Windrad.newFinishedWindrad(this, "Windpark Sintfeld", 65));
+		
+		//Solar
+		placeBuilding(6, 4, Solar.newFinishedSolar(this, "Solarpark Köthen", 2));
+		placeBuilding(7, 4, Solar.newFinishedSolar(this, "Solarpark Waldpolenz", 2));
+		placeBuilding(9, 3, Solar.newFinishedSolar(this, "Solarpark Lieberose", 3));
+		placeBuilding(8, 8, Solar.newFinishedSolar(this, "Solarpark Pocking", 1));
+		
+		//Kohle
+		placeBuilding(0, 4, Kohle.newFinishedKohle(this, "Neurath", 5, 441.0));
+		placeBuilding(0, 5, Kohle.newFinishedKohle(this, "Niederaußem", 9, 430.0));
+		placeBuilding(3, 6, Kohle.newFinishedKohle(this, "Staudinger Großkrotzenburg", 5, 400.0));
+		placeBuilding(8, 3, Kohle.newFinishedKohle(this, "Jänschwalde", 6, 500.0));
+		placeBuilding(7, 5, Kohle.newFinishedKohle(this, "Lippendorf", 2, 933.6));
+		placeBuilding(9, 5, Kohle.newFinishedKohle(this, "Boxberg", 3, 635.7));
+		placeBuilding(9, 4, Kohle.newFinishedKohle(this, "Schwarze Pumpe", 2, 800.0));
+		
 		//AKWs
 		// http://de.wikipedia.org/wiki/Liste_der_Kernreaktoren_in_Deutschland
 		boolean moratorium = true; // zeige AKWs im Moratorium
@@ -152,6 +175,7 @@ public class Game {
 		placeBuilding(3, 7, AKW.newFinishedAKW(this, "Neckarwestheim", 2, 1120.0));
 		placeBuilding(4, 6, AKW.newFinishedAKW(this, "Grafenrheinfeld", 1, 1345.0));
 		placeBuilding(4, 8, AKW.newFinishedAKW(this, "Gundremmingen", 2, 1344.0));
+		
 		
 	}
 	
@@ -249,22 +273,19 @@ public class Game {
 	public double getZufriedenheit()
 	{
 		double tmp = 0.0;
-		double differenz = max_strombedarf - strombedarf;
-		double tmp1 = max_strombedarf/100;
-		double tmp2 = strombedarf/100;
+		//double differenz = max_strombedarf - strombedarf;
+		//double tmp1 = max_strombedarf/100;
+		//double tmp2 = strombedarf/100;
 		
-		if(mw < strombedarf)
-	    {
+		if(mw < strombedarf){
 			tmp -= 1;
 	    }
-		else
-		{
+		else{
 			tmp += 1;
 		}
 		
-	    if(CO2 > 500)
-	    {
-	        tmp -= 1;
+	    if(CO2 > 500){
+	    	tmp -= 1;
 	    }
 
 		return tmp;
@@ -351,14 +372,21 @@ public class Game {
 						b.tick(timeDiff);
 			
 			//Forschung tick
+			research_mutex.lock();
+			Set<Research> remove = new HashSet<Research>(); //Objekte die entfernt werden sollen
 			for(Research r : researching.keySet()){
 				researching.put(r, researching.get(r)+timeDiff); //Zeit erhöhen
 				if( r.isDone(this) ){
-					researching.remove(r);
-					finishedResearch.add(r);
-					r.researchEffect(this); //Forschung ausführen
+					remove.add(r);
 				}
 			}
+			//entferne Objekte
+			for(Research r : remove){
+				researching.remove(r);
+				finishedResearch.add(r);
+				r.researchEffect(this); //Forschung ausführen
+			}
+			research_mutex.unlock();
 			
 			//Spezielle Gebäudefunktionen
 			//...
@@ -397,7 +425,9 @@ public class Game {
 	public boolean addResearch(Research r){
 		if(isResearchDone(r)) return false;
 		if(isResearching(r)) return false;
+		research_mutex.lock();
 		researching.put(r, (long) 0);
+		research_mutex.unlock();
 		return true;
 	}
 	

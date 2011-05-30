@@ -49,6 +49,19 @@ public class ResearchTab implements GraphicObject {
 		r = RAKW3.getInstance();
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+15+2*box, top+5, box, box, null);
 		buttons.put(but, r);
+		//Energiesparlampen
+		r = RSolar.getInstance();
+		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+10+box, box, box, null);
+		buttons.put(but, r);
+		//Solarpanel
+		r = REnergiesparlampen.getInstance();
+		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+10+box, top+10+box, box, box, null);
+		buttons.put(but, r);
+		//Sonnenoutput
+		r = RSonne.getInstance();
+		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+15+2*box, top+10+box, box, box, null);
+		buttons.put(but, r);
+		
 	}
 	
 	public void draw() {

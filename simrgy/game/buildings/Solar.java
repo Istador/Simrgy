@@ -29,6 +29,13 @@ public class Solar extends BuildingAbstract implements Building {
         actions.add(Deploy.getInstance());
     }
     
+	public static Solar newFinishedSolar(Game g, String name, int module){
+		Solar ret = new Solar(g, name);
+		ret.modules=module;
+		ret.bauzeit_so_far = bauzeit_per_module * ret.modules;
+		return ret;
+	}
+    
     public double getMoneyCostH()
     {
         return getPersonal() * getGame().getPersonalkosten();

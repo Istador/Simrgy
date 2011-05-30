@@ -3,6 +3,7 @@ package simrgy.graphic.menu;
 import simrgy.applet.*;
 import simrgy.graphic.Button;
 import simrgy.graphic.ButtonCenteredText;
+import simrgy.graphic.Checkbox;
 import simrgy.graphic.Graphic;
 import simrgy.graphic.GraphicObject;
 import static simrgy.res.RessourceManager.*;
@@ -20,6 +21,9 @@ public class Settings implements GraphicObject {
 	public int height;
 	private Button[] buttons;
 	
+	public boolean drawgrid = false;
+	public boolean music = true;	
+	
 	public Settings(Graphic g){
 		graphic = g;
 		
@@ -28,14 +32,19 @@ public class Settings implements GraphicObject {
 		width=getMain().width;
 		height=getMain().height;
 		
+		//Zurück zum Menü klick
 		Runnable r1 = new RunnableMain(getMain()) {
 			public void run() { 
 				main.getGraphic().showMenu();
+				main.getGraphic().getSettings().apply();
 			}
 		};
 		
-		buttons = new Button[1];
+		buttons = new Button[3];
 		buttons[0] = new ButtonCenteredText(this, "Zurück zum Menü", c_menu_button_text, c_menu_button_highlight, width/2, height/60*55, f_menu_button, r1);
+		buttons[1] = new Checkbox(this, drawgrid, null, c_menu_button_highlight, 50, 150, 50, 50);
+		buttons[2] = new Checkbox(this, music, null, c_menu_button_highlight, 50, 250, 50, 50);
+		//TODO: komischer BUG: beim App neu starten sind die nciht mehr änderbar, erst bei einem weiterem neu starten, (und bei einem weiterem wieder nicht, usw.)
 	}
 		
 	//GraphicObject Methods
@@ -53,6 +62,10 @@ public class Settings implements GraphicObject {
 		int strleft = width/2-strwidth/2+left;
 		g.drawString("Einstellungen", strleft, strtop);
 		
+		g.setFont(f_menu_bigtext);
+		g.drawString("Grid zeichnen", 125, 175);
+		g.drawString("Musik an", 125, 275);
+		
 		for(Button b : buttons) if(b!=null) b.draw();
 	}
 
@@ -65,6 +78,12 @@ public class Settings implements GraphicObject {
 		for(Button b : buttons) if(b!=null) b.mouseOut();
 	}
 
+	//apply settings
+	public void apply(){
+		drawgrid = ((Checkbox)this.buttons[1]).isActive();
+		music = ((Checkbox)this.buttons[2]).isActive();
+	}
+	
 	public Graphic getGraphic(){return graphic;}
 	public Main getMain(){return getGraphic().getMain();}
 	public Graphics getBackbuffer(){return getGraphic().getBackbuffer();}

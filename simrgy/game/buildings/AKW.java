@@ -40,9 +40,8 @@ public class AKW extends BuildingAbstract implements Building {
 	public static AKW newFinishedAKW(Game g, String name, int module, double mw){
 		AKW ret = new AKW(g, name);
 		ret.modules=module;
-		ret.bauzeit_so_far = AKW.bauzeit_per_module * ret.modules;
+		ret.bauzeit_so_far = bauzeit_per_module * ret.modules;
 		ret.mw_module=mw;
-		if(!ret.moreModulesPossible()) ret.removeAction(IncModules.getInstance());
 		return ret;
 	}
 	

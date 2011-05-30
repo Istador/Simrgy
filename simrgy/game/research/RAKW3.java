@@ -24,7 +24,7 @@ public class RAKW3 extends ResearchAbstract {
 		super(name, desc, parent, kosten, forschungsdauer);
 	}
 	
-	public Image getImage() {return none;}
+	public Image getImage() {return rEndlager;}
 	
 	public void researchEffect(Game g) {
 		// TODO 

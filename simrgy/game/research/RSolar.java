@@ -7,22 +7,22 @@ import simrgy.game.Research;
 import simrgy.game.ResearchAbstract;
 import static simrgy.res.RessourceManager.*;
 
-public class RAKW2 extends ResearchAbstract {
+public class RSolar extends ResearchAbstract {
 
 	//Singleton
-	private static RAKW2 instance = null;
-	public static RAKW2 getInstance(){
+	private static RSolar instance = null;
+	public static RSolar getInstance(){
 		if(instance==null){
-			instance = new RAKW2("Sarkophage errichten", "+10% Reaktorsicherheit", RAKW1.getInstance(), 500000000.0, 60000 );
+			instance = new RSolar("Verbessertes Photovoltaic", "+5% Energieerzeugung", null,  1200000000.0, 90000 );
 		}
 		return instance;
 	}
 	
-	private RAKW2(String name, String desc, Research parent, double kosten, long forschungsdauer) {
+	private RSolar(String name, String desc, Research parent, double kosten, long forschungsdauer) {
 		super(name, desc, parent, kosten, forschungsdauer);
 	}
 	
-	public Image getImage() {return rSarkophag;}
+	public Image getImage() {return rSolar;}
 	
 	public void researchEffect(Game g) {
 		// TODO

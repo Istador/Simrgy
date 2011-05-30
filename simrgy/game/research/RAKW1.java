@@ -22,7 +22,7 @@ public class RAKW1 extends ResearchAbstract {
 		super(name, desc, parent, kosten, forschungsdauer);
 	}
 	
-	public Image getImage() {return none;}
+	public Image getImage() {return rUran;}
 	
 	public void researchEffect(Game g) {
 		g.uran += 10000;

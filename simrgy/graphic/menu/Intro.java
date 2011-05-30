@@ -30,7 +30,8 @@ public class Intro implements GraphicObject {
 		
 		Runnable r1 = new RunnableMain(getMain()) {
 			public void run() { 
-				Music.play_music(getRandomBackgroundMusic());
+				if(getMain().getGraphic().getSettings().music)
+					Music.play_music(getRandomBackgroundMusic());
 				main.getGraphic().showGame();
 				main.getGame().start();
 			}

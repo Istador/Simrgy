@@ -29,6 +29,13 @@ public class Kohle extends BuildingAbstract implements Building {
 		actions.add(Deploy.getInstance());
 	}
 
+	public static Kohle newFinishedKohle(Game g, String name, int module, double mw){
+		Kohle ret = new Kohle(g, name);
+		ret.modules=module;
+		ret.bauzeit_so_far = bauzeit_per_module * ret.modules;
+		ret.mw_module=mw;
+		return ret;
+	}
 	public double getMoneyCostH(){return getPersonal() * getGame().getPersonalkosten();}
 	public double getMW(){return mw_module * activeModules();}
 	public double getCo2() {return co2_kg * activeModules();}

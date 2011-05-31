@@ -77,7 +77,10 @@ public class Checkbox implements Button {
 
 	public boolean isActive(){return active;}
 	
-	public void click() { active=!active; }
+	public void click() {
+		getMain().play(sClick);
+		active=!active;
+	}
 	public void click(int x, int y) { if(contains(x,y)) click(); }
 
 	public void mouseOver() {highlight = true;}

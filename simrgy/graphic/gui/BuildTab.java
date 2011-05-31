@@ -97,6 +97,10 @@ public class BuildTab implements GraphicObject {
 			g.setColor(c_build_mouseOver_caption);
 			g.setFont(f_build_caption);
 			g.drawString(b.getName(), left+width+5-2*box, top+height-box+20);
+			//MW
+			g.setColor(c_build_mouseOver_caption);
+			g.setFont(f_build_text);
+			g.drawString(b.getBuildingMWText()+" MW", left+width+5-2*box, top+height-box+20+15);
 			//Baukosten
 			if(b.enoughMoney())	g.setColor(cGreen);
 			else g.setColor(cRed);
@@ -115,6 +119,7 @@ public class BuildTab implements GraphicObject {
 			if(b!=null && b.contains(x, y)){
 				selected = b;
 				b.markiere(cBlack);
+				b.click();
 			}
 		}
 	}

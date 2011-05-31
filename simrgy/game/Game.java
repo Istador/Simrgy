@@ -17,31 +17,38 @@ public class Game {
 
 	private Main main;
 	
-	public int rows = 10; //Zeilen
-	public int cols = 10; //Spalten
+	public int rows; //Zeilen
+	public int cols; //Spalten
 	
-	Random rnd;
+	public Random rnd;
+	
+	//Research Parameter
+	public double rAKWSecure;
+	public double rSolarEnergy;
+	public double rNightEnergy;
+	public double rWindBuildTime;
+	public double rKohleCO2;
 	
 	public double money; // Geld in Ä
 	public long time; // millisekunden runtime
 	private long last_update_time;
 	protected boolean running;
-	Building[][] buildings;
+	protected Building[][] buildings;
 	protected int[][] bautyp; // 0=nicht baubar, 1=land, 2=land+see/fluﬂ, 3=wasser - nicht public setzen, x und y vertauscht!
 	
 	double[][] windrel; //Wind ralativ zur Position
 	double[][] sonnenrel; //Sonne relativ zur Position
 	public double windpower = 1.0; // 0.0..1.0 Overall power
-	public double sonnenintensit‰t = 1.0;
+	public double sonnenintensitaet = 1.0;
 	
 	protected Lock research_mutex = new ReentrantLock();
 	protected Map<Research, Long> researching; //Zeit in ms die bisher geforscht
 	protected Set<Research> finishedResearch;
 	
-	public int uran = 20000;
-	public int uran_max = 20000;
-	public int kohle = 50000;
-	public int kohle_max = 50000;
+	public int uran;
+	public int uran_max;
+	public int kohle;
+	public int kohle_max;
 	
 	public double mw;
 	public double mw_atom;
@@ -49,12 +56,19 @@ public class Game {
 	public double mw_kohle;
     public double mw_sonne;
     public double mw_wasser;
+    public double gewinn;
+    public double gewinn_inland;
+    public double gewinn_ausland;
+    public double verlust_ausland;
+    public double verlust_gebauedekosten;
     
     public double CO2;
     public double zufriedenheit;
 	
 	public long personal;
 	
+	public long ansteigender_strombedarf_zeitpunkt;
+	public boolean ansteigender_strombedarf;
 	public double strombedarf; //in MW
 	public double max_strombedarf; //in MW
 	
@@ -67,10 +81,14 @@ public class Game {
 	//Spiel auf Anfangszustand
 	private void init(){
 		rnd = new Random();
+	
 		running = false;
 		money = 100000000.0;
 		time = 0;
 		last_update_time=time;
+
+		rows = 10;
+		cols = 10;
 		
 		mw = 0.0;
 		mw_atom = 0.0;
@@ -78,10 +96,28 @@ public class Game {
 		mw_kohle = 0.0;
         mw_sonne = 0.0;
         mw_wasser = 0.0;
+        gewinn = 0.0;
+        gewinn_inland = 0.0;
+        gewinn_ausland = 0.0;
+        verlust_ausland = 0.0;
+        verlust_gebauedekosten = 0.0;
+        
+    	rAKWSecure = 1.0;
+    	rSolarEnergy = 1.0;
+    	rNightEnergy = 1.0;
+    	rWindBuildTime = 1.0;
+    	rKohleCO2 = 1.0;
+        
+    	uran = 20000;
+    	uran_max = 20000;
+    	kohle = 50000;
+    	kohle_max = 50000;
 		
 		personal = 0;
 		zufriedenheit = 50.0;
 		
+		ansteigender_strombedarf = false;
+		ansteigender_strombedarf_zeitpunkt = 0;
 		strombedarf = 50000; //171527.777; //617,5 Mrd kWh = 617,5 Mil MWh = 171527,777 MW
 		max_strombedarf = 100000.0;
 
@@ -93,25 +129,25 @@ public class Game {
 		windpower = 1.0;
 		windrel = new double[cols][rows];
 		for(int y=0; y<rows; y++){
-			double rel = 1.0/(y+1);
+			double relbasic = 0.5/rows*(rows-y)+0.5;
 			for(int x=0; x<cols; x++){
-				// rel +- random[-0.2, +0.1999~]
-				rel = rel + (rnd.nextDouble()-0.5)*2/5;
+				// rel +- random[-0.1, +0.0999~]
+				double rel = relbasic + (rnd.nextDouble()-0.5)*2/10;
 				rel = (rel>1.0 ? 1.0 : ( rel<0.0 ? 0.0 : rel ) ); //0.0 bis 1.0 einhalten
 				windrel[x][y] = rel; 
 			}
 		}
 		
 		//Sonne initialisieren
-        sonnenintensit‰t = 1.0;
+        sonnenintensitaet = 1.0;
         sonnenrel = new double[cols][rows];
         for(int y=0; y<rows; y++){
-            double rels = 1-(1.0/(y+1));
+        	double relbasic = 0.5/rows*(y+1)+0.5;
             for(int x=0; x<cols; x++){
-            	// rels +- random[-0.2, +0.1999~]
-				rels = rels + (rnd.nextDouble()-0.5)*2/5;
-				rels = (rels>1.0 ? 1.0 : ( rels<0.0 ? 0.0 : rels ) ); //0.0 bis 1.0 einhalten
-                sonnenrel[x][y] = rels;
+            	// rels +- random[-0.1, +0.0999~]
+				double rel = relbasic + (rnd.nextDouble()-0.5)*2/10;
+				rel = (rel>1.0 ? 1.0 : ( rel<0.0 ? 0.0 : rel ) ); //0.0 bis 1.0 einhalten
+                sonnenrel[x][y] = rel;
             }
         }
         
@@ -129,7 +165,7 @@ public class Game {
 				{	0,	1,	5,	5,	1,	1,	5,	5,	0,	0	},
 				{	0,	1,	5,	5,	5,	5,	5,	5,	5,	0	},
 				{	0,	1,	1,	3,	1,	7,	5,	3,	0,	0	}
-		}; //x und y vertauscht! daf¸r aber einfacher mit der Karte zu vergleichen.
+		}; //x und y vertauscht! daf¸r aber SourceCode einfacher mit der Karte zu vergleichen.
 		
 		
 		//Geb‰ude
@@ -182,7 +218,7 @@ public class Game {
 	public void start(){ running = true; }
 	public void pause(){ running = !running; }
 	public void restart(){ stop(); start(); }
-	public void stop(){ init(); }
+	public void stop(){ getMain().getGraphic().init(); init(); }
 	
 	public boolean buildBuilding(int x, int y, Building b){
 		if( (getBautyp(x,y) & b.getUnderground()) != 0 ){
@@ -207,7 +243,7 @@ public class Game {
             for(int x=0; x<cols; x++){
                 if(b == buildings[x][y]){
                 	removeBuilding(x, y);
-                	money += (double)(b.getBaukosten()/2);
+                	money += (double)(b.getBaukosten()/4); // 1/4 der Baukosten zur¸ck erhalten
                 }
             }
         }
@@ -240,7 +276,7 @@ public class Game {
         for(int y=0; y<rows; y++){
             for(int x=0; x<cols; x++){
                 if(b == buildings[x][y]){
-                    return sonnenrel[x][y] * sonnenintensit‰t;
+                    return sonnenrel[x][y] * sonnenintensitaet;
                 }
             }
         }
@@ -306,18 +342,24 @@ public class Game {
 				double tds = ((double)tdms)/1000.0;
 				
 				//Strombedarf berechnen
-				strombedarf = 50000.0 + time/1000*5; //ansteigender Strombedarf (5MW/s)
-				strombedarf = strombedarf + 12500.0*Math.sin(((time/100.0)%360.0)/180.0*Math.PI);
+				strombedarf = 50000.0;
+				max_strombedarf = 100000.0;
+				if(ansteigender_strombedarf){
+					if(ansteigender_strombedarf_zeitpunkt==0)
+						ansteigender_strombedarf_zeitpunkt = time;
+					double tmp = ((double)(time - ansteigender_strombedarf_zeitpunkt))/1000.0 ;
+					strombedarf += tmp*10.0; //ansteigender Strombedarf (10MW/s)
+					max_strombedarf += tmp*10.0; //ansteigender Strombedarf (10MW/s)	
+				}
+				strombedarf += 12500.0 * rNightEnergy * Math.sin(((time/100.0)%360.0)/180.0*Math.PI);
 				strombedarf = (strombedarf >= max_strombedarf ? max_strombedarf : strombedarf ); //nicht > als max
 				
 				//Wetterverh‰ltnisse ‰ndern
-				windpower = (windpower-0.5 + (rnd.nextDouble()-0.5)/10*2*tds) % 0.5 + 0.5; //Windkraft um max. 10% pro sekunde ‰ndern
-				sonnenintensit‰t = (sonnenintensit‰t-0.5 + (rnd.nextDouble()-0.5)/10*2*tds) % 0.5 + 0.5;
-				//TODO Sonne wie Stromverbrauch abh‰ngig von der Uhrzeit (sinus * -1 f¸r den gegenteiligen Effekt (Nachts wenig Sonne, viel Stromverbrauch))
-			
-				//Geb‰ude
-				mw = 0.0;
+				windpower = (windpower-0.5 + (rnd.nextDouble()-0.5)/10*2*tds) % 0.5 + 0.5; //Windkraft um max. 10% pro sekunde ‰ndern			
+				sonnenintensitaet = 0.5 - Math.sin(((time/100.0)%360.0)/180.0*Math.PI)/2.0; //abh‰ngig von Zeit
+				sonnenintensitaet = (sonnenintensitaet >= 1.0 ? 1.0 : ( sonnenintensitaet <= 0.0 ? 0.0 : sonnenintensitaet ) ); // zwischen 0.0 und 1.0
 				
+				mw = 0.0;
 				mw_atom = 0.0;
 				mw_wind = 0.0;
 				mw_kohle = 0.0;
@@ -325,6 +367,9 @@ public class Game {
                 mw_wasser = 0.0;
 				personal = 0;
 				CO2 = 0.0;
+		        verlust_gebauedekosten = 0.0;
+		        
+				//Geb‰ude
 				//zufriedenheit = 0;
 				for(Building[] tmp : buildings)
 					for(Building b : tmp)
@@ -332,31 +377,48 @@ public class Game {
 							//Personal z‰hlen
 							personal += b.getPersonal();
 							//Geb‰udekosten
-							money -= b.getMoneyCostH() * tds;
+							verlust_gebauedekosten += b.getMoneyCostH();
 							//CO2
-							//CO2 += b.getCo2();
+							CO2 += b.getCO2();
 							//Stromerzeugung
-							if( b instanceof AKW ) { mw_atom += b.consumeMW(); CO2 += b.getCo2(); }
-							else if( b instanceof Windrad )  { mw_wind += b.consumeMW(); CO2 += b.getCo2(); }
-							else if( b instanceof Kohle ) { mw_kohle += b.consumeMW(); CO2 += b.getCo2(); }
-                            else if( b instanceof Solar ) { mw_sonne += b.consumeMW(); CO2 += b.getCo2(); }
-                            else if( b instanceof Staudamm ) { mw_wasser += b.consumeMW(); CO2 += b.getCo2(); }
+							if( b instanceof AKW ) { mw_atom += b.consumeMW(); }
+							else if( b instanceof Windrad )  { mw_wind += b.consumeMW(); }
+							else if( b instanceof Kohle ) { mw_kohle += b.consumeMW(); }
+                            else if( b instanceof Solar ) { mw_sonne += b.consumeMW(); }
+                            else if( b instanceof Staudamm ) { mw_wasser += b.consumeMW(); }
 							else mw += b.consumeMW();
 							
 						}
 				mw += mw_atom + mw_wind + mw_kohle + mw_sonne + mw_wasser;
 				
 				//Stromverkauf
-				money += (double)mw * getStrompreis() * tds;
+				double verkauf_inland = 0.0;
+				double verkauf_ausland = 0.0;
+				double einkauf_ausland = 0.0;
+				//wenn zuviel strom produziert wird verkaufe ins ausland
+				if(mw>=strombedarf){
+					verkauf_inland = strombedarf;
+					verkauf_ausland = mw-strombedarf;
+				}
+				//wenn zuwenig produziert wird kaufe den rest im ausland ein
+				else{
+					verkauf_inland = mw;
+					einkauf_ausland = strombedarf-mw;
+				}
+				
+				gewinn_inland = verkauf_inland * getStrompreis();
+				gewinn_ausland = verkauf_ausland * getStrompreis() * 0.5; //ins ausland verkaufen (weniger Gewinn als im eigenem Land)
+				verlust_ausland = einkauf_ausland * getStrompreis(); //aus den ausland einkaufen (ohne an dem Strom zu verdienen)
+				gewinn = gewinn_inland + gewinn_ausland - verlust_ausland - verlust_gebauedekosten;
+				money += gewinn*tds;
+				
 				
 				//Zufriedenheit
 		        zufriedenheit += getZufriedenheit() * tds;
-		        if(zufriedenheit>100.0)
-		        {
+		        if(zufriedenheit>100.0){
 		        	zufriedenheit = 100.0;
 		        }
-		        if(zufriedenheit<0.0)
-		        {
+		        if(zufriedenheit<0.0){
 		        	zufriedenheit = 0.0;
 		        }
 		        
@@ -371,7 +433,7 @@ public class Game {
 					if(b != null)
 						b.tick(timeDiff);
 			
-			//Forschung tick
+			//Forschungs tick
 			research_mutex.lock();
 			Set<Research> remove = new HashSet<Research>(); //Objekte die entfernt werden sollen
 			for(Research r : researching.keySet()){
@@ -411,7 +473,8 @@ public class Game {
 		}
 		return false;
 	}
-		
+	
+	//Forschung
 	public boolean isResearching(Research r){
 		return researching.containsKey(r);
 	}

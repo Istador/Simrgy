@@ -78,6 +78,27 @@ public class About implements GraphicObject {
 		strwidth = f[1]; 
 		g.drawString("Musik:", width/2-strwidth/2+left, strtop);
 		
+		g.setFont(f_menu_smaltext);
+		String str = "Celestial Aeon Project - Swashing the buck - creative commons by-nc-sa 3.0";
+		strtop += 10 + f_size(g, f_menu_smaltext, str)[0];
+		g.drawString(str, left+30, strtop);
+
+		str = "Dj Fab - The heaven is not so far - creative commons by-nc-sa 2.0 fr";
+		strtop += 10 + f_size(g, f_menu_smaltext, str)[0];
+		g.drawString(str, left+30, strtop);
+		
+		str = "stefano mocini - rebirth - creative commons by-sa 3.0";
+		strtop += 10 + f_size(g, f_menu_smaltext, str)[0];
+		g.drawString(str, left+30, strtop);
+		
+		str = "Xera - Ñubes - creative commons by-nc-nd 3.0";
+		strtop += 10 + f_size(g, f_menu_smaltext, str)[0];
+		g.drawString(str, left+30, strtop);
+		
+		str = "Adult Only - Shoreless - creative commons by-nc-sa 3.0";
+		strtop += 10 + f_size(g, f_menu_smaltext, str)[0];
+		g.drawString(str, left+30, strtop);
+		
 		//Buttons zeichnen
 		for(Button b : buttons) if(b!=null) b.draw();
 	}

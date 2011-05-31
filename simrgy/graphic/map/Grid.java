@@ -64,8 +64,8 @@ public class Grid implements GraphicObject {
 
 	public void click(int x, int y) {
 		//logische Koordinaten abrunden, da karte nicht quadratisch
-		int a = x/elementwidth; if(a>=cols)a--;
-		int b = y/elementheight; if(b>=rows)b--;
+		int a = x/elementwidth; if(a>=cols-1)a=cols-1;
+		int b = y/elementheight; if(b>=rows-1)b=rows-1;
 		if(buildings[a][b]!=null) buildings[a][b].click();
 		
 		//Bauen
@@ -83,8 +83,8 @@ public class Grid implements GraphicObject {
 	
 	public void mouseOver(int x, int y) {
 		//logische Koordinaten abrunden, da karte nicht quadratisch
-		int a = x/elementwidth; if(a>=cols)a--;
-		int b = y/elementheight; if(b>=rows)b--;
+		int a = x/elementwidth; if(a>=cols-1)a=cols-1;
+		int b = y/elementheight; if(b>=rows-1)b=rows-1;
 
 		GridObject old = over; //altes Gebäude zwischenspeichern
 		over = buildings[a][b]; //neues Gebäude merken

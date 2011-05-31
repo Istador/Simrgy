@@ -25,7 +25,7 @@ public class RAKW2 extends ResearchAbstract {
 	public Image getImage() {return rSarkophag;}
 	
 	public void researchEffect(Game g) {
-		// TODO
+		g.rAKWSecure *= 1.10;
 	}
 
 }

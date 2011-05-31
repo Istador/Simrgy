@@ -8,12 +8,14 @@ import simrgy.graphic.map.GridObject;
 public interface Building {
 	public Image getImage();
 	public String getName();
+	public String getBuildingMWText();
+	
 	public void attachGridObject(GridObject o);
 	
 	public double getMoneyCostH();
 	public double getMW();
 	public double consumeMW();
-	public double getCo2();
+	public double getCO2();
 	public int getZufriedenheit();
 	
 	public int getUnderground();
@@ -32,6 +34,10 @@ public interface Building {
 	public void tick(long miliseconds);
 	
 	public Game getGame();
+	
+	public boolean drawModules();
+	public int activeModules();
+	public int modules();
 	
 	public boolean newModule();
 	public boolean moreModulesPossible();

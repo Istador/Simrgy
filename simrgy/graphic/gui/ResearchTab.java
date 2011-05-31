@@ -37,29 +37,41 @@ public class ResearchTab implements GraphicObject {
 		box = (a<=b ? a : b );
 		
 		buttons = new java.util.HashMap<Button,Research>();
-		//AKW1
+		//AKW1 Uran Vorrat
 		Research r = RAKW1.getInstance();
 		Button but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+5, box, box, null);
 		buttons.put(but, r);
-		//AKW2
+		//AKW2 Sarkophag
 		r = RAKW2.getInstance();
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+10+box, top+5, box, box, null);
 		buttons.put(but, r);
-		//AKW3
+		//AKW3 Endlager
 		r = RAKW3.getInstance();
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+15+2*box, top+5, box, box, null);
 		buttons.put(but, r);
 		//Energiesparlampen
-		r = RSolar.getInstance();
+		r = REnergiesparlampen.getInstance();
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+10+box, box, box, null);
 		buttons.put(but, r);
 		//Solarpanel
-		r = REnergiesparlampen.getInstance();
+		r = RSolar.getInstance();
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+10+box, top+10+box, box, box, null);
 		buttons.put(but, r);
 		//Sonnenoutput
 		r = RSonne.getInstance();
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+15+2*box, top+10+box, box, box, null);
+		buttons.put(but, r);
+		//2x Windräder
+		r = R2XWind.getInstance();
+		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+15+2*box, box, box, null);
+		buttons.put(but, r);
+		//Kohle Vorräte
+		r = RKohleVorrat.getInstance();
+		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+20+3*box, box, box, null);
+		buttons.put(but, r);
+		//Kohle CO2-Filter
+		r = RKohleCO2.getInstance();
+		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+10+box, top+20+3*box, box, box, null);
 		buttons.put(but, r);
 		
 	}
@@ -175,9 +187,11 @@ public class ResearchTab implements GraphicObject {
 	
 	public void click(int x, int y) {
 		for(Button b : buttons.keySet()){
-			if(b!=null && b.contains(x,y))
+			if(b!=null && b.contains(x,y)){
 				//b.mouseOut();
 				buttons.get(b).startResearch(getMain().getGame());
+				b.click();
+			}
 		}		
 	}
 	

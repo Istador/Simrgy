@@ -1,19 +1,13 @@
 package simrgy.game.buildings;
 
 import java.awt.*;
+
 import simrgy.game.*;
 import simrgy.game.actions.*;
-import simrgy.res.RessourceManager;
+import static simrgy.res.RessourceManager.*;
 
 public class AKW extends BuildingAbstract implements Building {
-	
-	public static int underground = 6; //Fluss oder See benötigt benötigt
-	
-	protected int modules = 1;
-	protected int max_modules = 3;
-	protected double baukosten_per_module = 5000000000.0; // 5 Mrd.
-	protected long bauzeit_so_far = 0;
-	protected static long bauzeit_per_module = 90000; //10-20 Jahre Bauzeit -> 1-2 Minuten -> 1:30 -> 90s
+		
 	protected int personal = 100;
 	protected static int max_personal_per_module = 100; //?
 	protected static int min_personal_per_module = 10; //?
@@ -24,6 +18,12 @@ public class AKW extends BuildingAbstract implements Building {
 	
 	protected AKW(Game g, String name){
 		super(g, name);
+		
+		underground = 6; //Fluss oder See benötigt benötigt
+		max_modules = 3;
+		bauzeit_per_module = 90000; //10-20 Jahre Bauzeit -> 1-2 Minuten -> 1:30 -> 90s
+		baukosten_per_module = 5000000000.0; // 5 Mrd.
+		
 		actions.add(Rename.getInstance());
 		actions.add(IncModules.getInstance());
 		actions.add(Deploy.getInstance());
@@ -40,23 +40,24 @@ public class AKW extends BuildingAbstract implements Building {
 	public static AKW newFinishedAKW(Game g, String name, int module, double mw){
 		AKW ret = new AKW(g, name);
 		ret.modules=module;
-		ret.bauzeit_so_far = bauzeit_per_module * ret.modules;
+		ret.bauzeit_so_far = ret.bauzeit_per_module * ret.modules;
 		ret.mw_module=mw;
 		return ret;
 	}
 	
 	public Image getImage() {
 		int m = activeModules();
-		if(m==0) return RessourceManager.akw_0;
-		if(m==1) return RessourceManager.akw_1;
-		if(m==2) return RessourceManager.akw_2;
-		if(m==3) return RessourceManager.akw_3;
+		if(m==0) return akw_0;
+		if(m==1) return akw_1;
+		if(m==2) return akw_2;
+		if(m==3) return akw_3;
 		return super.getImage();
 	}
 
 	public double getMoneyCostH(){ return personal * getGame().getPersonalkosten() ;}
 	public double getMW(){ return activeModules() * mw_module * leistung; }
-	public double getCo2() {return co2_kg * activeModules();}
+	public String getBuildingMWText(){return String.valueOf((int)mw_module*modules);}
+	public double getCO2() {return co2_kg * activeModules();}
 	public int getZufriedenheit() {return zufriedenheit * activeModules();}
 	
 	//MW produzieren - und Uran verbrauchen
@@ -82,53 +83,47 @@ public class AKW extends BuildingAbstract implements Building {
 		this.personal = ( personal>=max ? max : ( personal <= min ? min : personal ) );
 	}
 	
-	public int getPersonal(){
-		return personal;
-	}
-
-	public long getBauzeit() {
-		return bauzeit_per_module;
-	}
-
-	public double getBaukosten() {
-		return baukosten_per_module * modules;
-	}
+	public int getPersonal(){ return personal; }
 	
-	protected int activeModules(){
-		return (int) (bauzeit_so_far / bauzeit_per_module) ;
-	}
 	
+	//überschreiben für Personaloptionen
 	public boolean newModule(){
-		if(!moreModulesPossible()) return false;
-		getGame().money-=baukosten_per_module;
-		modules++;
-		setPersonal(personal); //Personalanpassung, damit min_personal
-		return true;
+		boolean ret = super.newModule();
+		if(ret)	setPersonal(personal); //Personalanpassung, damit min_personal
+		return ret;
 	}
 	
-	public boolean moreModulesPossible(){
-		if(baukosten_per_module>=game.money) return false;
-		return modules+1<=max_modules;
-	}
+	//überschreiben, da module grafisch angezeigt werden.
+	public boolean drawModules(){return false;}
 	
+	
+	//überschreiben für Atomaren-Unfall
+	public boolean unfall = false;
+	private long unfall_time = 0;
+	private long tick_time = 0;
 	public void tick(long miliseconds){
-		//bau im gange
-		long max_bauzeit = modules * bauzeit_per_module; 
-		if( building && max_bauzeit > bauzeit_so_far ){
-			bauzeit_so_far += miliseconds;
-			bauzeit_so_far = (bauzeit_so_far > max_bauzeit ? max_bauzeit : bauzeit_so_far) ;
-		}	
-		else if(!building){
-			bauzeit_so_far -= miliseconds*2;
-			bauzeit_so_far = (bauzeit_so_far < 0 ? 0 : bauzeit_so_far) ;
-			if(bauzeit_so_far == 0) game.removeBuilding(this);
+		super.tick(miliseconds);
+		if(unfall){
+			unfall_time+=miliseconds;
+			if(unfall_time >= 30000){ //30 Sekunden Zeit zu reagieren
+				game.stop();
+			}
+		}
+		else if(building && activeModules()>=1){
+			tick_time+=miliseconds;
+			long n = tick_time/10000; //alle 10 Sekunden
+			tick_time = tick_time%10000; //Rest
+			for(int i=0; i<n; i++){
+				for(int j=0; j<activeModules(); j++){
+					//kann hochgehen
+					int a = game.rnd.nextInt()%(int)((190.0+(double)personal/(double)modules)*game.rAKWSecure); // 0.5% alle 10 Sekunden pro Reaktor, Personal oder Forschung verringern die Wahrscheinlichkeit
+					if(a==0){
+						//unfall
+						unfall = true;
+						getGame().getMain().play(sAKWUnfall);	
+					}
+				}
+			}
 		}
 	}
-
-	public double getBaustatus() {
-		return (double)bauzeit_so_far / ( (double)modules * (double)bauzeit_per_module );
-	}
-	
-	public int getUnderground(){return underground;}
-	
 }

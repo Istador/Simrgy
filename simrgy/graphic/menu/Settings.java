@@ -21,6 +21,7 @@ public class Settings implements GraphicObject {
 	public int height;
 	private Button[] buttons;
 	
+	public double speed = 2.0; //Spielgeschwindigkeitsfaktor
 	public boolean drawgrid = false;
 	public boolean music = true;	
 	

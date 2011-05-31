@@ -13,7 +13,7 @@ public class RSolar extends ResearchAbstract {
 	private static RSolar instance = null;
 	public static RSolar getInstance(){
 		if(instance==null){
-			instance = new RSolar("Verbessertes Photovoltaic", "+5% Energieerzeugung", null,  1200000000.0, 90000 );
+			instance = new RSolar("Verbessertes Photovoltaic", "+10% Energieerzeugung", null,  1200000000.0, 90000 );
 		}
 		return instance;
 	}
@@ -25,7 +25,7 @@ public class RSolar extends ResearchAbstract {
 	public Image getImage() {return rSolar;}
 	
 	public void researchEffect(Game g) {
-		// TODO
+		g.rSolarEnergy *= 1.10; //erhöhe die erzeugte Energie durch Photovoltaik um 10%
 	}
 
 }

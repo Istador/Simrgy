@@ -64,7 +64,10 @@ public class ButtonCenteredText implements Button {
 		g.drawString(name, left+40, top+height-10);
 	}
 
-	public void click() { if(action != null) action.run(); }
+	public void click() {
+		getMain().play(sClick);
+		if(action != null){ action.run(); }
+	}
 	public void click(int x, int y) { if(contains(x,y)) click(); }
 
 	public void mouseOver() {highlight = true;}

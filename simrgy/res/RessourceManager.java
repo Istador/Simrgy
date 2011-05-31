@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
 import javax.swing.ImageIcon;
@@ -44,8 +45,15 @@ public class RessourceManager {
 	
 	// Background Music
 	private static final byte[][] bg_music = {
-		getMusic("music/10 - The heaven is not so far.mp3")
+		getMusic("music/10 - The heaven is not so far.mp3"),	// Dj Fab - The heaven is not so far - cc by-nc-sa 2.0 fr
+		getMusic("music/01 - rebirth.mp3"),						// stefano mocini - rebirth - cc by-sa 3.0
+		getMusic("music/02 - Swashing the buck.mp3"),			// Celestial Aeon Project - Swashing the buck - cc by-nc-sa 3.0
+		getMusic("music/07 - Nubes.mp3"),						// Xera - Ñubes - cc by-nc-nd 3.0
+		getMusic("music/01 - Shoreless.mp3")					// Adult Only - Shoreless - cc by-nc-sa 3.0
 	};
+	
+	public static URL sAKWUnfall = RessourceManager.class.getResource("sounds/akw_warnung.wav");
+	public static URL sClick = RessourceManager.class.getResource("sounds/click.wav");
 	
 	public static byte[] getRandomBackgroundMusic(){
 		return bg_music[new Random().nextInt(bg_music.length)];
@@ -71,6 +79,8 @@ public class RessourceManager {
 	public static final Image akw_2 = new ImageIcon(RessourceManager.class.getResource("img/buildings/akw_2.png")).getImage();
 	public static final Image akw_3 = new ImageIcon(RessourceManager.class.getResource("img/buildings/akw_3.png")).getImage();
 	
+	public static final Image akw_unfall = new ImageIcon(RessourceManager.class.getResource("img/buildings/akw_unfall.png")).getImage();
+	
 	public static final Image windrad = new ImageIcon(RessourceManager.class.getResource("img/buildings/windrad.png")).getImage();
 	
 	public static final Image kohle = new ImageIcon(RessourceManager.class.getResource("img/buildings/kohle.png")).getImage();
@@ -85,7 +95,8 @@ public class RessourceManager {
 	public static final Image rEndlager = new ImageIcon(RessourceManager.class.getResource("img/research/endlager.png")).getImage();
 	public static final Image rGlueh = new ImageIcon(RessourceManager.class.getResource("img/research/glueh.png")).getImage();
 	public static final Image rWind = new ImageIcon(RessourceManager.class.getResource("img/research/2xwindrad.png")).getImage();
-	public static final Image rCO2 = new ImageIcon(RessourceManager.class.getResource("img/research/co2filter.png")).getImage();
+	public static final Image rKohle = new ImageIcon(RessourceManager.class.getResource("img/research/kohle.png")).getImage();
+	public static final Image rKohleCO2 = new ImageIcon(RessourceManager.class.getResource("img/research/co2filter.png")).getImage();
 	public static final Image rStaudamm = new ImageIcon(RessourceManager.class.getResource("img/research/extstaudamm.png")).getImage();
 	public static final Image rSolar = new ImageIcon(RessourceManager.class.getResource("img/research/solarpanel.png")).getImage();
 	public static final Image rSonne = new ImageIcon(RessourceManager.class.getResource("img/research/sonne.png")).getImage();
@@ -233,6 +244,7 @@ public class RessourceManager {
 	
 	public static final Color c_gridobj_build_todo = cLightGray;
 	public static final Color c_gridobj_build_done = cGreen;
+	public static final Color c_gridobj_build_deploy = cRed;
 	public static final Color c_gridobj_name = cBlack;
 	public static final Color c_gridobj_namebg = cWhite;
 	

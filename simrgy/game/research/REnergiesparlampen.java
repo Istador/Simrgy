@@ -25,7 +25,7 @@ public class REnergiesparlampen extends ResearchAbstract {
 	public Image getImage() {return rGlueh;}
 	
 	public void researchEffect(Game g) {
-		// TODO
+		g.rNightEnergy /= 2.0; //halbiere den nächtlichen Energiebedarf 
 	}
 
 }

@@ -21,7 +21,7 @@ public class GameThread extends Thread{
 				{
 				//60s = 1 Jahr (Bauzeit, Geld, Strom)
 				//240s = 1 Tag (Sonne)
-				main.getGame().tick(timeDiff);
+				main.getGame().tick((long)(timeDiff*main.getGraphic().getSettings().speed));
 				main.repaint();
 				}
 		}

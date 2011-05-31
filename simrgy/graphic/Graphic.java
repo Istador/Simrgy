@@ -30,14 +30,21 @@ public class Graphic implements GraphicObject {
 	public Graphic(Main m){
 		main = m;
 		
-		map = new Map(this);
-		gui = new GUI(this);
+		init();
+		
 		menu = new Menu(this);
 		highscore = new Highscore(this);
 		settings = new Settings(this);
 		about = new About(this);
 		intro = new Intro(this);
+
 		show = menu;
+	}
+	
+	public void init(){
+		map = new Map(this);
+		gui = new GUI(this);
+		
 	}
 	
 	public void draw(){

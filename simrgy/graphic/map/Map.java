@@ -32,10 +32,16 @@ public class Map implements GraphicObject {
 	}
 
 	public void click(int x, int y) {
-		grid.click(x, y);
+		if(x>=0 && x<=width && y>=0 && y<=height)
+			grid.click(x, y);
 	}
 	
-	public void mouseOver(int x, int y) {getGrid().mouseOver(x, y);}
+	public void mouseOver(int x, int y) {
+		if(x>=0 && x<=width && y>=0 && y<=height)
+			getGrid().mouseOver(x, y);
+		else
+			getGrid().mouseOut();
+	}
 	public void mouseOut() {getGrid().mouseOut();}
 
 	

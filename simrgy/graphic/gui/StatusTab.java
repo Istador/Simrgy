@@ -42,7 +42,7 @@ public class StatusTab implements GraphicObject {
 		g.drawString(df_float1.format(getMain().getGame().windpower*74.0)+" km/h", tright, ttop);
 		ttop+=20;
         g.drawString("Sonnenintensität:", tleft, ttop);
-        g.drawString(df_int.format(getMain().getGame().sonnenintensität*100.0)+" %", tright, ttop);
+        g.drawString(df_int.format(getMain().getGame().sonnenintensitaet*100.0)+" %", tright, ttop);
 		
 		ttop+=40;
 		
@@ -84,6 +84,21 @@ public class StatusTab implements GraphicObject {
         g.drawString("Atommüll:", tleft, ttop);
         g.drawString(df_int.format(getMain().getGame().uran_max-getMain().getGame().uran)+" kg", tright-14, ttop);
         
+        ttop+=40;
+        g.drawString("Gewinn:", tleft, ttop);
+        g.drawString(df_money.format((long)getMain().getGame().gewinn)+" €/s", tright, ttop);
+        ttop+=20;
+        g.drawString("Inland Verkauf:", tleft, ttop);
+        g.drawString(df_money.format((long)getMain().getGame().gewinn_inland)+" €/s", tright, ttop);
+        ttop+=20;
+        g.drawString("Ausland Verkauf:", tleft, ttop);
+        g.drawString(df_money.format((long)getMain().getGame().gewinn_ausland)+" €/s", tright, ttop);
+        ttop+=20;
+        g.drawString("Ausland Einkauf:", tleft, ttop);
+        g.drawString(df_money.format((long)(getMain().getGame().verlust_ausland*-1.0))+" €/s", tright, ttop);
+        ttop+=20;
+        g.drawString("Gebäudekosten:", tleft, ttop);
+        g.drawString(df_money.format((long)(getMain().getGame().verlust_gebauedekosten*-1.0))+" €/s", tright, ttop);
 	}
 
 	public void click(int x, int y) {}

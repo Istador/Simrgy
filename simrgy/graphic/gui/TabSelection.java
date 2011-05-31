@@ -42,6 +42,7 @@ public class TabSelection implements GraphicObject {
 	public void click(int x, int y) {
 		GraphicObject tmp = selectedTab;
 		//einfache Tab-Auswahl (ohne round edge)
+		getMain().play(sClick);
 		if(x<left+width && x>left+tabwidth*2) selectedTab=getResearchTab();
 		else if(x<left+width && x>left+tabwidth) selectedTab=getBuildTab();
 		else if(x<left+width && x>left) selectedTab=getStatusTab();

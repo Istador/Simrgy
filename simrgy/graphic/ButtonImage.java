@@ -74,7 +74,10 @@ public class ButtonImage implements Button {
 		
 	}
 
-	public void click() { if(action != null) action.run(); }
+	public void click() { 
+		getMain().play(sClick);
+		if(action != null){ action.run(); } 
+	}
 	public void click(int x, int y) { if(contains(x,y)) click(); }
 
 	public void mouseOver() {highlight = true;}

@@ -2,8 +2,10 @@ package simrgy.graphic.map;
 
 import simrgy.applet.*;
 import simrgy.game.*;
+import simrgy.game.buildings.AKW;
 import simrgy.graphic.GraphicObject;
 import simrgy.graphic.RechtsklickTab;
+import simrgy.res.RessourceManager;
 import static simrgy.res.RessourceManager.*;
 
 import java.awt.Graphics;
@@ -36,8 +38,11 @@ public class GridObject implements GraphicObject {
 	}
 	
 	public void draw(){
-		
 		Graphics g = getBackbuffer();
+		boolean unfall = building instanceof AKW && ((AKW)building).unfall;
+		if(unfall){
+			this.highlightRed();
+		}
 		//Highlight
 		if(highlightColor != null){
 			g.setColor(highlightColor);
@@ -46,14 +51,36 @@ public class GridObject implements GraphicObject {
 		}
 		//Image
 		g.drawImage(building.getImage(), left, top, width, height, null);
+		if(unfall){
+			g.drawImage(RessourceManager.akw_unfall, left, top, width, height, null);
+		}
 		//Baustatus
 		if(building.getBaustatus() < 1.0){
-			g.setColor(c_gridobj_build_todo);
+			g.setColor(c_gridobj_build_todo); 
 			g.fillRect(left+1, top+height-5, width-1, 5);
-			g.setColor(c_gridobj_build_done);
+			if(building.isDeploying()) g.setColor(c_gridobj_build_deploy);
+			else g.setColor(c_gridobj_build_done);
 			g.fillRect(left+1, top+height-5, (int)((width-1)*building.getBaustatus()), 5);
-			//System.out.println(building.getBaustatus());
 		}
+		//Modulanzahl
+		if(building.drawModules()){
+			g.setFont(f_gridobj_nameplate);
+			//Stringausmaße
+			String str = String.valueOf(building.activeModules());
+			int[] f = f_size(g, f_gridobj_nameplate, str);
+			int strheight = f[0];
+			int strwidth = f[1]; 
+			//String positionen
+			int strtop = top+strheight+1+(getMain().getGraphic().getSettings().drawgrid?1:0);
+			int strleft = left+width-strwidth-1;
+			//White Hintergrund
+			g.setColor(c_gridobj_namebg);
+			g.fillRect(strleft-1, strtop-strheight-1, strwidth+2, strheight+2);
+			//String zeichnen
+			g.setColor(c_gridobj_name);
+			g.drawString(str, strleft, strtop);
+		}
+		
 		//Name
 		if(showName){
 			//Schriftart
@@ -79,16 +106,17 @@ public class GridObject implements GraphicObject {
 			g.drawString(name, strleft, strtop);
 		}
 	}
-	public void click(){
-		//System.out.println(building.getName()+" clicked");
-		RechtsklickTab.getInstance().run(building);
-	}
-	public void click(int x, int y){click();}
-	public void mouseOver(){highlightYellow(); this.showName = true;}
-	public void mouseOver(int x, int y){mouseOver();}
-	public void mouseOut(){highlightNone(); this.showName = false;}
+	public void click(){ RechtsklickTab.getInstance().run(building); }
+	public void click(int x, int y){ if(contains(x,y)) click(); }
+	public void mouseOver(){ highlightYellow(); this.showName = true; }
+	public void mouseOver(int x, int y){ if(contains(x,y)) mouseOver(); }
+	public void mouseOut(){ highlightNone(); this.showName = false; }
 	
-	public void highlightRed(){highlightColor=cRed30;}
+	public boolean contains(int x, int y){
+		return x>=left && x<=left+width && y>=top && y<=top+height;
+	}
+	
+	public void highlightRed(){highlightColor=cRed60;}
 	public void highlightYellow(){highlightColor=cYellow30;}
 	public void highlightNone(){highlightColor=null;}
 	

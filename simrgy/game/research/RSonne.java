@@ -25,7 +25,7 @@ public class RSonne extends ResearchAbstract {
 	public Image getImage() {return rSonne;}
 	
 	public void researchEffect(Game g) {
-		// TODO
+		g.rSolarEnergy *= 2.0; //verdoppele die erzeugte Energie der Sonne
 	}
 
 }

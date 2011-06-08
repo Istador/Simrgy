@@ -27,7 +27,6 @@ public class RAKW3 extends ResearchAbstract {
 	public Image getImage() {return rEndlager;}
 	
 	public void researchEffect(Game g) {
-		// TODO 
 		/* Ausgabe: 
 		 *  Forschung "Endlager finden" abgeschlossen!
 		 *  

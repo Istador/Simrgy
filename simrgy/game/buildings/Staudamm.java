@@ -19,13 +19,14 @@ public class Staudamm extends BuildingAbstract implements Building {
         super(g, name);
         
 		underground = 4; // Fluss benötigt
-		max_modules = 5;
+		max_modules = 1;
 		bauzeit_per_module = 60000; //10Jahre Bauzeit -> 1 Minute -> 1:0 -> 60s
 		baukosten_per_module = 600000000.0; //600,0 Mio per Module
         
-        actions.add(Rename.getInstance());
-        actions.add(IncModules.getInstance());
-        actions.add(Deploy.getInstance());
+        actions.add(ARename.getInstance());
+        actions.add(AIncModules.getInstance());
+        actions.add(ADeploy.getInstance());
+        actions.add(ACancel.getInstance());
     }
     
     public double getMoneyCostH(){return getPersonal() * getGame().getPersonalkosten();}
@@ -74,4 +75,6 @@ public class Staudamm extends BuildingAbstract implements Building {
     }
     
     public int getUnderground(){return underground;}
+    
+	public boolean drawModules(){return false;}
 }

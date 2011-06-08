@@ -1,7 +1,6 @@
 package simrgy.applet;
 
 import java.applet.Applet;
-
 import java.awt.*;
 import java.awt.event.*;
 
@@ -45,7 +44,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener, 
 	public void start(){
 		setSize(width, height);
 		gt = new GameThread(this);
-		gt.start();
+		gt.start();		
 	}
 	
 	public void stop(){

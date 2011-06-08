@@ -21,9 +21,10 @@ public class Windrad extends BuildingAbstract implements Building {
 		bauzeit_per_module = 5000; //4 Wochen -> 1 Minuten / 12 -> 5 Sekunden
 		baukosten_per_module = 3570000.0; //pro Rad
 		
-		actions.add(Rename.getInstance());
-		actions.add(IncModules.getInstance());
-		actions.add(Deploy.getInstance());
+		actions.add(ARename.getInstance());
+		actions.add(AIncModules.getInstance());
+		actions.add(ADeploy.getInstance());
+		actions.add(ACancel.getInstance());
 	}
 	
 	public static Windrad newFinishedWindrad(Game g, String name, int module){

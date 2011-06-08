@@ -18,13 +18,14 @@ public class Solar extends BuildingAbstract implements Building {
         super(g, name);
         
 		underground = 1; //Land benötigt
-		max_modules = 5;
+		max_modules = 6;
 		bauzeit_per_module = 12000; //2 Jahre
 		baukosten_per_module = 130000000.0; //pro Rad
         
-        actions.add(Rename.getInstance());
-        actions.add(IncModules.getInstance());
-        actions.add(Deploy.getInstance());
+        actions.add(ARename.getInstance());
+        actions.add(AIncModules.getInstance());
+        actions.add(ADeploy.getInstance());
+        actions.add(ACancel.getInstance());
     }
     
 	public static Solar newFinishedSolar(Game g, String name, int module){
@@ -54,42 +55,4 @@ public class Solar extends BuildingAbstract implements Building {
     public Image getImage(){ return RessourceManager.solar; }
 
     public int getPersonal(){ return personal_per_module * modules; }
-    
-    /*
-    public long getBauzeit() { return bauzeit_per_module; }
-    public double getBaukosten() { return baukosten_per_module * modules; }
-        
-	public boolean newModule(){
-		if(!moreModulesPossible()) return false;
-		getGame().money-=baukosten_per_module;
-		modules++;
-		return true;
-	}
-	
-	public boolean moreModulesPossible(){
-		if(baukosten_per_module>=game.money) return false;
-		return modules+1<=max_modules;
-	}
-    
-    public void tick(long miliseconds){
-        //bau im gange
-        long max_bauzeit = modules * bauzeit_per_module; 
-        if( building && max_bauzeit > bauzeit_so_far ){
-            bauzeit_so_far += miliseconds;
-            bauzeit_so_far = (bauzeit_so_far > max_bauzeit ? max_bauzeit : bauzeit_so_far) ; 
-        }   
-		else if(!building){
-			bauzeit_so_far -= miliseconds*2;
-			bauzeit_so_far = (bauzeit_so_far < 0 ? 0 : bauzeit_so_far) ;
-			if(bauzeit_so_far == 0) game.removeBuilding(this);
-		}
-    }
-    
-    public double getBaustatus() 
-    { 
-        return (double)bauzeit_so_far / ( (double)modules * (double)bauzeit_per_module ); 
-    }
-    
-    public int getUnderground(){return underground;}
-    */
 }

@@ -22,9 +22,10 @@ public class Kohle extends BuildingAbstract implements Building {
 		bauzeit_per_module = 24000;
 		baukosten_per_module = 478800000.0; //478,8 Mio per Module
 		
-		actions.add(Rename.getInstance());
-		actions.add(IncModules.getInstance());
-		actions.add(Deploy.getInstance());
+		actions.add(ARename.getInstance());
+		actions.add(AIncModules.getInstance());
+		actions.add(ADeploy.getInstance());
+		actions.add(ACancel.getInstance());
 	}
 
 	public static Kohle newFinishedKohle(Game g, String name, int module, double mw){

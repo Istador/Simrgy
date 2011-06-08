@@ -35,6 +35,7 @@ public class StatusTab implements GraphicObject {
 		
 		g.drawString("Zeit:", tleft, ttop);
 		g.drawString(String.valueOf(getMain().getGame().time/1000), tright, ttop);
+		//TODO: Anzeige als Xh Ym Zs
 		
 		ttop+=40;
 		

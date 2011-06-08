@@ -104,6 +104,7 @@ public class Graphic implements GraphicObject {
 	public Highscore getHighscore() {return highscore;}
 	public Graphics getBackbuffer(){return getMain().getBackbuffer();}
 	public void keyPress(KeyEvent ke){
+		//TODO: beim drücken von Escape Menü anzeigen, für Einstellungen, und Aufgeben.
 		if(overlay != null)
 			overlay.keyPress(ke);
 	}

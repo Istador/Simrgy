@@ -9,13 +9,13 @@ import simrgy.game.Building;
 import simrgy.graphic.OverlayBuilding;
 import simrgy.graphic.GraphicObject;
 
-public class Rename implements Action {
+public class ARename implements Action {
 
 	//Singleton
-	private Rename(){}
+	private ARename(){}
 	protected static Action instance = null;
 	public static Action getInstance(){
-		if(instance==null) instance = new Rename();
+		if(instance==null) instance = new ARename();
 		return instance;
 	}
 	
@@ -114,7 +114,7 @@ public class Rename implements Action {
 	}
 
 	
-	public String getName(){
+	public String getName(Building b){
 		return "Umbenennen";
 	}
 	

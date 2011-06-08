@@ -106,7 +106,10 @@ public class GridObject implements GraphicObject {
 			g.drawString(name, strleft, strtop);
 		}
 	}
-	public void click(){ RechtsklickTab.getInstance().run(building); }
+	public void click(){ 
+		getMain().play(sClick);
+		RechtsklickTab.getInstance().run(building);
+	}
 	public void click(int x, int y){ if(contains(x,y)) click(); }
 	public void mouseOver(){ highlightYellow(); this.showName = true; }
 	public void mouseOver(int x, int y){ if(contains(x,y)) mouseOver(); }

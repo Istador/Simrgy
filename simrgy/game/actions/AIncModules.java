@@ -1,16 +1,17 @@
 package simrgy.game.actions;
 
 
+import static simrgy.res.RessourceManager.df_money;
 import simrgy.game.Action;
 import simrgy.game.Building;
 
-public class IncModules implements Action {
+public class AIncModules implements Action {
 
 	//Singleton
-	private IncModules(){}
+	private AIncModules(){}
 	protected static Action instance = null;
 	public static Action getInstance(){
-		if(instance==null) instance = new IncModules();
+		if(instance==null) instance = new AIncModules();
 		return instance;
 	}
 	
@@ -21,8 +22,8 @@ public class IncModules implements Action {
 	}
 
 	
-	public String getName(){
-		return "weiteres Modul";
+	public String getName(Building b){
+		return "Weiteres Modul(-"+df_money.format((long)b.getBaukostenPerModule())+"€)";
 	}
 	
 	public boolean isPossible(Building b){

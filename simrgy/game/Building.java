@@ -23,6 +23,7 @@ public interface Building {
 	public int getPersonal();
 	public long getBauzeit();
 	public double getBaukosten();
+	public double getBaukostenPerModule();
 	
 	public double getBaustatus(); // 0.0 - 1.0
 	

@@ -49,31 +49,32 @@ public class ResearchTab implements GraphicObject {
 		r = RAKW3.getInstance();
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+15+2*box, top+5, box, box, null);
 		buttons.put(but, r);
-		//Energiesparlampen
-		r = REnergiesparlampen.getInstance();
-		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+10+box, box, box, null);
-		buttons.put(but, r);
-		//Solarpanel
-		r = RSolar.getInstance();
-		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+10+box, top+10+box, box, box, null);
-		buttons.put(but, r);
-		//Sonnenoutput
-		r = RSonne.getInstance();
-		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+15+2*box, top+10+box, box, box, null);
-		buttons.put(but, r);
-		//2x Windräder
-		r = R2XWind.getInstance();
-		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+15+2*box, box, box, null);
-		buttons.put(but, r);
+		
 		//Kohle Vorräte
 		r = RKohleVorrat.getInstance();
-		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+20+3*box, box, box, null);
+		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+10+box, box, box, null);
 		buttons.put(but, r);
 		//Kohle CO2-Filter
 		r = RKohleCO2.getInstance();
-		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+10+box, top+20+3*box, box, box, null);
+		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+10+box, top+10+box, box, box, null);
 		buttons.put(but, r);
 		
+		//Energiesparlampen
+		r = REnergiesparlampen.getInstance();
+		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+15+2*box, box, box, null);
+		buttons.put(but, r);
+		//Solarpanel
+		r = RSolar.getInstance();
+		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+10+box, top+15+2*box, box, box, null);
+		buttons.put(but, r);
+		//Sonnenoutput
+		r = RSonne.getInstance();
+		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+15+2*box, top+15+2*box, box, box, null);
+		buttons.put(but, r);
+		//2x Windräder
+		r = R2XWind.getInstance();
+		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+20+3*box, box, box, null);
+		buttons.put(but, r);		
 	}
 	
 	public void draw() {

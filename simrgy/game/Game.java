@@ -5,6 +5,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import simrgy.applet.Main;
+import simrgy.applet.Music;
 import simrgy.game.buildings.AKW;
 import simrgy.game.buildings.HQ;
 import simrgy.game.buildings.Kohle;
@@ -12,6 +13,8 @@ import simrgy.game.buildings.Solar;
 import simrgy.game.buildings.Staudamm;
 import simrgy.game.buildings.Windrad;
 import simrgy.graphic.map.Grid;
+import simrgy.graphic.menu.GameOverMoney;
+import simrgy.graphic.menu.SteigenderStrombedarf;
 
 public class Game {
 
@@ -30,6 +33,7 @@ public class Game {
 	public double rKohleCO2;
 	
 	public double money; // Geld in €
+	public double money_min; //minimales geld. alles dadrunter führt zum GameOver
 	public long time; // millisekunden runtime
 	private long last_update_time;
 	protected boolean running;
@@ -84,6 +88,7 @@ public class Game {
 	
 		running = false;
 		money = 100000000.0;
+		money_min = -500000000.0;
 		time = 0;
 		last_update_time=time;
 
@@ -108,10 +113,10 @@ public class Game {
     	rWindBuildTime = 1.0;
     	rKohleCO2 = 1.0;
         
-    	uran = 20000;
-    	uran_max = 20000;
-    	kohle = 50000;
-    	kohle_max = 50000;
+    	uran = 30000;
+    	uran_max = 30000;
+    	kohle = 150000;
+    	kohle_max = 15000;
 		
 		personal = 0;
 		zufriedenheit = 50.0;
@@ -215,14 +220,19 @@ public class Game {
 		
 	}
 	
-	public void start(){ running = true; }
+	public void start(){
+		if(getMain().getGraphic().getSettings().music)
+			Music.play_music();
+		running = true;
+	}
+	
 	public void pause(){ running = !running; }
 	public void restart(){ stop(); start(); }
-	public void stop(){ getMain().getGraphic().init(); init(); }
+	public void stop(){ Music.stop_music(); getMain().getGraphic().init(); init();  }
 	
 	public boolean buildBuilding(int x, int y, Building b){
 		if( (getBautyp(x,y) & b.getUnderground()) != 0 ){
-			if( money-b.getBaukosten()>=0 && placeBuilding(x,y,b) ){
+			if( moneySubValid(b.getBaukosten()) && placeBuilding(x,y,b) ){
 				money -= b.getBaukosten();
 				return true;
 			}
@@ -348,8 +358,8 @@ public class Game {
 					if(ansteigender_strombedarf_zeitpunkt==0)
 						ansteigender_strombedarf_zeitpunkt = time;
 					double tmp = ((double)(time - ansteigender_strombedarf_zeitpunkt))/1000.0 ;
-					strombedarf += tmp*10.0; //ansteigender Strombedarf (10MW/s)
-					max_strombedarf += tmp*10.0; //ansteigender Strombedarf (10MW/s)	
+					strombedarf += tmp*50.0; //ansteigender Strombedarf (50MW/s)
+					max_strombedarf += tmp*50.0; //ansteigender Strombedarf (50MW/s)	
 				}
 				strombedarf += 12500.0 * rNightEnergy * Math.sin(((time/100.0)%360.0)/180.0*Math.PI);
 				strombedarf = (strombedarf >= max_strombedarf ? max_strombedarf : strombedarf ); //nicht > als max
@@ -405,6 +415,9 @@ public class Game {
 					verkauf_inland = mw;
 					einkauf_ausland = strombedarf-mw;
 				}
+				//um Anzeigefehler zu verhindern
+				if(mw>=max_strombedarf)
+					max_strombedarf=mw;
 				
 				gewinn_inland = verkauf_inland * getStrompreis();
 				gewinn_ausland = verkauf_ausland * getStrompreis() * 0.5; //ins ausland verkaufen (weniger Gewinn als im eigenem Land)
@@ -450,11 +463,32 @@ public class Game {
 			}
 			research_mutex.unlock();
 			
-			//Spezielle Gebäudefunktionen
-			//...
 			
 			//Zufällige Ereignisse
-			//...
+			
+			//ab 15.000.000 Euro Gewinn steigender Strombedarf
+			if(!ansteigender_strombedarf && gewinn>=15000000.0){
+				ansteigender_strombedarf = true;
+				getMain().getGraphic().setOverlay(new SteigenderStrombedarf(this));
+			}
+			//oder, nach 10min
+			else if (!ansteigender_strombedarf && time>=600000 )
+			
+			//Uranvorkommen auf 0 gefallen
+			if(uran==0){
+				//TODO popup
+			}
+			
+			//Kohlevorkommen auf 0 gefallen
+			if(kohle==0){
+				//TODO popup
+			}
+			
+			//Game Over: zu wenig Geld
+			if(money<money_min){
+				getMain().getGraphic().setOverlay(new GameOverMoney(this));
+			}
+			
 		}
 	}
 	
@@ -492,6 +526,10 @@ public class Game {
 		researching.put(r, (long) 0);
 		research_mutex.unlock();
 		return true;
+	}
+	
+	public boolean moneySubValid(double m){
+		return ( this.money-m >= this.money_min );
 	}
 	
 	public Main getMain(){return main;}

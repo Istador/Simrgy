@@ -7,9 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -24,6 +21,7 @@ public class RessourceManager {
 	 */
 		
 	//zum einmaligem laden beim systemstart, und nicht immer wieder neu wärend des progs
+	/*
 	private static byte[] getMusic(String filename){
 		byte[] result = null;
 		try {
@@ -52,10 +50,24 @@ public class RessourceManager {
 		getMusic("music/01 - Shoreless.mp3")					// Adult Only - Shoreless - cc by-nc-sa 3.0
 	};
 	
+	*/
+	//TODO: übers Netzwerk im Browser brauch er zu lange zum Laden, und startet erst gar nicht ... :/ 
+	//TODO: lege Set<String,ByteArray> an, in der die Musikstücke nur beim erstmaligem laden reinkommen.
+	
+	private static final String[] bg_music = {
+		"music/10 - The heaven is not so far.mp3",	// Dj Fab - The heaven is not so far - cc by-nc-sa 2.0 fr
+		"music/01 - rebirth.mp3",					// stefano mocini - rebirth - cc by-sa 3.0
+		"music/02 - Swashing the buck.mp3",			// Celestial Aeon Project - Swashing the buck - cc by-nc-sa 3.0
+		"music/07 - Nubes.mp3",						// Xera - Ñubes - cc by-nc-nd 3.0
+		"music/01 - Shoreless.mp3"					// Adult Only - Shoreless - cc by-nc-sa 3.0
+	};
+	
 	public static URL sAKWUnfall = RessourceManager.class.getResource("sounds/akw_warnung.wav");
 	public static URL sClick = RessourceManager.class.getResource("sounds/click.wav");
 	
-	public static byte[] getRandomBackgroundMusic(){
+	//public static URL vAtom = RessourceManager.class.getResource("explosion.mpg");
+	
+	public static String getRandomBackgroundMusic(){
 		return bg_music[new Random().nextInt(bg_music.length)];
 	}
 	

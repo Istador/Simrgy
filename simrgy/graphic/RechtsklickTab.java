@@ -49,10 +49,11 @@ public class RechtsklickTab implements Action{
 				for(Action a : building.getActions()){
 					if(a.isPossible(building)){
 						size++;
-						int name_width = f_size(getBackbuffer(), f_rclick_button, a.getName())[1] + 10;
+						int name_width = f_size(getBackbuffer(), f_rclick_button, a.getName(building))[1] + 10;
 						if(tmp_width<name_width) tmp_width = name_width;
 					}
 				}
+				
 				
 				width = tmp_width + 30;
 				height = 25+caption_height+5+25*size;
@@ -69,7 +70,7 @@ public class RechtsklickTab implements Action{
 						actions.put(a, b);
 						btop+=25;
 					}
-				}
+				}				
 			}
 			
 			public void draw() {
@@ -93,7 +94,7 @@ public class RechtsklickTab implements Action{
 					}
 					g.setColor(cBlack);
 					g.drawRect((int)b.getX(), (int)b.getY(), (int)b.getWidth(), (int)b.getHeight());
-					String name = a.getName();
+					String name = a.getName(building);
 					int[] bound = f_size(g, f_rclick_button, name);
 					int name_height = bound[0];
 					int name_width = bound[1];
@@ -136,7 +137,7 @@ public class RechtsklickTab implements Action{
 	}
 	
 	
-	public String getName(){
+	public String getName(Building b){
 		return "Aktionsauswahl";
 	}
 	

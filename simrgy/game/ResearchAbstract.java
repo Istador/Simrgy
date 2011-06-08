@@ -29,7 +29,7 @@ public abstract class ResearchAbstract implements Research{
 	
 	public double getKosten(){return kosten;}
 	public boolean enoughMoney(Game g){
-		return g.money-getKosten() >= 0;
+		return g.moneySubValid(getKosten());
 	}
 	
 	public long getForschungszeit(){

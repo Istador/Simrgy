@@ -1,18 +1,19 @@
 package simrgy.applet;
 
 import static simrgy.res.RessourceManager.*;
-import java.io.ByteArrayInputStream;
+
+import simrgy.res.RessourceManager;
 import javazoom.jl.player.*;
 
 public class Music extends Thread {
 	
-	public static boolean playMusic = true; 
+	private static boolean playMusic = false;
 	private Player mp;
 		
 	public void run(){
 		try {
 			while(playMusic){
-				mp = new Player(new ByteArrayInputStream(getRandomBackgroundMusic()));
+				mp = new Player(RessourceManager.class.getResourceAsStream(getRandomBackgroundMusic()));
 				mp.play();
 			}
 			
@@ -28,7 +29,7 @@ public class Music extends Thread {
 	private static Music thread;
 	
 	public static void play_music(){
-		if(thread==null){
+		if(thread==null && !playMusic){
 			playMusic = true;
 			thread = new Music();
 			thread.start();
@@ -36,7 +37,7 @@ public class Music extends Thread {
 	}
 	
 	public static void stop_music(){
-		if(thread!=null){
+		if(thread!=null  && playMusic){
 			playMusic = false;
 			thread.close();
 			thread = null;

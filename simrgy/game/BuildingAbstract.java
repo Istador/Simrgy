@@ -52,7 +52,8 @@ public abstract class BuildingAbstract implements Building {
 	public Game getGame(){return game;}
 	
 	public boolean enoughMoney(){
-		return game.money >= getBaukosten();
+		return game.moneySubValid(getBaukosten());
+		//return game.money >= getBaukosten();
 	}
 	
 	public void deploy(){
@@ -91,7 +92,7 @@ public abstract class BuildingAbstract implements Building {
 	}
 	
 	public boolean moreModulesPossible(){
-		if(baukosten_per_module>=game.money) return false;
+		if(!game.moneySubValid(baukosten_per_module)) return false;
 		return modules+1<=max_modules;
 	}
 	
@@ -108,6 +109,10 @@ public abstract class BuildingAbstract implements Building {
 
 	public double getBaukosten() {
 		return baukosten_per_module * (double)modules;
+	}
+	
+	public double getBaukostenPerModule() {
+		return baukosten_per_module;
 	}
 	
 	public int getUnderground(){return underground;}

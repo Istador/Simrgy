@@ -13,7 +13,7 @@ public class RAKW1 extends ResearchAbstract {
 	private static RAKW1 instance = null;
 	public static RAKW1 getInstance(){
 		if(instance==null){
-			instance = new RAKW1("Uranvorkommen suchen", "+10.000 Uran", null, 250000000.0, 30000 );
+			instance = new RAKW1("Uranvorkommen suchen", "+20.000 Uran", null, 300000000.0, 30000 );
 		}
 		return instance;
 	}
@@ -25,8 +25,8 @@ public class RAKW1 extends ResearchAbstract {
 	public Image getImage() {return rUran;}
 	
 	public void researchEffect(Game g) {
-		g.uran += 10000;
-		g.uran_max += 10000;
+		g.uran += 20000;
+		g.uran_max += 20000;
 	}
 
 }

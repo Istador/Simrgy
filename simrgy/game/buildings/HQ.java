@@ -2,6 +2,7 @@ package simrgy.game.buildings;
 
 import java.awt.Image;
 import simrgy.game.*;
+import simrgy.game.actions.ACancel;
 import simrgy.res.RessourceManager;
 
 public class HQ extends BuildingAbstract implements Building {
@@ -15,6 +16,8 @@ public class HQ extends BuildingAbstract implements Building {
 		max_modules = 1;
 		bauzeit_per_module = 1;
 		baukosten_per_module = 0.0;
+		
+		actions.add(ACancel.getInstance());
 	}
 
 	public double getMoneyCostH(){return 0.0;}

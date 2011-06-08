@@ -13,13 +13,13 @@ import simrgy.graphic.ButtonCenteredText;
 import simrgy.graphic.GraphicObject;
 import simrgy.graphic.OverlayBuilding;
 
-public class Deploy implements Action {
+public class ADeploy implements Action {
 
 	//Singleton
-	private Deploy(){}
+	private ADeploy(){}
 	protected static Action instance = null;
 	public static Action getInstance(){
-		if(instance==null) instance = new Deploy();
+		if(instance==null) instance = new ADeploy();
 		return instance;
 	}
 	
@@ -105,8 +105,8 @@ public class Deploy implements Action {
 	}
 
 	
-	public String getName(){
-		return "abreiﬂen";
+	public String getName(Building b){
+		return "Abreiﬂen (+"+df_money.format((long)(b.getBaukosten()/4.0))+"Ä)";
 	}
 	
 	public boolean isPossible(Building b){

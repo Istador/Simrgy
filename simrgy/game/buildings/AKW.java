@@ -4,6 +4,7 @@ import java.awt.*;
 
 import simrgy.game.*;
 import simrgy.game.actions.*;
+import simrgy.graphic.menu.GameOverExplosion;
 import static simrgy.res.RessourceManager.*;
 
 public class AKW extends BuildingAbstract implements Building {
@@ -24,16 +25,18 @@ public class AKW extends BuildingAbstract implements Building {
 		bauzeit_per_module = 90000; //10-20 Jahre Bauzeit -> 1-2 Minuten -> 1:30 -> 90s
 		baukosten_per_module = 5000000000.0; // 5 Mrd.
 		
-		actions.add(Rename.getInstance());
-		actions.add(IncModules.getInstance());
-		actions.add(Deploy.getInstance());
+		actions.add(ARename.getInstance());
+		actions.add(ALequidatoren.getInstance());
+		actions.add(AIncModules.getInstance());
+		actions.add(ADeploy.getInstance());
+		actions.add(ACancel.getInstance());
 		setPersonal(personal);
 	}
 	
 	public static AKW newAKW(Game g, String name, int module){
 		AKW ret = new AKW(g, name);
 		ret.modules=module;
-		if(!ret.moreModulesPossible()) ret.removeAction(IncModules.getInstance());
+		if(!ret.moreModulesPossible()) ret.removeAction(AIncModules.getInstance());
 		return ret;
 	}
 	
@@ -99,20 +102,20 @@ public class AKW extends BuildingAbstract implements Building {
 	
 	//überschreiben für Atomaren-Unfall
 	public boolean unfall = false;
-	private long unfall_time = 0;
-	private long tick_time = 0;
+	public long unfall_time = 0;
+	public long unfall_tick = 0;
 	public void tick(long miliseconds){
 		super.tick(miliseconds);
 		if(unfall){
 			unfall_time+=miliseconds;
 			if(unfall_time >= 30000){ //30 Sekunden Zeit zu reagieren
-				game.stop();
+				game.getMain().getGraphic().setOverlay(new GameOverExplosion(getGame()));
 			}
 		}
-		else if(building && activeModules()>=1){
-			tick_time+=miliseconds;
-			long n = tick_time/10000; //alle 10 Sekunden
-			tick_time = tick_time%10000; //Rest
+		else if(building && game.uran>0 && activeModules()>=1){
+			unfall_tick+=miliseconds;
+			long n = unfall_tick/10000; //alle 10 Sekunden
+			unfall_tick = unfall_tick%10000; //Rest
 			for(int i=0; i<n; i++){
 				for(int j=0; j<activeModules(); j++){
 					//kann hochgehen

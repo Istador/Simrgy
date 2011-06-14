@@ -151,7 +151,7 @@ public class RessourceManager {
 	
 	public static final Font f_gridobj_nameplate = f_h16;
 	
-	public static final Font f_grid_prozent = f_h18;
+	public static final Font f_grid_prozent = f_h16;
 	
 	public static final Font f_rclick_text = f_h14;
 	public static final Font f_rclick_caption = f_h18;
@@ -167,7 +167,8 @@ public class RessourceManager {
 	public static final DecimalFormat df_int = new DecimalFormat("0");
 	public static final DecimalFormat df_float1 = new DecimalFormat("0.0");
 	public static final DecimalFormat df_float2 = new DecimalFormat("0.00");
-	
+	public static final DecimalFormat df_float3 = new DecimalFormat("0.000");
+	public static final DecimalFormat df_float4 = new DecimalFormat("0.0000");
 	
 	
 	

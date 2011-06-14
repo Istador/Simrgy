@@ -6,9 +6,9 @@ import java.awt.geom.Rectangle2D;
 
 import simrgy.game.Action;
 import simrgy.game.Building;
-import simrgy.game.actions.DecLeistung;
-import simrgy.game.actions.IncLeistung;
+import simrgy.game.actions.*;
 import simrgy.game.buildings.AKW;
+import simrgy.game.buildings.HQ;
 import static simrgy.res.RessourceManager.*;
 
 public class RechtsklickTab implements Action{
@@ -77,14 +77,36 @@ public class RechtsklickTab implements Action{
 				}	
 				
 				if(building instanceof AKW){
+					//Personalveränderungen
 					Rectangle b = new Rectangle();
 					b.setSize(15, 15);
-					b.setLocation(left+155, top+10+5+caption_height+5+40+5);					
+					b.setLocation(left+130, top+10+5+caption_height+5+40+5);					
+					actions.put(DecPersonal.getInstance(), b);
+					b = new Rectangle();
+					b.setSize(15, 15);
+					b.setLocation(left+130+20, top+10+5+caption_height+5+40+5);					
+					actions.put(IncPersonal.getInstance(), b);
+					
+					//Leistungsveränderungen
+					b = new Rectangle();
+					b.setSize(15, 15);
+					b.setLocation(left+width-10-10-30, top+10+5+caption_height+5+40+5);					
 					actions.put(DecLeistung.getInstance(), b);
 					b = new Rectangle();
 					b.setSize(15, 15);
-					b.setLocation(left+175, top+10+5+caption_height+5+40+5);					
+					b.setLocation(left+width-10-5-15, top+10+5+caption_height+5+40+5);					
 					actions.put(IncLeistung.getInstance(), b);
+				}
+				else if(building instanceof HQ){
+					//Strompreisveränderungen
+					Rectangle b = new Rectangle();
+					b.setSize(15, 15);
+					b.setLocation(left+155, top+10+5+caption_height+5+30);					
+					actions.put(DecStrompreis.getInstance(), b);
+					b = new Rectangle();
+					b.setSize(15, 15);
+					b.setLocation(left+155+20, top+10+5+caption_height+5+30);					
+					actions.put(IncStrompreis.getInstance(), b);
 				}
 			}
 			
@@ -102,22 +124,28 @@ public class RechtsklickTab implements Action{
 				//Draw Building Infos
 				g.setFont(f_rclick_text);
 				g.setColor(c_rclick_text);
-				//MW
-				g.drawString((int)building.getMW()+" MW", left+15, top+10+5+caption_height+5+10);
-				//Module
-				g.drawString(building.getModulesText()+" Module", left+15, top+10+5+caption_height+5+25);
-				//Personal
-				g.drawString(building.getPersonalText()+" Personal", left+15, top+10+5+caption_height+5+40);
 				//Geld
-				g.drawString(df_money.format((int)(building.getMW()*building.getGame().getStrompreis() - building.getMoneyCostH()))+" €/s", left+15, top+10+5+caption_height+5+55);
+				g.drawString(df_money.format((int)(building.getMW()*building.getGame().getStrompreis() - building.getMoneyCostH()))+" €/s", left+15, top+10+5+caption_height+5+10);
+				//MW
+				g.drawString((int)building.getMW()+" MW", left+15, top+10+5+caption_height+5+25);
+				//Module
+				g.drawString(building.getModulesText()+" Module", left+15, top+10+5+caption_height+5+40);
+				//Personal
+				g.drawString(building.getPersonalText()+" Personal", left+15, top+10+5+caption_height+5+55);
 				
-				//Sonne
-				g.drawString(String.valueOf((int)(getMain().getGame().getSolarPower(building)*100.0))+"% Sonne", left+155, top+10+5+caption_height+5+10);
-				//Wind
-				g.drawString(String.valueOf((int)(getMain().getGame().getWindpower(building)*100.0))+"% Wind", left+155, top+10+5+caption_height+5+25);
-				//Leistung
-				if(building instanceof AKW){
-					g.drawString(String.valueOf((int)(((AKW)building).getLeistung()*100.0)+"% Leistung"), left+155, top+10+5+caption_height+5+40 ); 
+				if(!(building instanceof HQ)){
+					//Sonne
+					g.drawString(String.valueOf((int)(getMain().getGame().getSolarPower(building)*100.0))+"% Sonne", left+155, top+10+5+caption_height+5+10);
+					//Wind
+					g.drawString(String.valueOf((int)(getMain().getGame().getWindpower(building)*100.0))+"% Wind", left+155, top+10+5+caption_height+5+25);
+					//Leistung
+					if(building instanceof AKW){
+						g.drawString(String.valueOf((int)(((AKW)building).getLeistung()*100.0)+"% Leistung"), left+155, top+10+5+caption_height+5+40 );
+					}
+				}
+				else{
+					g.drawString("Strompreis:", left+155, top+10+5+caption_height+5+10);
+					g.drawString(df_float3.format(getMain().getGame().strompreis)+" €/kWs", left+155, top+10+5+caption_height+5+25 );
 				}
 				
 				//Draw Actions

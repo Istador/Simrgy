@@ -41,7 +41,6 @@ public class StatusTab implements GraphicObject {
 		g.drawString("Zeit:", tleft, ttop);
 		g.drawString(String.valueOf(h)+"h "+String.valueOf(m)+"m "+String.valueOf(s)+"s", tright, ttop);
 		
-		
 		ttop+=40;
 		
 		g.drawString("Windstärke:", tleft, ttop); //max 74 km/h = stürmischer Wind

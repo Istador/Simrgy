@@ -49,7 +49,10 @@ public class ARename implements Action {
 			}
 			
 			protected void calc_constrains(){
-				name_width = f_size(getBackbuffer(), f_menu_smaltext, name)[1]; 
+				if(name.length()>0)
+					name_width = f_size(getBackbuffer(), f_menu_smaltext, name)[1];
+				else
+					name_width = 0;
 				
 				int tmp_width = ( name_width>caption_width ? name_width : caption_width );
 				width = tmp_width + 30;
@@ -97,7 +100,7 @@ public class ARename implements Action {
 				else if (kc==KeyEvent.VK_ESCAPE) {
 					getMain().getGraphic().removeOverlay();
 				}
-				else if(kc>=0x20 && kc<=0x7e && name.length()<=30){
+				else if( kc>=0x20 && kc<=0x7e && name.length()<=30){
 					name+=ke.getKeyChar();
 					calc_constrains();
 				}

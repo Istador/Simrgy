@@ -83,6 +83,10 @@ public class Game {
 	public double strombedarf; //in MW
 	public double max_strombedarf; //in MW
 	
+	public double strompreis;
+	public double strompreis_min;
+	public double strompreis_max;
+	
 	//Konstruktor
 	public Game(Main m){
 		main = m;
@@ -131,6 +135,10 @@ public class Game {
     	kohle_max = 150000;
     	kohle_zero_first = true;
 		
+    	strompreis = 0.2495; // 0,2495 €/kWh -> 249,5 €/MWh
+    	strompreis_min = 0.1;
+    	strompreis_max = 0.4;
+    	
 		personal = 0;
 		zufriedenheit = 50.0;
 		
@@ -333,7 +341,11 @@ public class Game {
 	}
 	
 	public double getStrompreis(){
-		return 249.5; // €/(MWh)
+		return strompreis*1000.0;
+	}
+	
+	public void setStrompreis(double preis){
+		strompreis = preis>strompreis_max ? strompreis_max : ( preis<strompreis_min ? strompreis_min : preis ) ;
 	}
 	
 	public double getPersonalkosten(){
@@ -348,6 +360,8 @@ public class Game {
 		//double tmp2 = strombedarf/100;
 		
 		//TODO Zufriedenheit verringern bei "Sonnenoutput erhöhen"
+		//TODO Zufriedenheit bei Liquidatoren verringern
+		//TODO Zufriedenheit von Strompreis abhängig machen
 		
 		if(mw < strombedarf){
 			tmp -= 1;

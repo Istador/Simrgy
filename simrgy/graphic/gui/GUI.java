@@ -37,7 +37,7 @@ public class GUI implements GraphicObject {
 
 	
 	protected void drawEnergy(Graphics g, int target, int actual){ //target & actual in %
-		int round = 30;
+		int round = 20;
 		int tmpwidth = 25;
 		boolean both = true;
 		java.awt.Color c1, c2 = null;
@@ -49,16 +49,16 @@ public class GUI implements GraphicObject {
 		int ztop = top+60+((height-61)-(height-61)*target/100);
 		int atop = top+60+((height-61)-(height-61)*actual/100);
         if(target > actual){ //zu wenig Strom
-        	top1=ztop;	c1 = cRed;
-        	top2=atop;	c2 = cGreen;
+        	top1=ztop;	c1 = c_gui_strom_ausland_einkauf;
+        	top2=atop;	c2 = c_gui_strom_inland;
         }
         else if( target < actual ){ //zu viel Strom
-        	top1=atop;	c1 = cYellow;
-        	top2=ztop;	c2 = cGreen;
+        	top1=atop;	c1 = c_gui_strom_ausland_verkauf;
+        	top2=ztop;	c2 = c_gui_strom_inland;
         }
         else{ //ausreichend Strom
         	both=false;
-        	top1=atop;	c1 = cGreen;      	
+        	top1=atop;	c1 = c_gui_strom_inland;      	
         }
         //Balken zeichnen
         g.setColor(c1);

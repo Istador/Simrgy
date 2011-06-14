@@ -4,6 +4,7 @@ import java.awt.Image;
 
 import simrgy.game.*;
 import simrgy.game.actions.*;
+import simrgy.game.research.RSolarPlus;
 import simrgy.res.RessourceManager;
 
 //Photovoltaikanlage
@@ -34,16 +35,10 @@ public class Solar extends BuildingAbstract implements Building {
 		ret.bauzeit_so_far = ret.bauzeit_per_module * ret.modules;
 		return ret;
 	}
-    
-    public double getMoneyCostH()
-    {
-        return getPersonal() * getGame().getPersonalkosten();
-    }
-    
-    public double getMW()
-    {
+        
+    public double getMW(){
         //Pro Solarkraftwerk: 10-40 MW, Wetterabhängig
-        double pro = 10.0 + 30.0 * getGame().getSolarPower(this);
+        double pro = 10.0 + 30.0 * getGame().getSolarPower(this) * getGame().sonnenintensitaet;
         return pro * activeModules() * getGame().rSolarEnergy;
     }
     public String getBuildingMWText(){return "10-40";}
@@ -55,4 +50,23 @@ public class Solar extends BuildingAbstract implements Building {
     public Image getImage(){ return RessourceManager.solar; }
 
     public int getPersonal(){ return personal_per_module * modules; }
+    
+    
+    //Überschreiben, wegen Forschung
+	public boolean moreModulesPossible(){
+		if(!game.moneySubValid(baukosten_per_module)) return false;
+		return modules+1<=max_modules*(game.isResearchDone(RSolarPlus.getInstance())?2:1);
+	}
+	
+	//Überschreiben, wegen Forschung
+	public String getModulesText(){
+		String ret = "";
+		if(modules>activeModules())
+			ret += activeModules()+"+"+(modules-activeModules());
+		else
+			ret += activeModules();
+
+		ret += "/"+max_modules*(game.isResearchDone(RSolarPlus.getInstance())?2:1);
+		return ret;
+	}
 }

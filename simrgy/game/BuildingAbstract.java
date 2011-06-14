@@ -36,11 +36,27 @@ public abstract class BuildingAbstract implements Building {
 		actions = new ArrayList<Action>();
 	}
 
+	public double getMoneyCostH(){ return getPersonal() * getGame().getPersonalkosten() ;}
 	public Image getImage() {return RessourceManager.none;}
 	public String getName() {return name;}
 	public void setName(String n) {name=n;}
 	public void attachGridObject(GridObject o) {gridObject=o;}
 
+	public String getPersonalText(){
+		return String.valueOf(getPersonal());
+	}
+	
+	public String getModulesText(){
+		String ret = "";
+		if(modules>activeModules())
+			ret += activeModules()+"+"+(modules-activeModules());
+		else
+			ret += activeModules();
+
+		ret += "/"+max_modules;
+		return ret;
+	}
+	
 	public List<Action> getActions(){
 		return new ArrayList<Action>(actions);
 	}
@@ -104,7 +120,7 @@ public abstract class BuildingAbstract implements Building {
 	}
 	
 	public long getBauzeit() {
-		return bauzeit_per_module * (long)modules; //TODO ?
+		return bauzeit_per_module * (long)modules;
 	}
 
 	public double getBaukosten() {

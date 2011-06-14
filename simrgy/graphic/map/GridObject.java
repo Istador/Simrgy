@@ -40,19 +40,20 @@ public class GridObject implements GraphicObject {
 	public void draw(){
 		Graphics g = getBackbuffer();
 		boolean unfall = building instanceof AKW && ((AKW)building).unfall;
+		int dgrid = ( getMain().getGraphic().getSettings().drawgrid ? 1 : 0 );
 		if(unfall){
 			this.highlightRed();
 		}
 		//Highlight
 		if(highlightColor != null){
 			g.setColor(highlightColor);
-			int dgrid = ( getMain().getGraphic().getSettings().drawgrid ? 1 : 0 );
 			g.fillRect(left+dgrid, top+dgrid, width-dgrid, height-dgrid);
 		}
 		//Image
-		g.drawImage(building.getImage(), left, top, width, height, null);
+		g.drawImage(building.getImage(), left+dgrid, top+dgrid, width-dgrid, height-dgrid, null);
+		//AKW Unfall
 		if(unfall){
-			g.drawImage(RessourceManager.akw_unfall, left, top, width, height, null);
+			g.drawImage(RessourceManager.akw_unfall, left+dgrid, top+dgrid, width-dgrid, height-dgrid, null);
 		}
 		//Baustatus
 		if(building.getBaustatus() < 1.0){
@@ -61,6 +62,8 @@ public class GridObject implements GraphicObject {
 			if(building.isDeploying()) g.setColor(c_gridobj_build_deploy);
 			else g.setColor(c_gridobj_build_done);
 			g.fillRect(left+1, top+height-5, (int)((width-1)*building.getBaustatus()), 5);
+			g.setColor(cBlack);
+			g.drawRect(left, top+height-6, width-1+dgrid, 6);
 		}
 		//Modulanzahl
 		if(building.drawModules()){
@@ -71,8 +74,8 @@ public class GridObject implements GraphicObject {
 			int strheight = f[0];
 			int strwidth = f[1]; 
 			//String positionen
-			int strtop = top+strheight+1+(getMain().getGraphic().getSettings().drawgrid?1:0);
-			int strleft = left+width-strwidth-1;
+			int strtop = top+strheight+1+dgrid;
+			int strleft = left+width-strwidth-1-dgrid;
 			//White Hintergrund
 			g.setColor(c_gridobj_namebg);
 			g.fillRect(strleft-1, strtop-strheight-1, strwidth+2, strheight+2);

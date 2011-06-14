@@ -66,8 +66,7 @@ public class RAKW3 extends ResearchAbstract {
 				
 				Runnable r = new RunnableMain(getMain()) {
 					public void run() { 
-						main.getGraphic().setOverlay(null);
-						main.getGame().pause();
+						main.getGraphic().removeOverlay();
 					}
 				};
 				
@@ -109,7 +108,6 @@ public class RAKW3 extends ResearchAbstract {
 				}
 				else{
 					getMain().getGraphic().removeOverlay();
-					getMain().getGame().pause();
 				}
 			}
 
@@ -121,7 +119,6 @@ public class RAKW3 extends ResearchAbstract {
 		/**
 		 * Klassen Ende
 		 */
-		g.pause();
 		g.getMain().getGraphic().setOverlay(go);
 		
 		

@@ -16,7 +16,6 @@ public class ACancel implements Action {
 	
 	public void run(Building b) {
 		b.getGame().getMain().getGraphic().removeOverlay();
-		b.getGame().pause();
 	}
 	public String getName(Building b){ return "Abbrechen"; }
 	public boolean isPossible(Building b){ return true; }

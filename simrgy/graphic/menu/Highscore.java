@@ -36,7 +36,7 @@ public class Highscore implements GraphicObject {
 		};
 		
 		buttons = new Button[1];
-		buttons[0] = new ButtonCenteredText(this, "Zurück zum Menü", c_menu_button_text, c_menu_button_highlight, width/2, height/60*55, f_menu_button, r1);
+		buttons[0] = new ButtonCenteredText(this, "Zurück zum Menü", c_menu_button_text, c_menu_button_highlight, width/2, height-45, f_menu_button, r1);
 	}
 	
 	
@@ -51,7 +51,7 @@ public class Highscore implements GraphicObject {
 		int[] f = f_size(g, f_menu_caption, "Highscores");
 		int strheight = f[0];
 		int strwidth = f[1]; 
-		int strtop = 40+strheight;
+		int strtop = 20+strheight;
 		int strleft = width/2-strwidth/2+left;
 		g.drawString("Highscores", strleft, strtop);
 		

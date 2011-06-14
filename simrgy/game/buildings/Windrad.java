@@ -4,6 +4,7 @@ import java.awt.Image;
 
 import simrgy.game.*;
 import simrgy.game.actions.*;
+import simrgy.game.research.RWindPlus;
 import simrgy.res.RessourceManager;
 
 public class Windrad extends BuildingAbstract implements Building {
@@ -37,14 +38,10 @@ public class Windrad extends BuildingAbstract implements Building {
 	public String getBuildingMWText(){return "2-6";}
 	
 	public Image getImage(){ return RessourceManager.windrad; }
-	
-	public double getMoneyCostH(){
-		return getPersonal() * getGame().getPersonalkosten();
-		}
-	
+		
 	public double getMW(){
 		//Pro Windrad: 2-6 MW, Wetterabhängig
-		double pro = 2.0 + 4.0 * getGame().getWindpower(this);
+		double pro = 2.0 + 4.0 * getGame().getWindpower(this) * getGame().windpower;
 		return pro * activeModules() ;
 		}
 	
@@ -71,5 +68,23 @@ public class Windrad extends BuildingAbstract implements Building {
 			bauzeit_so_far = (bauzeit_so_far < 0 ? 0 : bauzeit_so_far) ;
 			if(bauzeit_so_far == 0) game.removeBuilding(this);
 		}
+	}
+	
+    //Überschreiben, wegen Forschung
+	public boolean moreModulesPossible(){
+		if(!game.moneySubValid(baukosten_per_module)) return false;
+		return modules+1<=max_modules*(game.isResearchDone(RWindPlus.getInstance())?2:1);
+	}
+	
+	//Überschreiben, wegen Forschung
+	public String getModulesText(){
+		String ret = "";
+		if(modules>activeModules())
+			ret += activeModules()+"+"+(modules-activeModules());
+		else
+			ret += activeModules();
+
+		ret += "/"+max_modules*(game.isResearchDone(RWindPlus.getInstance())?2:1);
+		return ret;
 	}
 }

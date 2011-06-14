@@ -144,14 +144,16 @@ public class Grid implements GraphicObject {
 						//Color baubar dynamisch
 						java.awt.Color baubar = new java.awt.Color(0, 1, 0, 0.4f);
 						if( b instanceof Windrad || b instanceof Solar ){
+							double attrd = 0.0;
 							float attr = 0.0f; //attraktivität (0.0 .. 1.0)
 							if( b instanceof Windrad ){
-								attr = (float) game.getWindpower(x, y);
+								attrd = game.getWindpower(x, y);
 							}
 							else{
-								attr = (float) game.getSolarPower(x, y);
+								attrd = game.getSolarPower(x, y);
 							}
-							proz = String.valueOf((int)(attr*100))+"%";
+							proz = String.valueOf((int)(attrd*100.0))+"%";
+							attr = (float) attrd;
 							float red = 2.0f - (attr*2>1.0f ? attr*2 : 1.0f );
 							float green = (attr*2>1.0f ? 1.0f : attr*2 );
 							baubar = new java.awt.Color(red, green, 0, 0.4f);//variabel (funktioniert)!
@@ -166,10 +168,12 @@ public class Grid implements GraphicObject {
 					g.drawString(proz, x*elementwidth+5, (y+1)*elementheight-5);
 				}
 			}
-		//Färbe den überschüssigen Rand rot
+		//Färbe den überschüssigen Rand rein
 		g.setColor(c_grid_nichtbaubar);
-		int tmp = cols*elementwidth;
-		g.fillRect(tmp, 0, width-tmp, height);
+		int tmp1 = cols*elementwidth;
+		g.fillRect(tmp1, 0, width-tmp1, height); //rechter rand
+		int tmp2 = rows*elementheight;
+		g.fillRect(0, tmp2, tmp1, height-tmp2); //unterer rand
 	}
 	
 	public Map getMap(){return map;}

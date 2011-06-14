@@ -1,8 +1,46 @@
-<html>
+﻿<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="de">
+<head>
+	<title>Sim'rgy</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<style type="text/css">
+	<!--
+	#applet{ text-align:center; }
+	td.left{ text-align:right; }
+	td.mid{ text-align:center; width:120px; }
+	td.right{ text-align:left; }
+	//table{ background-color:yellow; border-color:red; border-width:1px; border-style:solid; }
+	//td{ background-color:yellow; border-color:red; border-width:1px; border-style:solid; }
+	-->
+</style>
 <body>
-<applet
- archive="simrgy/lib/jl1.0.1.jar,simrgy/lib/fobs/jmf.jar,simrgy/lib/fobs/fobs4jmf.jar"
- code=simrgy.applet.Main.class width="800" height="600" >
-</applet>
+
+<div id="applet">
+	<applet
+		archive="simrgy.jar, jlayer1.0.1.jar"
+		code=simrgy.applet.Main.class width="735" height="555" >
+	</applet>
+</div>
+
+<br>
+<br>
+
+<h3>Feedback</h3>
+<form>
+	<table>
+	<tr><th>Verständlichkeit</th> <td class="left">komplex</td> <td class="mid"><input type="radio" name="usability" value="1"><input type="radio" name="usability" value="2"><input type="radio" name="usability" value="3" checked><input type="radio" name="usability" value="4"><input type="radio" name="usability" value="5"></td> <td class="right">intuitiv</td></tr>
+	<tr><th>Schwierigkeit</th> <td class="left">einfach</td> <td class="mid"><input type="radio" name="difficulty" value="1"><input type="radio" name="difficulty" value="2"><input type="radio" name="difficulty" value="3" checked><input type="radio" name="difficulty" value="4"><input type="radio" name="difficulty" value="5"></td> <td class="right">schwer</td></tr>
+	<tr><th>Grafiken</th> <td class="left">häßlich</td> <td class="mid"><input type="radio" name="graphic" value="1"><input type="radio" name="graphic" value="2"><input type="radio" name="graphic" value="3" checked><input type="radio" name="graphic" value="4"><input type="radio" name="graphic" value="5"></td> <td class="right">schön</td></tr>
+	<tr><th>Musikauswahl</th> <td class="left">schlecht</td> <td class="mid"><input type="radio" name="music" value="1"><input type="radio" name="music" value="2"><input type="radio" name="music" value="3" checked><input type="radio" name="music" value="4"><input type="radio" name="music" value="5"></td> <td class="right">gut</td></tr>
+	<tr><th>Spaß</th> <td class="left">wenig</td> <td class="mid"><input type="radio" name="fun" value="1"><input type="radio" name="fun" value="2"><input type="radio" name="fun" value="3" checked><input type="radio" name="fun" value="4"><input type="radio" name="fun" value="5"></td> <td class="right">viel</td></tr>
+	<tr><th>Allgemein</th> <td class="left">schlecht</td> <td class="mid"><input type="radio" name="rating" value="1"><input type="radio" name="rating" value="2"><input type="radio" name="rating" value="3" checked><input type="radio" name="rating" value="4"><input type="radio" name="rating" value="5"></td> <td class="right">gut</td></tr>
+	<tr><th>Fehlermeldung</th> <td colspan="3"><textarea cols="35" rows="4" name="errors"></textarea></td> 
+	<tr><th>Anmerkungen</th> <td colspan="3"><textarea cols="35" rows="4" name="annotations"></textarea></td> 
+	</table>
+	<br>
+	<br><input type="submit" value="abschicken">
+</form>
+
 </body>
 </html>

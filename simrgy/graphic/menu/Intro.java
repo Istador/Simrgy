@@ -30,23 +30,23 @@ public class Intro implements GraphicObject {
 		
 		Runnable r1 = new RunnableMain(getMain()) {
 			public void run() { 
+				IntroThread.stop_intro();
 				main.getGraphic().showGame();
 				main.getGame().start();
 			}
 		};
 		Runnable r2 = new RunnableMain(getMain()) {
-			public void run() { 
+			public void run() {
+				IntroThread.stop_intro();
 				main.getGraphic().showMenu();
 			}
 		};
 		
 		buttons = new Button[2];
-		buttons[0] = new ButtonCenteredText(this, "Starte Spiel", c_menu_button_text, c_menu_button_highlight, width/2, height/60*50, f_menu_button, r1);
-		buttons[1] = new ButtonCenteredText(this, "Zurück zum Menü", c_menu_button_text, c_menu_button_highlight, width/2, height/60*55, f_menu_button, r2);
-		
+		buttons[0] = new ButtonCenteredText(this, "Starte Spiel", c_menu_button_text, c_menu_button_highlight, width/2, height-93, f_menu_button, r1);
+		buttons[1] = new ButtonCenteredText(this, "Zurück", c_menu_button_text, c_menu_button_highlight, width/2, height-45, f_menu_button, r2);
 	}
-	
-	
+		
 	//GraphicObject Methods
 	public void draw(){
 		//Rand
@@ -60,14 +60,14 @@ public class Intro implements GraphicObject {
 		int[] f = f_size(g, f_menu_caption, "Sim'rgy");
 		int strheight = f[0];
 		int strwidth = f[1]; 
-		int strtop = 40+strheight;
+		int strtop = 20+strheight;
 		int strleft = width/2-strwidth/2+left;
 		g.drawString("Sim'rgy", strleft, strtop);
 		
 		strtop+=50;
 		
 		//Text
-		g.setFont(f_menu_medtext);
+		g.setFont(f_menu_smaltext);
 		g.setColor(c_menu_text);
 		g.drawString("Die Welt wie wir sie kennen steht vor einem Wandel. Die zunehmende Überbevölkerung",left+40,strtop);		
 		strtop+=25;

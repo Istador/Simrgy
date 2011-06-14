@@ -44,8 +44,11 @@ public class BuildTab implements GraphicObject {
 		buttons.put(but, 1);
 		but = new ButtonImage(this, akw_3, cWhite, c_build_highlight, left+15+2*box, top+5, box, box, null);
 		buttons.put(but, 2);
+		//Laufwasserkraftwerk
+		but = new ButtonImage(this, laufwasser, cWhite, c_build_highlight, left+5, top+10+box, box, box, null);
+		buttons.put(but, 7);
 		//Staudamm
-		but = new ButtonImage(this, staudamm, cWhite, c_build_highlight, left+5, top+10+box, box, box, null);
+		but = new ButtonImage(this, staudamm, cWhite, c_build_highlight, left+10+box, top+10+box, box, box, null);
 		buttons.put(but, 6);
 		//Kohle
 		but = new ButtonImage(this, kohle, cWhite, c_build_highlight, left+5, top+15+2*box, box, box, null);
@@ -168,6 +171,7 @@ public class BuildTab implements GraphicObject {
 		case 4: return new Solar(getMain().getGame(), "Photovoltaik"); //Solar
 		case 5: return new Windrad(getMain().getGame(), "Windpark"); //Wind 
 		case 6: return new Staudamm(getMain().getGame(), "Staudamm"); //Staudamm
+		case 7: return new Laufwasser(getMain().getGame(), "Laufkraftwerk"); //Laufwasserkraftwerk
 		default: return null;
 		}
 	}

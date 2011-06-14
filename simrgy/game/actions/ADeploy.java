@@ -82,14 +82,12 @@ public class ADeploy implements Action {
 						if(a.contains(x, y)){
 							if(a.getText().equals("Ja")) building.deploy();
 							getMain().getGraphic().removeOverlay();
-							getMain().getGame().pause();
 						}
 
 					}
 				}
 				else{
 					getMain().getGraphic().removeOverlay();
-					getMain().getGame().pause();
 				}
 			}
 

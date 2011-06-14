@@ -6,15 +6,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import simrgy.applet.Main;
 import simrgy.applet.Music;
-import simrgy.game.buildings.AKW;
-import simrgy.game.buildings.HQ;
-import simrgy.game.buildings.Kohle;
-import simrgy.game.buildings.Solar;
-import simrgy.game.buildings.Staudamm;
-import simrgy.game.buildings.Windrad;
+import simrgy.game.buildings.*;
 import simrgy.graphic.map.Grid;
-import simrgy.graphic.menu.GameOverMoney;
-import simrgy.graphic.menu.SteigenderStrombedarf;
+import simrgy.graphic.popups.*;
 
 public class Game {
 
@@ -25,18 +19,25 @@ public class Game {
 	
 	public Random rnd;
 	
+	public HQ hq; 
+	
 	//Research Parameter
 	public double rAKWSecure;
 	public double rSolarEnergy;
+	public double rH2OEnergy;
 	public double rNightEnergy;
 	public double rWindBuildTime;
 	public double rKohleCO2;
+	public double rNetz;
 	
 	public double money; // Geld in €
 	public double money_min; //minimales geld. alles dadrunter führt zum GameOver
 	public long time; // millisekunden runtime
 	private long last_update_time;
-	protected boolean running;
+	
+	public boolean running; //laueft spiel oder pausiert?
+	public boolean started; //wurde das Spiel gestartet (läuft oder pausiert)
+	
 	protected Building[][] buildings;
 	protected int[][] bautyp; // 0=nicht baubar, 1=land, 2=land+see/fluß, 3=wasser - nicht public setzen, x und y vertauscht!
 	
@@ -49,10 +50,16 @@ public class Game {
 	protected Map<Research, Long> researching; //Zeit in ms die bisher geforscht
 	protected Set<Research> finishedResearch;
 	
-	public int uran;
-	public int uran_max;
+	public double uran;
+	public double uran_max;
+	private boolean uran_zero_first;
 	public int kohle;
 	public int kohle_max;
+	private boolean kohle_zero_first;
+	
+	public boolean akw_unfall; //zurzeit ein unfall
+	public boolean akw_explosion; //spiel abbrechen?
+	public boolean akw_unfall_first; //erster unfall?
 	
 	public double mw;
 	public double mw_atom;
@@ -87,6 +94,8 @@ public class Game {
 		rnd = new Random();
 	
 		running = false;
+		started = false;
+		
 		money = 100000000.0;
 		money_min = -500000000.0;
 		time = 0;
@@ -109,17 +118,25 @@ public class Game {
         
     	rAKWSecure = 1.0;
     	rSolarEnergy = 1.0;
+    	rH2OEnergy = 1.0;
     	rNightEnergy = 1.0;
     	rWindBuildTime = 1.0;
     	rKohleCO2 = 1.0;
+    	rNetz = 1.0;
         
-    	uran = 30000;
-    	uran_max = 30000;
+    	uran = 30000.0;
+    	uran_max = 30000.0;
+    	uran_zero_first = true;
     	kohle = 150000;
-    	kohle_max = 15000;
+    	kohle_max = 150000;
+    	kohle_zero_first = true;
 		
 		personal = 0;
 		zufriedenheit = 50.0;
+		
+		akw_unfall = false;
+		akw_explosion = false;
+		akw_unfall_first = true;
 		
 		ansteigender_strombedarf = false;
 		ansteigender_strombedarf_zeitpunkt = 0;
@@ -134,7 +151,7 @@ public class Game {
 		windpower = 1.0;
 		windrel = new double[cols][rows];
 		for(int y=0; y<rows; y++){
-			double relbasic = 0.5/rows*(rows-y)+0.5;
+			double relbasic = 0.7/rows*(rows-y)+0.3;
 			for(int x=0; x<cols; x++){
 				// rel +- random[-0.1, +0.0999~]
 				double rel = relbasic + (rnd.nextDouble()-0.5)*2/10;
@@ -147,7 +164,7 @@ public class Game {
         sonnenintensitaet = 1.0;
         sonnenrel = new double[cols][rows];
         for(int y=0; y<rows; y++){
-        	double relbasic = 0.5/rows*(y+1)+0.5;
+        	double relbasic = 0.7/rows*(y+1)+0.3;
             for(int x=0; x<cols; x++){
             	// rels +- random[-0.1, +0.0999~]
 				double rel = relbasic + (rnd.nextDouble()-0.5)*2/10;
@@ -169,7 +186,7 @@ public class Game {
 				{	5,	5,	5,	5,	5,	5,	1,	0,	0,	0	},
 				{	0,	1,	5,	5,	1,	1,	5,	5,	0,	0	},
 				{	0,	1,	5,	5,	5,	5,	5,	5,	5,	0	},
-				{	0,	1,	1,	3,	1,	7,	5,	3,	0,	0	}
+				{	0,	1,	1,	3,	5,	7,	5,	3,	0,	0	}
 		}; //x und y vertauscht! dafür aber SourceCode einfacher mit der Karte zu vergleichen.
 		
 		
@@ -177,7 +194,9 @@ public class Game {
 		buildings = new Building[cols][rows];
 		
 		//Hauptquatier
-		placeBuilding(4, 1, new HQ(this));
+		hq = new HQ(this);
+		placeBuilding(4, 1, hq);
+		
 		//http://de.wikipedia.org/wiki/Liste_deutscher_Kraftwerke
 		
 		//Wind
@@ -192,6 +211,10 @@ public class Game {
 		placeBuilding(7, 4, Solar.newFinishedSolar(this, "Solarpark Waldpolenz", 2));
 		placeBuilding(9, 3, Solar.newFinishedSolar(this, "Solarpark Lieberose", 3));
 		placeBuilding(8, 8, Solar.newFinishedSolar(this, "Solarpark Pocking", 1));
+		
+		//Laufwasser
+		placeBuilding(4, 9, Laufwasser.newFinishedLWKW(this, "Illerkraftwerke", 5));
+		placeBuilding(1, 5, Laufwasser.newFinishedLWKW(this, "an der Mosel", 7));
 		
 		//Kohle
 		placeBuilding(0, 4, Kohle.newFinishedKohle(this, "Neurath", 5, 441.0));
@@ -224,6 +247,7 @@ public class Game {
 		if(getMain().getGraphic().getSettings().music)
 			Music.play_music();
 		running = true;
+		started = true;
 	}
 	
 	public void pause(){ running = !running; }
@@ -269,7 +293,7 @@ public class Game {
 		for(int y=0; y<rows; y++){
 			for(int x=0; x<cols; x++){
 				if(b == buildings[x][y]){
-					return windrel[x][y] * windpower;
+					return windrel[x][y];
 				}
 			}
 		}
@@ -286,7 +310,7 @@ public class Game {
         for(int y=0; y<rows; y++){
             for(int x=0; x<cols; x++){
                 if(b == buildings[x][y]){
-                    return sonnenrel[x][y] * sonnenintensitaet;
+                    return sonnenrel[x][y];
                 }
             }
         }
@@ -313,7 +337,7 @@ public class Game {
 	}
 	
 	public double getPersonalkosten(){
-		return 2000.0/31/24; // €/h
+		return 2000.0/5; // €/s
 	}
 	
 	public double getZufriedenheit()
@@ -322,6 +346,8 @@ public class Game {
 		//double differenz = max_strombedarf - strombedarf;
 		//double tmp1 = max_strombedarf/100;
 		//double tmp2 = strombedarf/100;
+		
+		//TODO Zufriedenheit verringern bei "Sonnenoutput erhöhen"
 		
 		if(mw < strombedarf){
 			tmp -= 1;
@@ -362,6 +388,7 @@ public class Game {
 					max_strombedarf += tmp*50.0; //ansteigender Strombedarf (50MW/s)	
 				}
 				strombedarf += 12500.0 * rNightEnergy * Math.sin(((time/100.0)%360.0)/180.0*Math.PI);
+				strombedarf *= rNetz; //Leitungs-Wirkungsgrad durch Forschung verbessern -> geringerer Strombedarf
 				strombedarf = (strombedarf >= max_strombedarf ? max_strombedarf : strombedarf ); //nicht > als max
 				
 				//Wetterverhältnisse ändern
@@ -378,6 +405,7 @@ public class Game {
 				personal = 0;
 				CO2 = 0.0;
 		        verlust_gebauedekosten = 0.0;
+				akw_unfall = false;
 		        
 				//Gebäude
 				//zufriedenheit = 0;
@@ -396,6 +424,7 @@ public class Game {
 							else if( b instanceof Kohle ) { mw_kohle += b.consumeMW(); }
                             else if( b instanceof Solar ) { mw_sonne += b.consumeMW(); }
                             else if( b instanceof Staudamm ) { mw_wasser += b.consumeMW(); }
+                            else if( b instanceof Laufwasser ) { mw_wasser += b.consumeMW(); }
 							else mw += b.consumeMW();
 							
 						}
@@ -466,22 +495,35 @@ public class Game {
 			
 			//Zufällige Ereignisse
 			
-			//ab 15.000.000 Euro Gewinn steigender Strombedarf
-			if(!ansteigender_strombedarf && gewinn>=15000000.0){
-				ansteigender_strombedarf = true;
-				getMain().getGraphic().setOverlay(new SteigenderStrombedarf(this));
+			if(!ansteigender_strombedarf){
+				//ab 15.000.000 Euro Gewinn steigender Strombedarf
+				if(gewinn>=15000000.0){
+					ansteigender_strombedarf = true;
+					getMain().getGraphic().setOverlay(new IncEnergyNeedProfit(this));
+				}
+				//oder, nach 10min
+				else if (time>=600000 ){
+					ansteigender_strombedarf = true;
+					getMain().getGraphic().setOverlay(new IncEnergyNeedTime(this));
+				}
 			}
-			//oder, nach 10min
-			else if (!ansteigender_strombedarf && time>=600000 )
 			
+			//Erster AKW Unfall
+			if(akw_unfall_first && akw_unfall){
+				akw_unfall_first = false;
+				getMain().getGraphic().setOverlay(new FirstAKWUnfall(this));
+			}
+				
 			//Uranvorkommen auf 0 gefallen
-			if(uran==0){
-				//TODO popup
+			if(uran_zero_first && Double.compare(uran, 0.0)==0){
+				uran_zero_first = false;
+				getMain().getGraphic().setOverlay(new ZeroUran(this));
 			}
 			
 			//Kohlevorkommen auf 0 gefallen
-			if(kohle==0){
-				//TODO popup
+			if(kohle_zero_first && kohle==0){
+				kohle_zero_first = false;
+				getMain().getGraphic().setOverlay(new ZeroKohle(this));
 			}
 			
 			//Game Over: zu wenig Geld
@@ -489,15 +531,22 @@ public class Game {
 				getMain().getGraphic().setOverlay(new GameOverMoney(this));
 			}
 			
+			//Game Over: AKW Unfall
+			if(akw_explosion){
+				getMain().getGraphic().setOverlay(new GameOverExplosion(this));
+			}
+			
 		}
 	}
 	
-	public boolean consumeUran(){
-		if(uran-1>=0){
-			uran-=1;
-			return true;
+	public boolean consumeUran(double ammount){
+		uran-=ammount;
+		if(Double.compare(uran, 0.0)<=0){
+			uran=0.0;
+			return false;
 		}
-		return false;
+		else
+			return true;
 	}
 	
 	public boolean consumeKohle(){

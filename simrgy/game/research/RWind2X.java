@@ -7,18 +7,18 @@ import simrgy.game.Research;
 import simrgy.game.ResearchAbstract;
 import static simrgy.res.RessourceManager.*;
 
-public class R2XWind extends ResearchAbstract {
+public class RWind2X extends ResearchAbstract {
 
 	//Singleton
-	private static R2XWind instance = null;
-	public static R2XWind getInstance(){
+	private static RWind2X instance = null;
+	public static RWind2X getInstance(){
 		if(instance==null){
-			instance = new R2XWind("2 mit einem Streich", "Halbiert Bauzeit von Windrädern", null, 300000000.0, 100000 );
+			instance = new RWind2X("2 mit einem Streich", "Halbiert Bauzeit von Windrädern", RWindPlus.getInstance(), 500000000.0, 100000 );
 		}
 		return instance;
 	}
 	
-	private R2XWind(String name, String desc, Research parent, double kosten, long forschungsdauer) {
+	private RWind2X(String name, String desc, Research parent, double kosten, long forschungsdauer) {
 		super(name, desc, parent, kosten, forschungsdauer);
 	}
 	

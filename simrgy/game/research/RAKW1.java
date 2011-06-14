@@ -13,7 +13,7 @@ public class RAKW1 extends ResearchAbstract {
 	private static RAKW1 instance = null;
 	public static RAKW1 getInstance(){
 		if(instance==null){
-			instance = new RAKW1("Uranvorkommen suchen", "+20.000 Uran", null, 300000000.0, 30000 );
+			instance = new RAKW1("Uranvorkommen suchen", "+20.000 Uran", null, 400000000.0, 30000 );
 		}
 		return instance;
 	}

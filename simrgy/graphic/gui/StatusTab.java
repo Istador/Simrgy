@@ -33,9 +33,14 @@ public class StatusTab implements GraphicObject {
 		int tleft = left+5;
 		int tright = left+130;
 		
+		//Anzeige als Xh Ym Zs
+		long time = getMain().getGame().time/1000;
+		int s = (int)(time%60);
+		int m = (int)(((time-s)/60)%60);		
+		int h = (int)(((time-s)/60-m)/60);
 		g.drawString("Zeit:", tleft, ttop);
-		g.drawString(String.valueOf(getMain().getGame().time/1000), tright, ttop);
-		//TODO: Anzeige als Xh Ym Zs
+		g.drawString(String.valueOf(h)+"h "+String.valueOf(m)+"m "+String.valueOf(s)+"s", tright, ttop);
+		
 		
 		ttop+=40;
 		
@@ -54,13 +59,17 @@ public class StatusTab implements GraphicObject {
 		g.drawString(df_int.format(getMain().getGame().mw)+" MW", tright, ttop);
 		ttop+=20;
 		g.drawString("Atomkraft:", tleft, ttop);
+		if(getMain().getGame().uran==0) g.setColor(cRed);
 		g.drawString(df_int.format(getMain().getGame().mw_atom)+" MW", tright, ttop);
+		g.setColor(cBlack);
 		ttop+=20;
 		g.drawString("Windkraft:", tleft, ttop);
 		g.drawString(df_int.format(getMain().getGame().mw_wind)+" MW", tright, ttop);
 		ttop+=20;
         g.drawString("Kohlekraft:", tleft, ttop);
+        if(getMain().getGame().kohle==0) g.setColor(cRed);
         g.drawString(df_int.format(getMain().getGame().mw_kohle)+" MW", tright, ttop);
+        g.setColor(cBlack);
         ttop+=20;
         g.drawString("Sonnenkraft:", tleft, ttop);
         g.drawString(df_int.format(getMain().getGame().mw_sonne)+" MW", tright, ttop);
@@ -68,22 +77,28 @@ public class StatusTab implements GraphicObject {
         g.drawString("Wasserkraft:", tleft, ttop);
         g.drawString(df_int.format(getMain().getGame().mw_wasser)+" MW", tright, ttop);
         
+        /*
         ttop+=40;
         g.drawString("CO2 Ausstoß:", tleft, ttop);
         g.drawString(df_int.format(getMain().getGame().CO2)+" t", tright, ttop);
         ttop+=40;
         g.drawString("Zufriedenheit:", tleft, ttop);
         g.drawString(df_int.format(getMain().getGame().zufriedenheit)+" %", tright, ttop);
+        */
         
         ttop+=40;
         g.drawString("Uran:", tleft, ttop);
-        g.drawString(df_int.format(getMain().getGame().uran)+"/"+df_int.format(getMain().getGame().uran_max)+" kg", tright-14, ttop);
+        if(getMain().getGame().uran==0) g.setColor(cRed);
+        g.drawString(df_int.format((int)getMain().getGame().uran)+"/"+df_int.format((int)getMain().getGame().uran_max)+" kg", tright-14, ttop);
+        g.setColor(cBlack);
         ttop+=20;
         g.drawString("Kohle:", tleft, ttop);
+        if(getMain().getGame().kohle==0) g.setColor(cRed);
         g.drawString(df_int.format(getMain().getGame().kohle)+"/"+df_int.format(getMain().getGame().kohle_max)+" kg", tright-14, ttop);
+        g.setColor(cBlack);
         ttop+=20;
         g.drawString("Atommüll:", tleft, ttop);
-        g.drawString(df_int.format(getMain().getGame().uran_max-getMain().getGame().uran)+" kg", tright-14, ttop);
+        g.drawString(df_int.format((int)getMain().getGame().uran_max-(int)getMain().getGame().uran)+" kg", tright-14, ttop);
         
         ttop+=40;
         g.drawString("Gewinn:", tleft, ttop);

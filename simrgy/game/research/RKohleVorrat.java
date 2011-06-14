@@ -13,7 +13,7 @@ public class RKohleVorrat extends ResearchAbstract {
 	private static RKohleVorrat instance = null;
 	public static RKohleVorrat getInstance(){
 		if(instance==null){
-			instance = new RKohleVorrat("Kohlevorräte aufstocken", "+50.000 Kohle", null, 300000000.0, 30000 );
+			instance = new RKohleVorrat("Kohlevorräte aufstocken", "+50.000 Kohle", null, 400000000.0, 30000 );
 		}
 		return instance;
 	}
@@ -26,6 +26,7 @@ public class RKohleVorrat extends ResearchAbstract {
 	
 	public void researchEffect(Game g) {
 		g.kohle += 50000;
+		g.kohle_max += 50000;
 	}
 
 }

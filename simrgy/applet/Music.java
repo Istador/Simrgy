@@ -18,7 +18,7 @@ public class Music extends Thread {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -27,7 +27,7 @@ public class Music extends Thread {
 	}
 	
 	private static Music thread;
-	
+		
 	public static void play_music(){
 		if(thread==null && !playMusic){
 			playMusic = true;

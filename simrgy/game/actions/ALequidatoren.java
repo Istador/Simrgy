@@ -17,18 +17,18 @@ public class ALequidatoren implements Action {
 	
 	public void run(Building b) {
 		if( isPossible(b) ){
-			b.getGame().money -= 1000000.0;
+			b.getGame().money -= 10000000.0;
 			((AKW)b).unfall = false;
 			((AKW)b).unfall_tick = 0;
 			((AKW)b).unfall_time = 0;
+			//TODO: Zufriedenheit verringern
 			b.getGame().getMain().getGraphic().removeOverlay();
-			b.getGame().pause();
 		}
 	}
 
 	
 	public String getName(Building b){
-		return "Lequidatoren einsetzen (-1.000.000€)";
+		return "Lequidatoren einsetzen (-10.000.000€)";
 	}
 	
 	public boolean isPossible(Building b){

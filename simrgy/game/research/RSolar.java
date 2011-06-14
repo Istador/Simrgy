@@ -13,7 +13,7 @@ public class RSolar extends ResearchAbstract {
 	private static RSolar instance = null;
 	public static RSolar getInstance(){
 		if(instance==null){
-			instance = new RSolar("Verbessertes Photovoltaic", "+10% Energieerzeugung", null,  1200000000.0, 90000 );
+			instance = new RSolar("Verbessertes Photovoltaic", "+10% Energieerzeugung", RSolarPlus.getInstance(),  1200000000.0, 90000 );
 		}
 		return instance;
 	}

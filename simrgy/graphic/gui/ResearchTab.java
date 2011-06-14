@@ -32,8 +32,9 @@ public class ResearchTab implements GraphicObject {
 		width = getMain().getWidth()-left-1;
 		height = getMain().getHeight()-top-1;
 		
+		//bildgröße abhängig von verfügbaren platz
 		int a = (width-4*5)/3;
-		int b = (height-6*5)/5;
+		int b = (height-7*5)/6;
 		box = (a<=b ? a : b );
 		
 		buttons = new java.util.HashMap<Button,Research>();
@@ -50,6 +51,8 @@ public class ResearchTab implements GraphicObject {
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+15+2*box, top+5, box, box, null);
 		buttons.put(but, r);
 		
+		
+		
 		//Kohle Vorräte
 		r = RKohleVorrat.getInstance();
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+10+box, box, box, null);
@@ -59,11 +62,13 @@ public class ResearchTab implements GraphicObject {
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+10+box, top+10+box, box, box, null);
 		buttons.put(but, r);
 		
-		//Energiesparlampen
-		r = REnergiesparlampen.getInstance();
+		
+		
+		//mehr Solarpanel
+		r = RSolarPlus.getInstance();
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+15+2*box, box, box, null);
 		buttons.put(but, r);
-		//Solarpanel
+		//besseres Solarpanel
 		r = RSolar.getInstance();
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+10+box, top+15+2*box, box, box, null);
 		buttons.put(but, r);
@@ -71,10 +76,28 @@ public class ResearchTab implements GraphicObject {
 		r = RSonne.getInstance();
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+15+2*box, top+15+2*box, box, box, null);
 		buttons.put(but, r);
-		//2x Windräder
-		r = R2XWind.getInstance();
+		
+		
+		
+		//mehr Windräder
+		r = RWindPlus.getInstance();
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+20+3*box, box, box, null);
-		buttons.put(but, r);		
+		buttons.put(but, r);	
+		//2x Windräder
+		r = RWind2X.getInstance();
+		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+10+box, top+20+3*box, box, box, null);
+		buttons.put(but, r);
+		
+		
+		
+		//Energiesparlampen
+		r = REnergiesparlampen.getInstance();
+		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+25+4*box, box, box, null);
+		buttons.put(but, r);
+		//Effizientes Netz
+		r = RNetz.getInstance();
+		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+10+box, top+25+4*box, box, box, null);
+		buttons.put(but, r);
 	}
 	
 	public void draw() {
@@ -117,42 +140,40 @@ public class ResearchTab implements GraphicObject {
 			
 			//Parent von Forschung markieren
 			Research p = r.getParent();
-			if(p!=null){
-				for(Button b : buttons.keySet()){
-					Research tmp = buttons.get(b);
-					if(b!=null && tmp!=null){
-						if(tmp!=p) b.markiere(null);
-						else if(r.isResearching(game) || r.isDone(game)) b.markiere(cBlack);
-						else if(p.isDone(game)) b.markiere(cGreen); 
-						else if(p.isResearching(game)) b.markiere(cOrange);
-						else b.markiere(cRed);
-					}
+			for(Button b : buttons.keySet()){
+				Research tmp = buttons.get(b);
+				if(b!=null && tmp!=null){
+					if(p==null || tmp==null || tmp!=p) b.markiere(null);
+					else if(r.isResearching(game) || r.isDone(game)) b.markiere(cBlack);
+					else if(p.isDone(game)) b.markiere(cGreen); 
+					else if(p.isResearching(game)) b.markiere(cOrange);
+					else b.markiere(cRed);
 				}
 			}
-			
+						
 			//mouse Over Forschungsinfos
 			
 			//Untergrund
 			g.setColor(c_research_mouseOver_bg);
-			g.fillRect(left+5, top+height-box, 3*box+10, box);
+			g.fillRect(left+5, top+height-box-5, 3*box+10, box+5);
 			//Rand
 			g.setColor(c_research_mouseOver_rand);
-			g.drawRect(left+5, top+height-box, 3*box+10, box);
+			g.drawRect(left+5, top+height-box-5, 3*box+10, box+5);
 			//Name
 			g.setColor(c_research_mouseOver_caption);
 			g.setFont(f_research_caption);
-			g.drawString(r.getName(), left+10, top+height-box+20);
+			g.drawString(r.getName(), left+10, top+height-box+15);
 			//Beschreibung
 			g.setColor(c_research_mouseOver_text);
 			g.setFont(f_research_text);
-			g.drawString(r.getDesc(), left+10, top+height-box+40);
+			g.drawString(r.getDesc(), left+10, top+height-box+35);
 			
 			if (r.isDone(game)){
 				// "erforscht"
 				g.setColor(cBlue);
 				g.setFont(f_research_caption);
 				int strwidth = f_size(g, f_research_caption, "Erforscht")[1]; 
-				g.drawString("Erforscht", left+width/2-strwidth/2, top+height-5);
+				g.drawString("Erforscht", left+(3*box+10-strwidth)/2, top+height-5);
 			}
 			else if(r.isResearching(game)){
 				//Statusbalken
@@ -167,7 +188,7 @@ public class ResearchTab implements GraphicObject {
 				g.drawString("€", left+10, top+height-5);
 				String kosten = df_money.format(r.getKosten());
 				int strwidth = f_size(g, f_research_text, kosten)[1]; 
-				g.drawString(kosten, left+width-10-strwidth, top+height-5);
+				g.drawString(kosten, left+3*box+5-strwidth, top+height-5);
 			}
 		}
 		else{

@@ -32,16 +32,20 @@ public class Menu implements GraphicObject {
 		Runnable r1 = new RunnableMain(getMain()) { 
 			public void run() {
 				main.getGraphic().showIntro();
+				IntroThread.play_intro();
 			}
 		};
+		/*
 		Runnable r2 = new RunnableMain(getMain()) {
 			public void run() {
 				main.getGraphic().showHighscore();
 			}
 		};
+		*/
 		Runnable r3 = new RunnableMain(getMain()) { 
 			public void run() {
-				main.getGraphic().showSettings();
+				main.getGraphic().setOverlay(main.getGraphic().getSettings());
+				//main.getGraphic().showSettings();
 			}
 		};
 		Runnable r4 = new RunnableMain(getMain()) { 
@@ -50,15 +54,13 @@ public class Menu implements GraphicObject {
 			}
 		};
 		
-		buttons = new Button[4];
+		buttons = new Button[3];
 		buttons[0] = new ButtonCenteredText(this, "Spiel starten", c_menu_button_text, c_menu_button_highlight, width/2, height/6*2, f_menu_button, r1);
-		buttons[1] = new ButtonCenteredText(this, "Highscores", c_menu_button_text,c_menu_button_highlight, width/2, height/6*3, f_menu_button, r2);
-		buttons[2] = new ButtonCenteredText(this, "Einstellungen", c_menu_button_text, c_menu_button_highlight, width/2, height/6*4, f_menu_button, r3);
-		buttons[3] = new ButtonCenteredText(this, "Credits", c_menu_button_text, c_menu_button_highlight, width/2, height/6*5, f_menu_button, r4);
+		//buttons[1] = new ButtonCenteredText(this, "Highscores", c_menu_button_text,c_menu_button_highlight, width/2, height/6*3, f_menu_button, r2);
+		buttons[1] = new ButtonCenteredText(this, "Einstellungen", c_menu_button_text, c_menu_button_highlight, width/2, height/6*4, f_menu_button, r3);
+		buttons[2] = new ButtonCenteredText(this, "Credits", c_menu_button_text, c_menu_button_highlight, width/2, height/6*5, f_menu_button, r4);
 	}
-	
-	
-	
+		
 	//GraphicObject Methods
 	public void draw(){
 		Graphics g = graphic.getMain().getBackbuffer();
@@ -70,7 +72,7 @@ public class Menu implements GraphicObject {
 		int[] f = f_size(g, f_menu_caption, "Sim'rgy");
 		int strheight = f[0];
 		int strwidth = f[1]; 
-		int strtop = 40+strheight;
+		int strtop = 20+strheight;
 		int strleft = width/2-strwidth/2+left;
 		g.drawString("Sim'rgy", strleft, strtop);
 		

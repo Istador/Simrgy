@@ -51,8 +51,6 @@ public class RessourceManager {
 	};
 	
 	*/
-	//TODO: übers Netzwerk im Browser brauch er zu lange zum Laden, und startet erst gar nicht ... :/ 
-	//TODO: lege Set<String,ByteArray> an, in der die Musikstücke nur beim erstmaligem laden reinkommen.
 	
 	private static final String[] bg_music = {
 		"music/10 - The heaven is not so far.mp3",	// Dj Fab - The heaven is not so far - cc by-nc-sa 2.0 fr
@@ -64,6 +62,7 @@ public class RessourceManager {
 	
 	public static URL sAKWUnfall = RessourceManager.class.getResource("sounds/akw_warnung.wav");
 	public static URL sClick = RessourceManager.class.getResource("sounds/click.wav");
+	public static String sIntro = "sounds/intro.mp3";
 	
 	//public static URL vAtom = RessourceManager.class.getResource("explosion.mpg");
 	
@@ -100,7 +99,7 @@ public class RessourceManager {
 	public static final Image solar = new ImageIcon(RessourceManager.class.getResource("img/buildings/solar.png")).getImage();
 	
 	public static final Image staudamm = new ImageIcon(RessourceManager.class.getResource("img/buildings/staudamm.png")).getImage();
-	
+	public static final Image laufwasser = new ImageIcon(RessourceManager.class.getResource("img/buildings/laufwasserkraftwerk.png")).getImage();
 	
 	public static final Image rUran = new ImageIcon(RessourceManager.class.getResource("img/research/uran.png")).getImage();
 	public static final Image rSarkophag = new ImageIcon(RessourceManager.class.getResource("img/research/sarkophag.png")).getImage();
@@ -113,6 +112,9 @@ public class RessourceManager {
 	public static final Image rSolar = new ImageIcon(RessourceManager.class.getResource("img/research/solarpanel.png")).getImage();
 	public static final Image rSonne = new ImageIcon(RessourceManager.class.getResource("img/research/sonne.png")).getImage();
 	
+	public static final Image rNetz = new ImageIcon(RessourceManager.class.getResource("img/research/effizientes_netz.png")).getImage();
+	public static final Image rPlusSolar = new ImageIcon(RessourceManager.class.getResource("img/research/plus_solarpanel.png")).getImage();
+	public static final Image rPlusWind = new ImageIcon(RessourceManager.class.getResource("img/research/plus_windrad.png")).getImage();
 	
 	/**
 	 * 
@@ -128,13 +130,14 @@ public class RessourceManager {
 	public static final Font f_h18 = new Font("Helvetica", Font.PLAIN, 18);
 	public static final Font f_h19 = new Font("Helvetica", Font.PLAIN, 19);
 	public static final Font f_h20 = new Font("Helvetica", Font.PLAIN, 20);
+	public static final Font f_h28 = new Font("Helvetica", Font.PLAIN, 28);
 	public static final Font f_h30 = new Font("Helvetica", Font.PLAIN, 30);
 	public static final Font f_h48 = new Font("Helvetica", Font.PLAIN, 48);
 	
 	//Forms Fonts
 	public static final Font f_money = f_h30;
 	
-	public static final Font f_menu_button = f_h30;
+	public static final Font f_menu_button = f_h28;
 	public static final Font f_menu_caption = f_h48;
 	public static final Font f_menu_smaltext = f_h16;
 	public static final Font f_menu_medtext = f_h18;
@@ -232,6 +235,7 @@ public class RessourceManager {
 	public static final Color c_menu_text = cBlack;
 	public static final Color c_menu_button_text = cBlack;
 	public static final Color c_menu_button_highlight = cGreen;
+	public static final Color c_menu_label_highlight = cBlue;
 	
 	public static final Color c_rclick_rand = cBlack;
 	public static final Color c_rclick_bg = cWhite;
@@ -253,6 +257,10 @@ public class RessourceManager {
 	public static final Color c_research_mouseOver_text = cBlack;
 	public static final Color c_research_todo = cBlack;
 	public static final Color c_research_done = cBabyBlue.darker();
+	
+	public static final Color c_gui_strom_inland = cYellow;
+	public static final Color c_gui_strom_ausland_einkauf = cRed;
+	public static final Color c_gui_strom_ausland_verkauf = cGreen;
 	
 	public static final Color c_gridobj_build_todo = cLightGray;
 	public static final Color c_gridobj_build_done = cGreen;

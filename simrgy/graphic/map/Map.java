@@ -20,7 +20,6 @@ public class Map implements GraphicObject {
 		height = getMain().getHeight();
 		width = map.getWidth(null)/(map.getHeight(null)/height);
 		grid = new Grid(this);
-		
 	}
 	
 	

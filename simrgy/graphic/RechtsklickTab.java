@@ -6,6 +6,9 @@ import java.awt.geom.Rectangle2D;
 
 import simrgy.game.Action;
 import simrgy.game.Building;
+import simrgy.game.actions.DecLeistung;
+import simrgy.game.actions.IncLeistung;
+import simrgy.game.buildings.AKW;
 import static simrgy.res.RessourceManager.*;
 
 public class RechtsklickTab implements Action{
@@ -53,14 +56,15 @@ public class RechtsklickTab implements Action{
 						if(tmp_width<name_width) tmp_width = name_width;
 					}
 				}
-				
+				int min_width = ( building instanceof AKW ? 235 : 220 );
+				tmp_width = ( tmp_width<min_width ? min_width : tmp_width );
 				
 				width = tmp_width + 30;
-				height = 25+caption_height+5+25*size;
+				height = 25+caption_height+5+25*size+65;
 				top = getMain().height/2-height/2;
 				left = getMain().width/2-width/2;
 				
-				int btop = top + 10 + caption_height + 10;
+				int btop = top + 10 + caption_height + 10 + 65;
 				int bheight = 20;
 				for(Action a : building.getActions()){
 					if(a.isPossible(building)){
@@ -70,7 +74,18 @@ public class RechtsklickTab implements Action{
 						actions.put(a, b);
 						btop+=25;
 					}
-				}				
+				}	
+				
+				if(building instanceof AKW){
+					Rectangle b = new Rectangle();
+					b.setSize(15, 15);
+					b.setLocation(left+155, top+10+5+caption_height+5+40+5);					
+					actions.put(DecLeistung.getInstance(), b);
+					b = new Rectangle();
+					b.setSize(15, 15);
+					b.setLocation(left+175, top+10+5+caption_height+5+40+5);					
+					actions.put(IncLeistung.getInstance(), b);
+				}
 			}
 			
 			public void draw() {
@@ -84,6 +99,27 @@ public class RechtsklickTab implements Action{
 				g.setFont(f_rclick_caption);
 				g.drawString(caption, left+(width-caption_width)/2, top+10+5+caption_height);
 
+				//Draw Building Infos
+				g.setFont(f_rclick_text);
+				g.setColor(c_rclick_text);
+				//MW
+				g.drawString((int)building.getMW()+" MW", left+15, top+10+5+caption_height+5+10);
+				//Module
+				g.drawString(building.getModulesText()+" Module", left+15, top+10+5+caption_height+5+25);
+				//Personal
+				g.drawString(building.getPersonalText()+" Personal", left+15, top+10+5+caption_height+5+40);
+				//Geld
+				g.drawString(df_money.format((int)(building.getMW()*building.getGame().getStrompreis() - building.getMoneyCostH()))+" €/s", left+15, top+10+5+caption_height+5+55);
+				
+				//Sonne
+				g.drawString(String.valueOf((int)(getMain().getGame().getSolarPower(building)*100.0))+"% Sonne", left+155, top+10+5+caption_height+5+10);
+				//Wind
+				g.drawString(String.valueOf((int)(getMain().getGame().getWindpower(building)*100.0))+"% Wind", left+155, top+10+5+caption_height+5+25);
+				//Leistung
+				if(building instanceof AKW){
+					g.drawString(String.valueOf((int)(((AKW)building).getLeistung()*100.0)+"% Leistung"), left+155, top+10+5+caption_height+5+40 ); 
+				}
+				
 				//Draw Actions
 				for(Action a : actions.keySet()){
 					g.setFont(f_rclick_button);
@@ -107,12 +143,14 @@ public class RechtsklickTab implements Action{
 				if(x>=left && x<=left+width && y>=top && y<=top+height){
 					for(Action a : actions.keySet()){
 						Rectangle2D b = actions.get(a);
-						if(b.contains(x, y)) a.run(building);
+						if(b.contains(x, y)){
+							getMain().play(sClick);
+							a.run(building);
+						}
 					}
 				}
 				else{
 					getMain().getGraphic().removeOverlay();
-					getMain().getGame().pause();
 				}
 			}
 
@@ -129,10 +167,11 @@ public class RechtsklickTab implements Action{
 			}
 			
 			public void keyPress(KeyEvent ke){
+				if(ke.getKeyCode()==KeyEvent.VK_ESCAPE)
+					getMain().getGraphic().removeOverlay();
 			}
 
 		};
-		b.getGame().pause();
 		b.getGame().getMain().getGraphic().setOverlay(go);
 	}
 	

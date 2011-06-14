@@ -9,6 +9,8 @@ public interface Building {
 	public Image getImage();
 	public String getName();
 	public String getBuildingMWText();
+	public String getModulesText();
+	public String getPersonalText();
 	
 	public void attachGridObject(GridObject o);
 	

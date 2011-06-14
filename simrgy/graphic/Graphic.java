@@ -1,6 +1,7 @@
 package simrgy.graphic;
 
 import simrgy.applet.*;
+import simrgy.game.Game;
 import simrgy.graphic.gui.GUI;
 import simrgy.graphic.map.Map;
 import simrgy.graphic.menu.*;
@@ -50,7 +51,7 @@ public class Graphic implements GraphicObject {
 	public void draw(){
 		Graphics g = getBackbuffer();
 		g.setColor(c_menu_rand);
-		g.fillRect(0, 0, getMain().getWidth(), getMain().getHeight());
+		g.fillRect(0, 0, getMain().width, getMain().height);
 	
 		if(show!=null)
 			show.draw();
@@ -93,8 +94,17 @@ public class Graphic implements GraphicObject {
 			gui.mouseOut();
 		}
 	}
-	public void setOverlay(GraphicObject go){overlay=go;}
-	public void removeOverlay(){overlay=null;}
+	public void setOverlay(GraphicObject go){
+		overlay=go;
+		Game game = getMain().getGame(); 
+		if(game.running) game.pause();
+	}
+	public void removeOverlay(){
+		overlay=null;
+		Game game = getMain().getGame(); 
+		if(game.started && !game.running) game.pause();
+	}
+	public boolean isOverlay(){ return overlay!=null; }
 	
 	public Main getMain(){return main;}
 	public Map getMap(){return map;}
@@ -104,9 +114,18 @@ public class Graphic implements GraphicObject {
 	public Highscore getHighscore() {return highscore;}
 	public Graphics getBackbuffer(){return getMain().getBackbuffer();}
 	public void keyPress(KeyEvent ke){
-		//TODO: beim drücken von Escape Menü anzeigen, für Einstellungen, und Aufgeben.
 		if(overlay != null)
 			overlay.keyPress(ke);
+		else if(show!=null)
+			show.keyPress(ke);
+		else{
+			//TODO: beim drücken von Escape Menü anzeigen, für Einstellungen, und Aufgeben.
+			if(ke.getKeyCode()==KeyEvent.VK_ESCAPE)
+				RechtsklickTab.getInstance().run(getMain().getGame().hq);
+				//setOverlay(getSettings());
+			else if( ke.getKeyCode()==KeyEvent.VK_PAUSE && getMain().getGame().time>0 && !isOverlay())
+				getMain().getGame().pause();
+		}
 	}
 	
 	public void showMenu(){ show = menu; }

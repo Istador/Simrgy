@@ -4,15 +4,14 @@ import java.awt.*;
 
 import simrgy.game.*;
 import simrgy.game.actions.*;
-import simrgy.graphic.menu.GameOverExplosion;
 import static simrgy.res.RessourceManager.*;
 
 public class AKW extends BuildingAbstract implements Building {
 		
-	protected int personal = 100;
+	protected int personal = 10;
 	protected static int max_personal_per_module = 100; //?
 	protected static int min_personal_per_module = 10; //?
-	protected double leistung = 1.0;
+	protected double leistung = 0.75;
 	protected double mw_module = 1600.0;
 	protected double co2_kg = 3.0;
 	protected int zufriedenheit = 1; 
@@ -37,6 +36,7 @@ public class AKW extends BuildingAbstract implements Building {
 		AKW ret = new AKW(g, name);
 		ret.modules=module;
 		if(!ret.moreModulesPossible()) ret.removeAction(AIncModules.getInstance());
+		ret.setPersonal(ret.personal);
 		return ret;
 	}
 	
@@ -45,6 +45,7 @@ public class AKW extends BuildingAbstract implements Building {
 		ret.modules=module;
 		ret.bauzeit_so_far = ret.bauzeit_per_module * ret.modules;
 		ret.mw_module=mw;
+		ret.setPersonal(ret.personal);
 		return ret;
 	}
 	
@@ -57,17 +58,16 @@ public class AKW extends BuildingAbstract implements Building {
 		return super.getImage();
 	}
 
-	public double getMoneyCostH(){ return personal * getGame().getPersonalkosten() ;}
-	public double getMW(){ return activeModules() * mw_module * leistung; }
+	public double getMW(){ return (double)activeModules() * mw_module * getLeistung(); }
 	public String getBuildingMWText(){return String.valueOf((int)mw_module*modules);}
-	public double getCO2() {return co2_kg * activeModules();}
+	public double getCO2() {return co2_kg * (double)activeModules() * getLeistung();}
 	public int getZufriedenheit() {return zufriedenheit * activeModules();}
 	
 	//MW produzieren - und Uran verbrauchen
 	public double consumeMW(){
 		double mw = 0.0;
 		for(int i=0; i<activeModules(); i++){
-			if(game.consumeUran()) mw += mw_module * leistung; 
+			if(game.consumeUran(getLeistung())) mw += mw_module * leistung; 
 		}
 		return mw;
 	}
@@ -82,7 +82,7 @@ public class AKW extends BuildingAbstract implements Building {
 	
 	public void setPersonal(int personal){
 		int min = min_personal_per_module * modules;
-		int max = min_personal_per_module * modules;
+		int max = max_personal_per_module * modules;
 		this.personal = ( personal>=max ? max : ( personal <= min ? min : personal ) );
 	}
 	
@@ -94,6 +94,11 @@ public class AKW extends BuildingAbstract implements Building {
 		boolean ret = super.newModule();
 		if(ret)	setPersonal(personal); //Personalanpassung, damit min_personal
 		return ret;
+	}
+	
+	//überschreiben für Personaloptionen
+	public String getPersonalText(){
+		return getPersonal()+"/"+(max_personal_per_module * modules);
 	}
 	
 	//überschreiben, da module grafisch angezeigt werden.
@@ -108,8 +113,9 @@ public class AKW extends BuildingAbstract implements Building {
 		super.tick(miliseconds);
 		if(unfall){
 			unfall_time+=miliseconds;
+			getGame().akw_unfall = true;
 			if(unfall_time >= 30000){ //30 Sekunden Zeit zu reagieren
-				game.getMain().getGraphic().setOverlay(new GameOverExplosion(getGame()));
+				game.akw_explosion = true;
 			}
 		}
 		else if(building && game.uran>0 && activeModules()>=1){
@@ -119,10 +125,12 @@ public class AKW extends BuildingAbstract implements Building {
 			for(int i=0; i<n; i++){
 				for(int j=0; j<activeModules(); j++){
 					//kann hochgehen
-					int a = game.rnd.nextInt()%(int)((190.0+(double)personal/(double)modules)*game.rAKWSecure); // 0.5% alle 10 Sekunden pro Reaktor, Personal oder Forschung verringern die Wahrscheinlichkeit
+					int a = game.rnd.nextInt()%(int)((190.0+(double)personal/(double)modules+(1.0-getLeistung())*100.0)*game.rAKWSecure);
+					// 0.5% alle 10 Sekunden pro Reaktor, Personal, niedrige Leistung oder Forschung verringern die Wahrscheinlichkeit das was böses passiert
 					if(a==0){
 						//unfall
 						unfall = true;
+						getGame().akw_unfall = true;
 						getGame().getMain().play(sAKWUnfall);	
 					}
 				}

@@ -35,7 +35,6 @@ public class Kohle extends BuildingAbstract implements Building {
 		ret.mw_module=mw;
 		return ret;
 	}
-	public double getMoneyCostH(){return getPersonal() * getGame().getPersonalkosten();}
 	public double getMW(){return mw_module * (double)activeModules();}
 	public String getBuildingMWText(){return String.valueOf((int)mw_module*modules);}
 	public double getCO2() {return co2_kg * (double)activeModules() * getGame().rKohleCO2;}

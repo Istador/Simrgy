@@ -18,15 +18,23 @@ public class Main extends Applet implements MouseListener, MouseMotionListener, 
 		
 	public int top = 0;
 	public int left = 0;
+	public int min_width = 735;
+	public int min_height = 555;
 	public int width = 800;
 	public int height = 600;
 		
 	public void init(){		
-		Dimension d = new Dimension(width, height);
-		setPreferredSize(d);
-		setMinimumSize(d);
-		setMaximumSize(d);
-		setSize(width, height);
+		width = getSize().width;
+		height = getSize().height;
+		if(width<=min_width)
+			width=min_width;
+		if(height<=min_height)
+			height=min_height;
+		//Dimension d = new Dimension(width, height);
+		//setPreferredSize(d);
+		//setMinimumSize(d);
+		//setMaximumSize(d);
+		//setSize(width, height);
 		
 		//init Graphic, with backbuffer (no flickering)
 		//Source: http://profs.etsmtl.ca/mmcguffin/learn/java/07-backbuffer/
@@ -39,6 +47,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener, 
 		addMouseListener(this); 
 		addMouseMotionListener(this);
 		addKeyListener(this);
+		//addComponentListener(new ComponentAdapter(){ public void componentResized(ComponentEvent e){ setSize(); } });
 	}
 	
 	public void start(){
@@ -52,7 +61,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener, 
 	}
 	
 	public void update( Graphics g ) {
-		getGraphic().draw();
+		graphic.draw();
 		g.drawImage( backbuffer, 0, 0, null );
 	}
 	
@@ -86,8 +95,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener, 
 	public Graphics getBackbuffer(){return backg;}
 
 	public void keyPressed(KeyEvent ke) {
-		if( ke.getKeyCode()==KeyEvent.VK_PAUSE && getGame().time>0) getGame().pause();
-		else getGraphic().keyPress(ke);
+		getGraphic().keyPress(ke);
 		ke.consume();
 	}
 	public void keyReleased(KeyEvent ke) {}

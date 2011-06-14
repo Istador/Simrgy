@@ -78,7 +78,6 @@ public class ARename implements Action {
 				}
 				else{
 					getMain().getGraphic().removeOverlay();
-					getMain().getGame().pause();
 				}
 			}
 
@@ -94,11 +93,9 @@ public class ARename implements Action {
 				else if (kc==KeyEvent.VK_ENTER && name.length()!=0) {
 					building.setName(name);
 					getMain().getGraphic().removeOverlay();
-					getMain().getGame().pause();
 				}
 				else if (kc==KeyEvent.VK_ESCAPE) {
 					getMain().getGraphic().removeOverlay();
-					getMain().getGame().pause();
 				}
 				else if(kc>=0x20 && kc<=0x7e && name.length()<=30){
 					name+=ke.getKeyChar();

@@ -18,6 +18,7 @@ public class IncStrompreis implements Action {
 	public void run(Building b) {
 		if( isPossible(b) ){
 			b.getGame().setStrompreis(b.getGame().strompreis+0.005);
+			b.getGame().calcZufriedenheit();
 		}
 	}
 

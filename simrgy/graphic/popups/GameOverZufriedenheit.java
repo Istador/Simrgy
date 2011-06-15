@@ -19,9 +19,9 @@ import simrgy.graphic.ButtonCenteredText;
 import simrgy.graphic.OverlayGame;
 import simrgy.graphic.menu.RunnableMain;
 
-public class IncEnergyNeedProfit extends OverlayGame {
+public class GameOverZufriedenheit extends OverlayGame {
 	
-	public IncEnergyNeedProfit(Game g) {
+	public GameOverZufriedenheit(Game g) {
 		super(g);
 	}
 	
@@ -38,7 +38,7 @@ public class IncEnergyNeedProfit extends OverlayGame {
 	private ButtonCenteredText[] buttons;
 		
 	public void init(){
-		caption =  "Mächtig Gewinne";
+		caption =  "Game Over";
 		
 		int[] b = f_size(getBackbuffer(), f_rclick_caption, caption);
 		caption_height = b[0];
@@ -51,12 +51,14 @@ public class IncEnergyNeedProfit extends OverlayGame {
 		
 		Runnable r = new RunnableMain(getMain()) {
 			public void run() { 
+				main.getGame().stop();
 				main.getGraphic().removeOverlay();
+				main.getGraphic().showMenu();
 			}
 		};
 		
 		buttons = new ButtonCenteredText[1];
-		buttons[0] = new ButtonCenteredText(this, "Klar doch!", c_rclick_caption, c_rclick_button_highlight, left+width/2, top+height-35, f_rclick_button, r);
+		buttons[0] = new ButtonCenteredText(this, "Zum Hauptmenü", c_rclick_caption, c_rclick_button_highlight, left+width/2, top+height-35, f_rclick_button, r);
 	}
 	
 	
@@ -79,9 +81,9 @@ public class IncEnergyNeedProfit extends OverlayGame {
 		//Text
 		g.setColor(c_rclick_text);
 		g.setFont(f_rclick_text);
-		g.drawString("Du fährst ordentliche Gewinne ein, also sollte", left+15, top+15+caption_height+20);
-		g.drawString("es für dich kein Problem sein mit dem von jetzt an", left+15, top+15+caption_height+35);
-		g.drawString("steigendem Energiebedarf fertig zu werden.", left+15, top+15+caption_height+50);
+		g.drawString("Die Bevölkerung ist sehr unzufrieden mit dir.", left+15, top+15+caption_height+20);
+		g.drawString("Die Politiker haben Gesetze erlassen, die dir", left+15, top+15+caption_height+35);
+		g.drawString("den weiteren Betrieb deiner Firma nicht gestatten.", left+15, top+15+caption_height+50);
 		//Draw Buttons
 		for(Button b : buttons) if(b!=null) b.draw();
 	}
@@ -90,10 +92,6 @@ public class IncEnergyNeedProfit extends OverlayGame {
 		//im Fenster
 		if(x>=left && x<=left+width && y>=top && y<=top+height){
 			for(Button b : buttons) if(b!=null)	b.click(x, y);
-		}
-		else{
-			getMain().getGraphic().removeOverlay();
-			getMain().getGraphic().click(x, y);
 		}
 	}
 

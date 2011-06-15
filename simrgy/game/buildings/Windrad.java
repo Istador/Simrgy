@@ -36,6 +36,7 @@ public class Windrad extends BuildingAbstract implements Building {
 	}
 	
 	public String getBuildingMWText(){return "2-6";}
+	public String getBuildingCO2Text(){return String.valueOf((int)co2_kg * modules);}
 	
 	public Image getImage(){ return RessourceManager.windrad; }
 		

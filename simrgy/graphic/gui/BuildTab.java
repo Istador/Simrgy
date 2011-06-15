@@ -99,11 +99,13 @@ public class BuildTab implements GraphicObject {
 			//Name
 			g.setColor(c_build_mouseOver_caption);
 			g.setFont(f_build_caption);
-			g.drawString(b.getName(), left+width+5-2*box, top+height-box+20);
+			g.drawString(b.getName(), left+width+5-2*box, top+height-box+18);
 			//MW
 			g.setColor(c_build_mouseOver_caption);
 			g.setFont(f_build_text);
-			g.drawString(b.getBuildingMWText()+" MW", left+width+5-2*box, top+height-box+20+15);
+			g.drawString(b.getBuildingMWText()+" MW", left+width+5-2*box, top+height-box+20+13);
+			//CO2
+			g.drawString(b.getBuildingCO2Text()+"kg CO2", left+width+5-2*box, top+height-box+20+28);
 			//Baukosten
 			if(b.enoughMoney())	g.setColor(cGreen);
 			else g.setColor(cRed);

@@ -135,7 +135,7 @@ public class RessourceManager {
 	public static final Font f_h48 = new Font("Helvetica", Font.PLAIN, 48);
 	
 	//Forms Fonts
-	public static final Font f_money = f_h30;
+	public static final Font f_money = f_h28;
 	
 	public static final Font f_menu_button = f_h28;
 	public static final Font f_menu_caption = f_h48;

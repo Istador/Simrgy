@@ -37,6 +37,7 @@ public class Kohle extends BuildingAbstract implements Building {
 	}
 	public double getMW(){return mw_module * (double)activeModules();}
 	public String getBuildingMWText(){return String.valueOf((int)mw_module*modules);}
+	public String getBuildingCO2Text(){return String.valueOf((int)co2_kg * modules);}
 	public double getCO2() {return co2_kg * (double)activeModules() * getGame().rKohleCO2;}
 	public int getZufriedenheit() {return zufriedenheit * activeModules();}
 	

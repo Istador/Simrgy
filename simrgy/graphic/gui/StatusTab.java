@@ -41,7 +41,7 @@ public class StatusTab implements GraphicObject {
 		g.drawString("Zeit:", tleft, ttop);
 		g.drawString(String.valueOf(h)+"h "+String.valueOf(m)+"m "+String.valueOf(s)+"s", tright, ttop);
 		
-		ttop+=40;
+		ttop+=35;
 		
 		g.drawString("Windstärke:", tleft, ttop); //max 74 km/h = stürmischer Wind
 		g.drawString(df_float1.format(getMain().getGame().windpower*74.0)+" km/h", tright, ttop);
@@ -49,13 +49,18 @@ public class StatusTab implements GraphicObject {
         g.drawString("Sonnenintensität:", tleft, ttop);
         g.drawString(df_int.format(getMain().getGame().sonnenintensitaet*100.0)+" %", tright, ttop);
 		
-		ttop+=40;
+		ttop+=35;
 		
 		g.drawString("Strombedarf:", tleft, ttop);
 		g.drawString(df_int.format(getMain().getGame().strombedarf)+" MW", tright, ttop);
 		ttop+=20;
 		g.drawString("Stromerzeugung:", tleft, ttop);
 		g.drawString(df_int.format(getMain().getGame().mw)+" MW", tright, ttop);
+		ttop+=20;
+		g.drawString("Stromeinkauf:", tleft, ttop);
+		double einkauf = getMain().getGame().strombedarf - getMain().getGame().mw;
+		einkauf = ( einkauf >= 0.0 ? einkauf : 0.0);
+		g.drawString(df_int.format(einkauf)+" MW", tright, ttop);
 		ttop+=20;
 		g.drawString("Atomkraft:", tleft, ttop);
 		if(getMain().getGame().uran==0) g.setColor(cRed);
@@ -75,17 +80,9 @@ public class StatusTab implements GraphicObject {
         ttop+=20;
         g.drawString("Wasserkraft:", tleft, ttop);
         g.drawString(df_int.format(getMain().getGame().mw_wasser)+" MW", tright, ttop);
+       
         
-        /*
-        ttop+=40;
-        g.drawString("CO2 Ausstoß:", tleft, ttop);
-        g.drawString(df_int.format(getMain().getGame().CO2)+" t", tright, ttop);
-        ttop+=40;
-        g.drawString("Zufriedenheit:", tleft, ttop);
-        g.drawString(df_int.format(getMain().getGame().zufriedenheit)+" %", tright, ttop);
-        */
-        
-        ttop+=40;
+        ttop+=35;
         g.drawString("Uran:", tleft, ttop);
         if(getMain().getGame().uran==0) g.setColor(cRed);
         g.drawString(df_int.format((int)getMain().getGame().uran)+"/"+df_int.format((int)getMain().getGame().uran_max)+" kg", tright-14, ttop);
@@ -99,7 +96,7 @@ public class StatusTab implements GraphicObject {
         g.drawString("Atommüll:", tleft, ttop);
         g.drawString(df_int.format((int)getMain().getGame().uran_max-(int)getMain().getGame().uran)+" kg", tright-14, ttop);
         
-        ttop+=40;
+        ttop+=35;
         g.drawString("Gewinn:", tleft, ttop);
         g.drawString(df_money.format((long)getMain().getGame().gewinn)+" €/s", tright, ttop);
         ttop+=20;
@@ -114,6 +111,15 @@ public class StatusTab implements GraphicObject {
         ttop+=20;
         g.drawString("Gebäudekosten:", tleft, ttop);
         g.drawString(df_money.format((long)(getMain().getGame().verlust_gebauedekosten*-1.0))+" €/s", tright, ttop);
+        
+        ttop+=35;
+        g.drawString("CO2 Ausstoß:", tleft, ttop);
+        g.drawString(df_int.format(getMain().getGame().CO2)+" kg", tright, ttop);
+        
+        ttop+=35;
+        g.drawString("Zufriedenheit:", tleft, ttop);
+        g.drawString(df_int.format(getMain().getGame().getZufriedenheit()*100.0)+" %", tright, ttop);
+        
 	}
 
 	public void click(int x, int y) {}

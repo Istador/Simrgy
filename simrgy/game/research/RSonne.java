@@ -34,8 +34,6 @@ public class RSonne extends ResearchAbstract {
 	public void researchEffect(Game g) {
 		g.rSolarEnergy *= 2.0; //verdoppele die erzeugte Energie der Sonne
 		g.rH2OEnergy *= 0.2; // wasserkraft -80%
-		//TODO zufriedenheit--, 
-		
 		
 		/* Ausgabe: 
 		 *  Forschung "Sonnenoutput erhöhen" abgeschlossen!
@@ -122,6 +120,7 @@ public class RSonne extends ResearchAbstract {
 				}
 				else{
 					getMain().getGraphic().removeOverlay();
+					getMain().getGraphic().click(x, y);
 				}
 			}
 

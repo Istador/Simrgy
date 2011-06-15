@@ -18,6 +18,7 @@ public class ALequidatoren implements Action {
 	public void run(Building b) {
 		if( isPossible(b) ){
 			b.getGame().money -= 10000000.0;
+			b.getGame().liquidatoren_count++;
 			((AKW)b).unfall = false;
 			((AKW)b).unfall_tick = 0;
 			((AKW)b).unfall_time = 0;

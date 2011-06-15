@@ -9,6 +9,7 @@ public interface Building {
 	public Image getImage();
 	public String getName();
 	public String getBuildingMWText();
+	public String getBuildingCO2Text();
 	public String getModulesText();
 	public String getPersonalText();
 	

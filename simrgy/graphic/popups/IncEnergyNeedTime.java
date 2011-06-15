@@ -93,6 +93,7 @@ public class IncEnergyNeedTime extends OverlayGame {
 		}
 		else{
 			getMain().getGraphic().removeOverlay();
+			getMain().getGraphic().click(x, y);
 		}
 	}
 

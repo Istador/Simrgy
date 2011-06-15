@@ -58,13 +58,15 @@ public class RechtsklickTab implements Action{
 				}
 				int min_width = ( building instanceof AKW ? 235 : 220 );
 				tmp_width = ( tmp_width<min_width ? min_width : tmp_width );
+
+				int akw_height = ( building instanceof AKW ? 15 : 0 );
 				
 				width = tmp_width + 30;
-				height = 25+caption_height+5+25*size+65;
+				height = 25+caption_height+5+25*size+65 + akw_height ;
 				top = getMain().height/2-height/2;
 				left = getMain().width/2-width/2;
 				
-				int btop = top + 10 + caption_height + 10 + 65;
+				int btop = top + 10 + caption_height + 10 + 65 + akw_height;
 				int bheight = 20;
 				for(Action a : building.getActions()){
 					if(a.isPossible(building)){
@@ -80,21 +82,21 @@ public class RechtsklickTab implements Action{
 					//Personalveränderungen
 					Rectangle b = new Rectangle();
 					b.setSize(15, 15);
-					b.setLocation(left+130, top+10+5+caption_height+5+40+5);					
+					b.setLocation(left+15, top+10+5+caption_height+5+40+20);					
 					actions.put(DecPersonal.getInstance(), b);
 					b = new Rectangle();
 					b.setSize(15, 15);
-					b.setLocation(left+130+20, top+10+5+caption_height+5+40+5);					
+					b.setLocation(left+15+20, top+10+5+caption_height+5+40+20);					
 					actions.put(IncPersonal.getInstance(), b);
 					
 					//Leistungsveränderungen
 					b = new Rectangle();
 					b.setSize(15, 15);
-					b.setLocation(left+width-10-10-30, top+10+5+caption_height+5+40+5);					
+					b.setLocation(left+155, top+10+5+caption_height+5+40+20);					
 					actions.put(DecLeistung.getInstance(), b);
 					b = new Rectangle();
 					b.setSize(15, 15);
-					b.setLocation(left+width-10-5-15, top+10+5+caption_height+5+40+5);					
+					b.setLocation(left+155+20, top+10+5+caption_height+5+40+20);					
 					actions.put(IncLeistung.getInstance(), b);
 				}
 				else if(building instanceof HQ){
@@ -138,9 +140,11 @@ public class RechtsklickTab implements Action{
 					g.drawString(String.valueOf((int)(getMain().getGame().getSolarPower(building)*100.0))+"% Sonne", left+155, top+10+5+caption_height+5+10);
 					//Wind
 					g.drawString(String.valueOf((int)(getMain().getGame().getWindpower(building)*100.0))+"% Wind", left+155, top+10+5+caption_height+5+25);
+					//CO2
+					g.drawString(df_float1.format(building.getCO2())+"kg CO2", left+155, top+10+5+caption_height+5+40 );
 					//Leistung
 					if(building instanceof AKW){
-						g.drawString(String.valueOf((int)(((AKW)building).getLeistung()*100.0)+"% Leistung"), left+155, top+10+5+caption_height+5+40 );
+						g.drawString(String.valueOf((int)(((AKW)building).getLeistung()*100.0)+"% Leistung"), left+155, top+10+5+caption_height+5+55 );
 					}
 				}
 				else{
@@ -179,6 +183,7 @@ public class RechtsklickTab implements Action{
 				}
 				else{
 					getMain().getGraphic().removeOverlay();
+					getMain().getGraphic().click(x, y);
 				}
 			}
 

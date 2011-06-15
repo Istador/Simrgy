@@ -18,7 +18,7 @@ public class Laufwasser extends BuildingAbstract implements Building {
         super(g, name);
         
 		underground = 4; // Fluss benötigt
-		max_modules = 15;
+		max_modules = 20;
 		bauzeit_per_module = 12000; //2 Jahre Bauzeit -> 12s
 		baukosten_per_module = 40000000.0; //40,0 Mio per Module
         
@@ -37,6 +37,7 @@ public class Laufwasser extends BuildingAbstract implements Building {
     
     public double getMW(){return mw_module * activeModules() * getGame().rH2OEnergy;}
     public String getBuildingMWText(){return String.valueOf((int)mw_module*modules);}
+    public String getBuildingCO2Text(){return String.valueOf((int)co2_kg * modules);}
     public double getCO2() {return co2_kg * activeModules();}
     public int getZufriedenheit() {return zufriedenheit * activeModules();}
     

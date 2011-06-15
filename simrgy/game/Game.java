@@ -7,6 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import simrgy.applet.Main;
 import simrgy.applet.Music;
 import simrgy.game.buildings.*;
+import simrgy.game.research.RSonne;
 import simrgy.graphic.map.Grid;
 import simrgy.graphic.popups.*;
 
@@ -74,8 +75,10 @@ public class Game {
     public double verlust_gebauedekosten;
     
     public double CO2;
-    public double zufriedenheit;
+    protected double zufriedenheit;
 	
+    public int liquidatoren_count = 0;
+    
 	public long personal;
 	
 	public long ansteigender_strombedarf_zeitpunkt;
@@ -86,6 +89,10 @@ public class Game {
 	public double strompreis;
 	public double strompreis_min;
 	public double strompreis_max;
+	
+	public double highscore_sum_zufriedenheit;
+	public double highscore_max_gewinn;
+	public double highscore_max_money;
 	
 	//Konstruktor
 	public Game(Main m){
@@ -100,7 +107,7 @@ public class Game {
 		running = false;
 		started = false;
 		
-		money = 100000000.0;
+		money = 1000000000.0;
 		money_min = -500000000.0;
 		time = 0;
 		last_update_time=time;
@@ -137,10 +144,12 @@ public class Game {
 		
     	strompreis = 0.2495; // 0,2495 €/kWh -> 249,5 €/MWh
     	strompreis_min = 0.1;
-    	strompreis_max = 0.4;
+    	strompreis_max = 0.5;
     	
 		personal = 0;
-		zufriedenheit = 50.0;
+		
+		CO2 = 0;
+		zufriedenheit = 1.0;
 		
 		akw_unfall = false;
 		akw_explosion = false;
@@ -151,6 +160,10 @@ public class Game {
 		strombedarf = 50000; //171527.777; //617,5 Mrd kWh = 617,5 Mil MWh = 171527,777 MW
 		max_strombedarf = 100000.0;
 
+		highscore_sum_zufriedenheit = 0.0;
+		highscore_max_gewinn = 0.0;
+		highscore_max_money = 0.0;
+		
 		//Forschung init
 		researching = new HashMap<Research, Long>();
 		finishedResearch = new HashSet<Research>();
@@ -352,29 +365,45 @@ public class Game {
 		return 2000.0/5; // €/s
 	}
 	
-	public double getZufriedenheit()
-	{
-		double tmp = 0.0;
-		//double differenz = max_strombedarf - strombedarf;
-		//double tmp1 = max_strombedarf/100;
-		//double tmp2 = strombedarf/100;
+	
+	public void calcZufriedenheit(){
+		double zufr = 1.0;
 		
-		//TODO Zufriedenheit verringern bei "Sonnenoutput erhöhen"
-		//TODO Zufriedenheit bei Liquidatoren verringern
-		//TODO Zufriedenheit von Strompreis abhängig machen
+		//Strompreis
+		double preis = (strompreis-strompreis_min)/(strompreis_max-strompreis_min); //Strompreis normalisieren
+		zufr -= preis*0.4;
 		
-		if(mw < strombedarf){
-			tmp -= 1;
-	    }
-		else{
-			tmp += 1;
+		//CO2
+		double co2 = CO2-10000.0;
+		co2 = co2<0.0 ? 0.0 : co2 ; 
+		co2 = co2/30000.0;
+		zufr -= co2*0.2;
+		
+		//Forschung Sonnenoutput
+		if(this.isResearchDone(RSonne.getInstance())){
+			zufr -= 0.4;
 		}
 		
-	    if(CO2 > 500){
-	    	tmp -= 1;
-	    }
-
-		return tmp;
+		//Atommüll
+		double muell = (uran_max - uran)/50000.0;
+		zufr -= 0.1 * muell;
+		
+		//Anzahl AKWs
+		int akw_count = 0;
+		for(Building[] tmp : buildings)
+			for(Building b : tmp)
+				if(b instanceof AKW)
+					akw_count++;
+		zufr -= (double)akw_count * 0.01;
+		
+		//Anzahl Lequidatoren
+		zufr -= this.liquidatoren_count*0.01;
+		
+		zufr = (zufr<=0.0 ? 0.0 : ( zufr>=1.0) ? 1.0 : zufr );
+		zufriedenheit = zufr;
+	}
+	public double getZufriedenheit(){		
+		return zufriedenheit;
 	}
 	
 	public void tick(long timeDiff){
@@ -463,24 +492,22 @@ public class Game {
 					max_strombedarf=mw;
 				
 				gewinn_inland = verkauf_inland * getStrompreis();
-				gewinn_ausland = verkauf_ausland * getStrompreis() * 0.5; //ins ausland verkaufen (weniger Gewinn als im eigenem Land)
-				verlust_ausland = einkauf_ausland * getStrompreis(); //aus den ausland einkaufen (ohne an dem Strom zu verdienen)
+				gewinn_ausland = verkauf_ausland * strompreis_min*1000.0 * 0.5; //ins ausland verkaufen (weniger Gewinn als im eigenem Land)
+				verlust_ausland = einkauf_ausland * strompreis_min*1000.0; //aus den ausland einkaufen (ohne an dem Strom zu verdienen)
 				gewinn = gewinn_inland + gewinn_ausland - verlust_ausland - verlust_gebauedekosten;
 				money += gewinn*tds;
 				
+				highscore_max_gewinn = (gewinn>=highscore_max_gewinn ? gewinn : highscore_max_gewinn);
+				highscore_max_money = (money>=highscore_max_money ? money : highscore_max_money);
 				
-				//Zufriedenheit
-		        zufriedenheit += getZufriedenheit() * tds;
-		        if(zufriedenheit>100.0){
-		        	zufriedenheit = 100.0;
-		        }
-		        if(zufriedenheit<0.0){
-		        	zufriedenheit = 0.0;
-		        }
-		        
+				//Zufriedenheit berechnen
+				calcZufriedenheit();
+				highscore_sum_zufriedenheit += zufriedenheit;
 				
 				//Update Zeit aktualisieren
 				last_update_time=time;
+				
+				//System.out.println("HS: Z:"+highscore_sum_zufriedenheit/((double)time/1000.0)+", G:"+highscore_max_gewinn+", M:"+highscore_max_money);
 			}
 
 			//Gebäude tick
@@ -508,48 +535,53 @@ public class Game {
 			
 			
 			//Zufällige Ereignisse
-			
-			if(!ansteigender_strombedarf){
-				//ab 15.000.000 Euro Gewinn steigender Strombedarf
-				if(gewinn>=15000000.0){
-					ansteigender_strombedarf = true;
-					getMain().getGraphic().setOverlay(new IncEnergyNeedProfit(this));
+			if(running){
+				if(!ansteigender_strombedarf){
+					//ab 15.000.000 Euro Gewinn steigender Strombedarf
+					if(gewinn>=15000000.0 && time>=180000){
+						ansteigender_strombedarf = true;
+						getMain().getGraphic().setOverlay(new IncEnergyNeedProfit(this));
+					}
+					//oder, nach 10min
+					else if (time>=600000){
+						ansteigender_strombedarf = true;
+						getMain().getGraphic().setOverlay(new IncEnergyNeedTime(this));
+					}
 				}
-				//oder, nach 10min
-				else if (time>=600000 ){
-					ansteigender_strombedarf = true;
-					getMain().getGraphic().setOverlay(new IncEnergyNeedTime(this));
-				}
-			}
 			
-			//Erster AKW Unfall
-			if(akw_unfall_first && akw_unfall){
-				akw_unfall_first = false;
-				getMain().getGraphic().setOverlay(new FirstAKWUnfall(this));
-			}
+				//Erster AKW Unfall
+				if(akw_unfall_first && akw_unfall){
+					akw_unfall_first = false;
+					getMain().getGraphic().setOverlay(new FirstAKWUnfall(this));
+				}
 				
-			//Uranvorkommen auf 0 gefallen
-			if(uran_zero_first && Double.compare(uran, 0.0)==0){
-				uran_zero_first = false;
-				getMain().getGraphic().setOverlay(new ZeroUran(this));
-			}
+				//Uranvorkommen auf 0 gefallen
+				if(uran_zero_first && Double.compare(uran, 0.0)==0){
+					uran_zero_first = false;
+					getMain().getGraphic().setOverlay(new ZeroUran(this));
+				}
 			
-			//Kohlevorkommen auf 0 gefallen
-			if(kohle_zero_first && kohle==0){
-				kohle_zero_first = false;
-				getMain().getGraphic().setOverlay(new ZeroKohle(this));
-			}
+				//Kohlevorkommen auf 0 gefallen
+				if(kohle_zero_first && kohle==0){
+					kohle_zero_first = false;
+					getMain().getGraphic().setOverlay(new ZeroKohle(this));
+				}
 			
-			//Game Over: zu wenig Geld
-			if(money<money_min){
-				getMain().getGraphic().setOverlay(new GameOverMoney(this));
-			}
+				//Game Over: zu wenig Geld
+				if(money<money_min){
+					getMain().getGraphic().setOverlay(new GameOverMoney(this));
+				}
 			
-			//Game Over: AKW Unfall
-			if(akw_explosion){
-				getMain().getGraphic().setOverlay(new GameOverExplosion(this));
-			}
+				//Game Over: AKW Unfall
+				if(akw_explosion){
+					getMain().getGraphic().setOverlay(new GameOverExplosion(this));
+				}
 			
+				//Game Over: AKW Unfall
+				if( Double.compare(getZufriedenheit(), 0.0) <= 0 ){
+					getMain().getGraphic().setOverlay(new GameOverZufriedenheit(this));
+				}
+			}
 		}
 	}
 	

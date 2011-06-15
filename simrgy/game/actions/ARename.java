@@ -81,6 +81,7 @@ public class ARename implements Action {
 				}
 				else{
 					getMain().getGraphic().removeOverlay();
+					getMain().getGraphic().click(x, y);
 				}
 			}
 

@@ -100,4 +100,20 @@ public class Main extends Applet implements MouseListener, MouseMotionListener, 
 	}
 	public void keyReleased(KeyEvent ke) {}
 	public void keyTyped(KeyEvent ke) {}
+	
+	@Override
+	public int getWidth(){
+		return width;
+	}
+	
+	@Override
+	public int getHeight(){
+		return height;
+	}
+	
+	@Override
+	public String getAppletInfo(){
+		return "Sim'rgy ist ein Browserspiel, in der du die Kontrolle über die deutsche Energieversorgung übernimmst.\n\nUrheber:\nRobin C. Ladiges\nSebastian Möllmann";
+	}
+	
 }

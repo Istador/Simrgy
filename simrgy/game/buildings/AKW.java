@@ -7,7 +7,7 @@ import simrgy.game.actions.*;
 import static simrgy.res.RessourceManager.*;
 
 public class AKW extends BuildingAbstract implements Building {
-		
+	
 	protected int personal = 10;
 	protected static int max_personal_per_module = 100; //?
 	protected static int min_personal_per_module = 10; //?
@@ -22,7 +22,7 @@ public class AKW extends BuildingAbstract implements Building {
 		underground = 6; //Fluss oder See benötigt benötigt
 		max_modules = 3;
 		bauzeit_per_module = 90000; //10-20 Jahre Bauzeit -> 1-2 Minuten -> 1:30 -> 90s
-		baukosten_per_module = 5000000000.0; // 5 Mrd.
+		baukosten_per_module = 2500000000.0; // 2.5 Mrd.
 		
 		actions.add(ARename.getInstance());
 		actions.add(ALequidatoren.getInstance());
@@ -60,6 +60,7 @@ public class AKW extends BuildingAbstract implements Building {
 
 	public double getMW(){ return (double)activeModules() * mw_module * getLeistung(); }
 	public String getBuildingMWText(){return String.valueOf((int)mw_module*modules);}
+	public String getBuildingCO2Text(){return String.valueOf((int)co2_kg * modules);}
 	public double getCO2() {return co2_kg * (double)activeModules() * getLeistung();}
 	public int getZufriedenheit() {return zufriedenheit * activeModules();}
 	
@@ -114,7 +115,7 @@ public class AKW extends BuildingAbstract implements Building {
 		if(unfall){
 			unfall_time+=miliseconds;
 			getGame().akw_unfall = true;
-			if(unfall_time >= 30000){ //30 Sekunden Zeit zu reagieren
+			if(unfall_time >= 20000){ //20 Sekunden Zeit zu reagieren
 				game.akw_explosion = true;
 			}
 		}

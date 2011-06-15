@@ -20,7 +20,7 @@ public class Solar extends BuildingAbstract implements Building {
         
 		underground = 1; //Land benötigt
 		max_modules = 6;
-		bauzeit_per_module = 12000; //2 Jahre
+		bauzeit_per_module = 12000; //2 Jahre -> 12 Sekunden
 		baukosten_per_module = 130000000.0; //pro Rad
         
         actions.add(ARename.getInstance());
@@ -42,6 +42,7 @@ public class Solar extends BuildingAbstract implements Building {
         return pro * activeModules() * getGame().rSolarEnergy;
     }
     public String getBuildingMWText(){return "10-40";}
+    public String getBuildingCO2Text(){return String.valueOf((int)co2_kg * modules);}
     public double getCO2() {return co2_kg * activeModules();}
     public int getZufriedenheit() {return zufriedenheit * activeModules();}
     

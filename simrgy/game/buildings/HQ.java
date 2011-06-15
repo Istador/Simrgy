@@ -24,6 +24,7 @@ public class HQ extends BuildingAbstract implements Building {
 
 	public double getMW(){return 0.0;}
 	public String getBuildingMWText(){return "0";}
+	public String getBuildingCO2Text(){return "0";}
 	public double getCO2() {return 0.0;}
 	public int getZufriedenheit() {return 0;}
 	

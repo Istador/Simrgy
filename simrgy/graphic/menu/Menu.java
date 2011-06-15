@@ -76,7 +76,7 @@ public class Menu implements GraphicObject {
 		int strleft = width/2-strwidth/2+left;
 		g.drawString("Sim'rgy", strleft, strtop);
 		g.setFont(f_menu_smaltext);
-		g.drawString("Version 019", left+width-110, top+height-20-10);
+		g.drawString("Version 020", left+width-110, top+height-20-10);
 		for(Button b : buttons) if(b!=null) b.draw();
 	}
 

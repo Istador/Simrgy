@@ -41,11 +41,13 @@ public class GridObject implements GraphicObject {
 		Graphics g = getBackbuffer();
 		boolean unfall = building instanceof AKW && ((AKW)building).unfall;
 		int dgrid = ( getMain().getGraphic().getSettings().drawgrid ? 1 : 0 );
-		if(unfall){
-			this.highlightRed();
-		}
+		
 		//Highlight
-		if(highlightColor != null){
+		if(unfall){
+			g.setColor(cRed);
+			g.fillRect(left+dgrid, top+dgrid, width-dgrid, height-dgrid);
+		}
+		else if(highlightColor != null){
 			g.setColor(highlightColor);
 			g.fillRect(left+dgrid, top+dgrid, width-dgrid, height-dgrid);
 		}

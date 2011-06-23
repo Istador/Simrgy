@@ -41,7 +41,7 @@ public class About implements GraphicObject {
 			}
 		};
 		
-		buttons = new Button[7];
+		buttons = new Button[8];
 		buttons[0] = new ButtonCenteredText(this, "Zurück", c_menu_button_text, c_menu_button_highlight, width/2, height-45, f_menu_button, r1);
 		buttons[1] = new ButtonHTTPLabel(this, "https://blackpinguin.de/", "https://blackpinguin.de/", 0, 0, f_menu_smaltext);
 		
@@ -50,6 +50,8 @@ public class About implements GraphicObject {
 		buttons[4] = new ButtonHTTPLabel(this, "stefano mocini - rebirth - creative commons by-sa 3.0", "http://www.jamendo.com/track/770629", 0, 0, f_menu_smaltext);
 		buttons[5] = new ButtonHTTPLabel(this, "Xera - Ñubes - creative commons by-nc-nd 3.0", "http://www.jamendo.com/track/38494", 0, 0, f_menu_smaltext);
 		buttons[6] = new ButtonHTTPLabel(this, "Adult Only - Shoreless - creative commons by-nc-sa 3.0", "http://www.jamendo.com/track/608009", 0, 0, f_menu_smaltext);
+		
+		buttons[7] = new ButtonHTTPLabel(this, "Kgberger - creative commons by-sa 3.0", "https://secure.wikimedia.org/wikipedia/de/w/index.php?title=Datei:BRD.png", 0, 0, f_menu_smaltext);
 	}
 	
 	
@@ -92,19 +94,30 @@ public class About implements GraphicObject {
 		g.drawString("Musik:", width/2-strwidth/2+left, strtop);
 		
 		strtop += 5 ;
+		
 		((ButtonHTTPLabel)buttons[2]).setTL(strtop, left+30);
-		
 		strtop += 5 + buttons[2].getHeight();
+		
 		((ButtonHTTPLabel)buttons[3]).setTL(strtop, left+30);
-		
 		strtop += 5 + buttons[3].getHeight();
+		
 		((ButtonHTTPLabel)buttons[4]).setTL(strtop, left+30);
-		
 		strtop += 5 + buttons[4].getHeight();
-		((ButtonHTTPLabel)buttons[5]).setTL(strtop, left+30);
 		
+		((ButtonHTTPLabel)buttons[5]).setTL(strtop, left+30);
 		strtop += 5 + buttons[5].getHeight();
+		
 		((ButtonHTTPLabel)buttons[6]).setTL(strtop, left+30);
+		strtop += 5 + buttons[6].getHeight();
+		
+		f = f_size(g, f_menu_bigtext, "Deutschlandkarte:");
+		strheight = f[0];
+		strtop += 10+strheight;
+		strwidth = f[1]; 
+		g.drawString("Deutschlandkarte:", width/2-strwidth/2+left, strtop);
+		
+		strtop += 5 ;		
+		((ButtonHTTPLabel)buttons[7]).setTL(strtop, left+30);
 		
 		//Buttons zeichnen
 		for(Button b : buttons) if(b!=null) b.draw();

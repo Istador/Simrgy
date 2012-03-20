@@ -53,11 +53,20 @@ public class RessourceManager {
 	*/
 	
 	private static final String[] bg_music = {
+		/* keine komerzielle nutzung
 		"music/10 - The heaven is not so far.mp3",	// Dj Fab - The heaven is not so far - cc by-nc-sa 2.0 fr
-		"music/01 - rebirth.mp3",					// stefano mocini - rebirth - cc by-sa 3.0
+		"music/01 - rebirth.mp3"					// stefano mocini - rebirth - cc by-sa 3.0
 		"music/02 - Swashing the buck.mp3",			// Celestial Aeon Project - Swashing the buck - cc by-nc-sa 3.0
 		"music/07 - Nubes.mp3",						// Xera - Ñubes - cc by-nc-nd 3.0
 		"music/01 - Shoreless.mp3"					// Adult Only - Shoreless - cc by-nc-sa 3.0
+		*/
+		
+		"music/Movement_2__Allegro_con_brio.mp3",		// Daniel Bautista - Movement 2: Allegro con brio - cc by-sa 3.0 (20.03.2012)
+		"music/Symphony_Of_Darkness_(Interlude).mp3", 	// Serphonic - Last Hope - cc by-sa 2.0 de (20.03.2012)
+		"music/Nuclear_launch_detected.mp3",			// Mister M - Nuclear launch detected - cc by-sa 3.0 (20.03.2012)
+		"music/Emptiness.mp3",							// Alexander Blu - Emptiness - cc by-sa 3.0 (20.03.2012)
+		"music/Last_Hope.mp3"							// Else - Symphony Of Darkness (Interlude) - cc by-sa 3.0 (20.03.2012)
+		
 	};
 	
 	public static URL sAKWUnfall = RessourceManager.class.getResource("sounds/akw_warnung.wav");
@@ -80,6 +89,8 @@ public class RessourceManager {
 	public static final Image map = new ImageIcon(RessourceManager.class.getResource("img/map.png")).getImage();
 	
 	public static final Image rcl = new ImageIcon(RessourceManager.class.getResource("img/rcl.jpg")).getImage();
+	
+	public static final Image mims = new ImageIcon(RessourceManager.class.getResource("img/mims.png")).getImage();
 	
 	public static final Image none = new ImageIcon(RessourceManager.class.getResource("img/buildings/none.png")).getImage();
 	
@@ -221,6 +232,7 @@ public class RessourceManager {
 	public static final Color cBlack30 = new Color(0, 0, 0, 0.3f);
 	public static final Color cBlack60 = new Color(0, 0, 0, 0.6f);
 	
+	public static final Color cNone = new Color(0, 0, 0, 0.0f);
 	
 	//Forms Farben
 	public static final Color c_gui_bg = cMelon;

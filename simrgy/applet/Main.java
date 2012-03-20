@@ -1,13 +1,14 @@
 package simrgy.applet;
 
-import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.*;
+
+import javax.swing.*;
 
 import simrgy.graphic.*;
 import simrgy.game.Game;
 
-public class Main extends Applet implements MouseListener, MouseMotionListener, KeyListener {
+public class Main extends JApplet implements MouseListener, MouseMotionListener, KeyListener {
 	private static final long serialVersionUID = -7673817554230011101L;
 
 	Graphic graphic;
@@ -22,7 +23,25 @@ public class Main extends Applet implements MouseListener, MouseMotionListener, 
 	public int min_height = 555;
 	public int width = 800;
 	public int height = 600;
+	private Dimension dim = null;
+	
+	/*
+	public static void main(String args[]){
+		Main app = new Main();
+
+		//app.setSize(800, 600);
+		app.init();
 		
+		JFrame f = new JFrame("Sim'rgy");
+		f.setContentPane(app);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+		
+		app.start();
+		f.pack();
+	}
+	*/
+	
 	public void init(){		
 		width = getSize().width;
 		height = getSize().height;
@@ -30,30 +49,33 @@ public class Main extends Applet implements MouseListener, MouseMotionListener, 
 			width=min_width;
 		if(height<=min_height)
 			height=min_height;
-		//Dimension d = new Dimension(width, height);
-		//setPreferredSize(d);
-		//setMinimumSize(d);
-		//setMaximumSize(d);
-		//setSize(width, height);
-		
-		//init Graphic, with backbuffer (no flickering)
-		//Source: http://profs.etsmtl.ca/mmcguffin/learn/java/07-backbuffer/
-		backbuffer = createImage(width, height);
-		backg = backbuffer.getGraphics();
 				
-		graphic = new Graphic(this);
-		game = new Game(this);
+		dim = new Dimension(width, height);
+		setPreferredSize(dim);
+		setMinimumSize(dim);
+		setMaximumSize(dim);
+		setSize(width, height);
 		
 		addMouseListener(this); 
 		addMouseMotionListener(this);
 		addKeyListener(this);
 		//addComponentListener(new ComponentAdapter(){ public void componentResized(ComponentEvent e){ setSize(); } });
+		
 	}
 	
 	public void start(){
+		//init Graphic, with backbuffer (no flickering)
+		//Source: http://profs.etsmtl.ca/mmcguffin/learn/java/07-backbuffer/
+		backbuffer = createImage(width, height);
+		backg = backbuffer.getGraphics();
+		
+		graphic = new Graphic(this);
+		game = new Game(this);
+		
 		setSize(width, height);
+		
 		gt = new GameThread(this);
-		gt.start();		
+		gt.start();	
 	}
 	
 	public void stop(){
@@ -109,6 +131,14 @@ public class Main extends Applet implements MouseListener, MouseMotionListener, 
 	@Override
 	public int getHeight(){
 		return height;
+	}
+	
+	@Override
+	public Dimension getSize(){
+		if(dim==null)
+			return super.getSize();
+		else
+			return dim;
 	}
 	
 	@Override

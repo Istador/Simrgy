@@ -3,6 +3,7 @@ package simrgy.graphic.menu;
 import simrgy.applet.*;
 import simrgy.graphic.Button;
 import simrgy.graphic.ButtonCenteredText;
+import simrgy.graphic.ButtonHTTPImage;
 import simrgy.graphic.Graphic;
 import simrgy.graphic.GraphicObject;
 import static simrgy.res.RessourceManager.*;
@@ -42,9 +43,10 @@ public class Intro implements GraphicObject {
 			}
 		};
 		
-		buttons = new Button[2];
+		buttons = new Button[3];
 		buttons[0] = new ButtonCenteredText(this, "Starte Spiel", c_menu_button_text, c_menu_button_highlight, width/2, height-93, f_menu_button, r1);
 		buttons[1] = new ButtonCenteredText(this, "Zurück", c_menu_button_text, c_menu_button_highlight, width/2, height-45, f_menu_button, r2);
+		buttons[2] = new ButtonHTTPImage(this, mims, "http://mims.projects.emercs.com/", width-30-194, height-30-96, 194, 96);
 	}
 		
 	//GraphicObject Methods
@@ -81,7 +83,7 @@ public class Intro implements GraphicObject {
 		strtop+=25;
 		g.drawString("schränke und Toaster einen eigenen Internetanschluss erhalten, übernehmen Sie die",left+40,strtop);
 		strtop+=25;
-		g.drawString("Führung des renommierten Energieerzeugers \"Wattenfail\", um die Energieversorgung",left+40,strtop);
+		g.drawString("Führung eines renommierten Energieerzeugers, um die Energieversorgung",left+40,strtop);
 		strtop+=25;
 		g.drawString("Deutschlands, in dieser schweren Zeit, sicherzustellen.",left+40,strtop);
 		

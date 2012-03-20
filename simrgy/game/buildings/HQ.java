@@ -8,7 +8,7 @@ import simrgy.res.RessourceManager;
 public class HQ extends BuildingAbstract implements Building {
 	
 	public HQ(Game g){
-		super(g, "Wattenfail");
+		super(g, "Hauptquartier");
 		
 		bauzeit_so_far = 1;
 		

@@ -3,6 +3,7 @@ package simrgy.graphic.menu;
 import simrgy.applet.*;
 import simrgy.graphic.Button;
 import simrgy.graphic.ButtonCenteredText;
+import simrgy.graphic.ButtonHTTPImage;
 import simrgy.graphic.Checkbox;
 import simrgy.graphic.Graphic;
 import simrgy.graphic.GraphicObject;
@@ -46,11 +47,12 @@ public class Settings implements GraphicObject {
 			}
 		};
 		
-		buttons = new Button[4];
+		buttons = new Button[5];
 		buttons[0] = new ButtonCenteredText(this, "Zurück", c_menu_button_text, c_menu_button_highlight, width/2, height-45, f_menu_button, r1);
 		buttons[1] = new Checkbox(this, drawgrid, null, c_menu_button_highlight, 50, 150, 50, 50);
 		buttons[2] = new Checkbox(this, music, null, c_menu_button_highlight, 50, 250, 50, 50);
 		buttons[3] = new Checkbox(this, speed, null, c_menu_button_highlight, 50, 350, 50, 50);
+		buttons[4] = new ButtonHTTPImage(this, mims, "http://mims.projects.emercs.com/", width-30-194, height-30-96, 194, 96);
 	}
 		
 	//GraphicObject Methods

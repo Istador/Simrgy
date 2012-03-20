@@ -3,6 +3,7 @@ package simrgy.graphic.menu;
 import simrgy.applet.*;
 import simrgy.graphic.Button;
 import simrgy.graphic.ButtonCenteredText;
+import simrgy.graphic.ButtonHTTPImage;
 import simrgy.graphic.Graphic;
 import simrgy.graphic.GraphicObject;
 import static simrgy.res.RessourceManager.*;
@@ -54,11 +55,12 @@ public class Menu implements GraphicObject {
 			}
 		};
 		
-		buttons = new Button[3];
+		buttons = new Button[4];
 		buttons[0] = new ButtonCenteredText(this, "Spiel starten", c_menu_button_text, c_menu_button_highlight, width/2, height/6*2, f_menu_button, r1);
 		//buttons[1] = new ButtonCenteredText(this, "Highscores", c_menu_button_text,c_menu_button_highlight, width/2, height/6*3, f_menu_button, r2);
 		buttons[1] = new ButtonCenteredText(this, "Einstellungen", c_menu_button_text, c_menu_button_highlight, width/2, height/6*4, f_menu_button, r3);
 		buttons[2] = new ButtonCenteredText(this, "Credits", c_menu_button_text, c_menu_button_highlight, width/2, height/6*5, f_menu_button, r4);
+		buttons[3] = new ButtonHTTPImage(this, mims, "http://mims.projects.emercs.com/", width-30-194, height-30-96, 194, 96);
 	}
 		
 	//GraphicObject Methods
@@ -76,7 +78,7 @@ public class Menu implements GraphicObject {
 		int strleft = width/2-strwidth/2+left;
 		g.drawString("Sim'rgy", strleft, strtop);
 		g.setFont(f_menu_smaltext);
-		g.drawString("Version 021", left+width-110, top+height-20-10);
+		g.drawString("Version 022", left+30, top+height-20-10);
 		for(Button b : buttons) if(b!=null) b.draw();
 	}
 

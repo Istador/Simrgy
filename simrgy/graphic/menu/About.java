@@ -3,6 +3,7 @@ package simrgy.graphic.menu;
 import simrgy.applet.*;
 import simrgy.graphic.Button;
 import simrgy.graphic.ButtonCenteredText;
+import simrgy.graphic.ButtonHTTPImage;
 import simrgy.graphic.ButtonHTTPLabel;
 import simrgy.graphic.Graphic;
 import simrgy.graphic.GraphicObject;
@@ -41,17 +42,27 @@ public class About implements GraphicObject {
 			}
 		};
 		
-		buttons = new Button[8];
+		buttons = new Button[9];
 		buttons[0] = new ButtonCenteredText(this, "Zurück", c_menu_button_text, c_menu_button_highlight, width/2, height-45, f_menu_button, r1);
 		buttons[1] = new ButtonHTTPLabel(this, "https://blackpinguin.de/", "https://blackpinguin.de/", 0, 0, f_menu_smaltext);
 		
+		buttons[2] = new ButtonHTTPLabel(this, "Daniel Bautista - Movement 2: Allegro con brio - creative commons by-sa 3.0 (20.03.2012)", "http://www.jamendo.com/track/891471", 0, 0, f_menu_smaltext);
+		buttons[3] = new ButtonHTTPLabel(this, "Else - Symphony Of Darkness (Interlude) - creative commons by-sa 3.0 (20.03.2012)", "http://www.jamendo.com/track/785887", 0, 0, f_menu_smaltext);
+		buttons[4] = new ButtonHTTPLabel(this, "Mister M - Nuclear launch detected - creative commons by-sa 3.0 (20.03.2012)", "http://www.jamendo.com/track/910915", 0, 0, f_menu_smaltext);
+		buttons[5] = new ButtonHTTPLabel(this, "Alexander Blu - Emptiness - creative commons by-sa 3.0 (20.03.2012)", "http://www.jamendo.com/track/946", 0, 0, f_menu_smaltext);
+		buttons[6] = new ButtonHTTPLabel(this, "Serphonic - Last Hope - creative commons by-sa 2.0 de (20.03.2012)", "http://www.jamendo.com/track/168268", 0, 0, f_menu_smaltext);
+		
+		
+		/* not for comercial use
 		buttons[2] = new ButtonHTTPLabel(this, "Celestial Aeon Project - Swashing the buck - creative commons by-nc-sa 3.0", "http://www.jamendo.com/track/585845", 0, 0, f_menu_smaltext);
 		buttons[3] = new ButtonHTTPLabel(this, "Dj Fab - The heaven is not so far - creative commons by-nc-sa 2.0 fr", "http://www.jamendo.com/track/358852", 0, 0, f_menu_smaltext);
 		buttons[4] = new ButtonHTTPLabel(this, "stefano mocini - rebirth - creative commons by-sa 3.0", "http://www.jamendo.com/track/770629", 0, 0, f_menu_smaltext);
 		buttons[5] = new ButtonHTTPLabel(this, "Xera - Ñubes - creative commons by-nc-nd 3.0", "http://www.jamendo.com/track/38494", 0, 0, f_menu_smaltext);
 		buttons[6] = new ButtonHTTPLabel(this, "Adult Only - Shoreless - creative commons by-nc-sa 3.0", "http://www.jamendo.com/track/608009", 0, 0, f_menu_smaltext);
-		
+		*/
 		buttons[7] = new ButtonHTTPLabel(this, "Kgberger - creative commons by-sa 3.0", "https://secure.wikimedia.org/wikipedia/de/w/index.php?title=Datei:BRD.png", 0, 0, f_menu_smaltext);
+		
+		buttons[8] = new ButtonHTTPImage(this, mims, "http://mims.projects.emercs.com/", width-30-194, height-30-96, 194, 96);
 	}
 	
 	

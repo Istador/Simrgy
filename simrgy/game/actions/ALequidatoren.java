@@ -29,7 +29,7 @@ public class ALequidatoren implements Action {
 
 	
 	public String getName(Building b){
-		return "Lequidatoren einsetzen (-10.000.000€)";
+		return "Lequidatoren einsetzen (-10.000.000â‚¬)";
 	}
 	
 	public boolean isPossible(Building b){

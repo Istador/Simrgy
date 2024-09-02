@@ -48,6 +48,6 @@ public interface Building {
 	
 	public boolean enoughMoney();
 	
-	public void deploy(); //abreiﬂen
+	public void deploy(); //abrei√üen
 	public boolean isDeploying();
 }

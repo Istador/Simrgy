@@ -17,7 +17,7 @@ public class Laufwasser extends BuildingAbstract implements Building {
     public Laufwasser(Game g, String name){
         super(g, name);
         
-		underground = 4; // Fluss benötigt
+		underground = 4; // Fluss benÃ¶tigt
 		max_modules = 20;
 		bauzeit_per_module = 12000; //2 Jahre Bauzeit -> 12s
 		baukosten_per_module = 40000000.0; //40,0 Mio per Module

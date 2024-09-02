@@ -79,8 +79,8 @@ public class ZeroKohle extends OverlayGame {
 		//Text
 		g.setColor(c_rclick_text);
 		g.setFont(f_rclick_text);
-		g.drawString("Deine Kohlevorräte sind aufgebraucht.", left+15, top+15+caption_height+20);
-		g.drawString("Deshalb können deine Kohlekraftwerke", left+15, top+15+caption_height+35);
+		g.drawString("Deine KohlevorrÃ¤te sind aufgebraucht.", left+15, top+15+caption_height+20);
+		g.drawString("Deshalb kÃ¶nnen deine Kohlekraftwerke", left+15, top+15+caption_height+35);
 		g.drawString("keinen Strom mehr produzieren.", left+15, top+15+caption_height+50);
 		//Draw Buttons
 		for(Button b : buttons) if(b!=null) b.draw();

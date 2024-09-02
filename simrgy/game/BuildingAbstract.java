@@ -20,7 +20,7 @@ public abstract class BuildingAbstract implements Building {
 	protected int modules = 1;
 	protected long bauzeit_so_far = 0;
 	
-	//überschreibe in child
+	//Ã¼berschreibe in child
 	protected int max_modules = 1;
 	protected long bauzeit_per_module = 1;
 	protected double baukosten_per_module = 0.0;
@@ -28,7 +28,7 @@ public abstract class BuildingAbstract implements Building {
 	
 	protected List<Action> actions;
 	
-	protected boolean building = true; //bauen oder abreißen
+	protected boolean building = true; //bauen oder abreiÃŸen
 
 	protected BuildingAbstract(Game g, String n){
 		game = g;

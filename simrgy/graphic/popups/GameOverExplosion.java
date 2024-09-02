@@ -58,7 +58,7 @@ public class GameOverExplosion extends OverlayGame {
 		};
 		
 		buttons = new ButtonCenteredText[1];
-		buttons[0] = new ButtonCenteredText(this, "Zum Hauptmenü", c_rclick_caption, c_rclick_button_highlight, left+width/2, top+height-35, f_rclick_button, r);
+		buttons[0] = new ButtonCenteredText(this, "Zum HauptmenÃ¼", c_rclick_caption, c_rclick_button_highlight, left+width/2, top+height-35, f_rclick_button, r);
 	}
 	
 	
@@ -83,7 +83,7 @@ public class GameOverExplosion extends OverlayGame {
 		g.setFont(f_rclick_text);
 		g.drawString("Huch, da ist dir wohl ein Atomkraftwerk in die Luft geflogen.", left+15, top+15+caption_height+20);
 		g.drawString("Kann ja mal passieren... benutze besser schnell deine", left+15, top+15+caption_height+35);
-		g.drawString("Zeitmaschine, bevor die Bevölkerung dich lyncht.", left+15, top+15+caption_height+50);
+		g.drawString("Zeitmaschine, bevor die BevÃ¶lkerung dich lyncht.", left+15, top+15+caption_height+50);
 		//Draw Buttons
 		for(Button b : buttons) if(b!=null) b.draw();
 	}

@@ -43,10 +43,10 @@ public class StatusTab implements GraphicObject {
 		
 		ttop+=35;
 		
-		g.drawString("Windst‰rke:", tleft, ttop); //max 74 km/h = st¸rmischer Wind
+		g.drawString("Windst√§rke:", tleft, ttop); //max 74 km/h = st√ºrmischer Wind
 		g.drawString(df_float1.format(getMain().getGame().windpower*74.0)+" km/h", tright, ttop);
 		ttop+=20;
-        g.drawString("Sonnenintensit‰t:", tleft, ttop);
+        g.drawString("Sonnenintensit√§t:", tleft, ttop);
         g.drawString(df_int.format(getMain().getGame().sonnenintensitaet*100.0)+" %", tright, ttop);
 		
 		ttop+=35;
@@ -93,27 +93,27 @@ public class StatusTab implements GraphicObject {
         g.drawString(df_int.format(getMain().getGame().kohle)+"/"+df_int.format(getMain().getGame().kohle_max)+" kg", tright-14, ttop);
         g.setColor(cBlack);
         ttop+=20;
-        g.drawString("Atomm¸ll:", tleft, ttop);
+        g.drawString("Atomm√ºll:", tleft, ttop);
         g.drawString(df_int.format((int)getMain().getGame().uran_max-(int)getMain().getGame().uran)+" kg", tright-14, ttop);
         
         ttop+=35;
         g.drawString("Gewinn:", tleft, ttop);
-        g.drawString(df_money.format((long)getMain().getGame().gewinn)+" Ä/s", tright, ttop);
+        g.drawString(df_money.format((long)getMain().getGame().gewinn)+" ‚Ç¨/s", tright, ttop);
         ttop+=20;
         g.drawString("Inland Verkauf:", tleft, ttop);
-        g.drawString(df_money.format((long)getMain().getGame().gewinn_inland)+" Ä/s", tright, ttop);
+        g.drawString(df_money.format((long)getMain().getGame().gewinn_inland)+" ‚Ç¨/s", tright, ttop);
         ttop+=20;
         g.drawString("Ausland Verkauf:", tleft, ttop);
-        g.drawString(df_money.format((long)getMain().getGame().gewinn_ausland)+" Ä/s", tright, ttop);
+        g.drawString(df_money.format((long)getMain().getGame().gewinn_ausland)+" ‚Ç¨/s", tright, ttop);
         ttop+=20;
         g.drawString("Ausland Einkauf:", tleft, ttop);
-        g.drawString(df_money.format((long)(getMain().getGame().verlust_ausland*-1.0))+" Ä/s", tright, ttop);
+        g.drawString(df_money.format((long)(getMain().getGame().verlust_ausland*-1.0))+" ‚Ç¨/s", tright, ttop);
         ttop+=20;
-        g.drawString("Geb‰udekosten:", tleft, ttop);
-        g.drawString(df_money.format((long)(getMain().getGame().verlust_gebauedekosten*-1.0))+" Ä/s", tright, ttop);
+        g.drawString("Geb√§udekosten:", tleft, ttop);
+        g.drawString(df_money.format((long)(getMain().getGame().verlust_gebauedekosten*-1.0))+" ‚Ç¨/s", tright, ttop);
         
         ttop+=35;
-        g.drawString("CO2 Ausstoﬂ:", tleft, ttop);
+        g.drawString("CO2 Aussto√ü:", tleft, ttop);
         g.drawString(df_int.format(getMain().getGame().CO2)+" kg", tright, ttop);
         
         ttop+=35;

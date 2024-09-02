@@ -79,8 +79,8 @@ public class ZeroUran extends OverlayGame {
 		//Text
 		g.setColor(c_rclick_text);
 		g.setFont(f_rclick_text);
-		g.drawString("Deine Uranvorräte sind aufgebraucht.", left+15, top+15+caption_height+20);
-		g.drawString("Deshalb können deine Atomkraftwerke", left+15, top+15+caption_height+35);
+		g.drawString("Deine UranvorrÃ¤te sind aufgebraucht.", left+15, top+15+caption_height+20);
+		g.drawString("Deshalb kÃ¶nnen deine Atomkraftwerke", left+15, top+15+caption_height+35);
 		g.drawString("keinen Strom mehr produzieren.", left+15, top+15+caption_height+50);
 		//Draw Buttons
 		for(Button b : buttons) if(b!=null) b.draw();

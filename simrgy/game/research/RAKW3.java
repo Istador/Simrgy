@@ -15,7 +15,7 @@ public class RAKW3 extends ResearchAbstract {
 	private static RAKW3 instance = null;
 	public static RAKW3 getInstance(){
 		if(instance==null){
-			instance = new RAKW3("Endlager finden", "Erhöht die Zufriedenheit sehr", RAKW2.getInstance(), 1000000000.0, 120000 );
+			instance = new RAKW3("Endlager finden", "ErhÃ¶ht die Zufriedenheit sehr", RAKW2.getInstance(), 1000000000.0, 120000 );
 		}
 		return instance;
 	}
@@ -30,14 +30,14 @@ public class RAKW3 extends ResearchAbstract {
 		/* Ausgabe: 
 		 *  Forschung "Endlager finden" abgeschlossen!
 		 *  
-		 *  Ihre Wissenschaftler konnten leider kein Endlager, für atomaten Abfall finden.
+		 *  Ihre Wissenschaftler konnten leider kein Endlager, fÃ¼r atomaten Abfall finden.
 		 *  Die Forschung hat folglich keinen Effekt. Tut uns Leid
 		 */
 		
 		
 		/**
 		 * Klassen Start
-		 * Nachfragen ob abreißen
+		 * Nachfragen ob abreiÃŸen
 		 */
 		GraphicObject go = new OverlayGame(g) {
 			int top;
@@ -94,7 +94,7 @@ public class RAKW3 extends ResearchAbstract {
 				//Text
 				g.setColor(c_rclick_text);
 				g.setFont(f_rclick_text);
-				g.drawString("Ihre Wissenschaftler konnten leider kein Endlager, für", left+15, top+15+caption_height+20);
+				g.drawString("Ihre Wissenschaftler konnten leider kein Endlager, fÃ¼r", left+15, top+15+caption_height+20);
 				g.drawString("atomaten Abfall finden. Die Forschung hat folglich", left+15, top+15+caption_height+35);
 				g.drawString("keinen Effekt. Tut uns Leid :(", left+15, top+15+caption_height+50);
 				//Draw Buttons

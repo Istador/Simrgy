@@ -18,7 +18,7 @@ public class Solar extends BuildingAbstract implements Building {
     public Solar(Game g, String name){
         super(g, name);
         
-		underground = 1; //Land benˆtigt
+		underground = 1; //Land ben√∂tigt
 		max_modules = 6;
 		bauzeit_per_module = 12000; //2 Jahre -> 12 Sekunden
 		baukosten_per_module = 130000000.0; //pro Rad
@@ -37,7 +37,7 @@ public class Solar extends BuildingAbstract implements Building {
 	}
         
     public double getMW(){
-        //Pro Solarkraftwerk: 10-40 MW, Wetterabh‰ngig
+        //Pro Solarkraftwerk: 10-40 MW, Wetterabh√§ngig
         double pro = 10.0 + 30.0 * getGame().getSolarPower(this) * getGame().sonnenintensitaet;
         return pro * activeModules() * getGame().rSolarEnergy;
     }
@@ -53,13 +53,13 @@ public class Solar extends BuildingAbstract implements Building {
     public int getPersonal(){ return personal_per_module * modules; }
     
     
-    //‹berschreiben, wegen Forschung
+    //√úberschreiben, wegen Forschung
 	public boolean moreModulesPossible(){
 		if(!game.moneySubValid(baukosten_per_module)) return false;
 		return modules+1<=max_modules*(game.isResearchDone(RSolarPlus.getInstance())?2:1);
 	}
 	
-	//‹berschreiben, wegen Forschung
+	//√úberschreiben, wegen Forschung
 	public String getModulesText(){
 		String ret = "";
 		if(modules>activeModules())

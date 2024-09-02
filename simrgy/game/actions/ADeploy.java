@@ -28,7 +28,7 @@ public class ADeploy implements Action {
 		
 		/**
 		 * Klassen Start
-		 * Nachfragen ob abreiﬂen
+		 * Nachfragen ob abrei√üen
 		 */
 		GraphicObject go = new OverlayBuilding(b) {
 			int top;
@@ -44,7 +44,7 @@ public class ADeploy implements Action {
 			private ButtonCenteredText[] buttons;
 			
 			public void init(){
-				caption =  building.getName() + " abreiﬂen?";
+				caption =  building.getName() + " abrei√üen?";
 				
 				int[] b = f_size(getBackbuffer(), f_rclick_caption, caption);
 				caption_height = b[0];
@@ -104,7 +104,7 @@ public class ADeploy implements Action {
 
 	
 	public String getName(Building b){
-		return "Abreiﬂen (+"+df_money.format((long)(b.getBaukosten()/4.0))+"Ä)";
+		return "Abrei√üen (+"+df_money.format((long)(b.getBaukosten()/4.0))+"‚Ç¨)";
 	}
 	
 	public boolean isPossible(Building b){

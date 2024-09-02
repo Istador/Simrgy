@@ -38,7 +38,7 @@ public class IncEnergyNeedTime extends OverlayGame {
 	private ButtonCenteredText[] buttons;
 		
 	public void init(){
-		caption =  "Es l‰uft und l‰uft und l‰uft...";
+		caption =  "Es l√§uft und l√§uft und l√§uft...";
 		
 		int[] b = f_size(getBackbuffer(), f_rclick_caption, caption);
 		caption_height = b[0];
@@ -80,7 +80,7 @@ public class IncEnergyNeedTime extends OverlayGame {
 		g.setColor(c_rclick_text);
 		g.setFont(f_rclick_text);
 		g.drawString("Du spielst jetzt schon eine weile, also sollte", left+15, top+15+caption_height+20);
-		g.drawString("es f¸r dich kein Problem sein mit dem von jetzt an", left+15, top+15+caption_height+35);
+		g.drawString("es f√ºr dich kein Problem sein mit dem von jetzt an", left+15, top+15+caption_height+35);
 		g.drawString("steigendem Energiebedarf fertig zu werden.", left+15, top+15+caption_height+50);
 		//Draw Buttons
 		for(Button b : buttons) if(b!=null) b.draw();

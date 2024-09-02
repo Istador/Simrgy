@@ -13,7 +13,7 @@ public class RKohleCO2 extends ResearchAbstract {
 	private static RKohleCO2 instance = null;
 	public static RKohleCO2 getInstance(){
 		if(instance==null){
-			instance = new RKohleCO2("Kohlefilter", "-70% Kohle CO2-Ausstoﬂ", RKohleVorrat.getInstance(), 650000000.0, 280000 );
+			instance = new RKohleCO2("Kohlefilter", "-70% Kohle CO2-Aussto√ü", RKohleVorrat.getInstance(), 650000000.0, 280000 );
 		}
 		return instance;
 	}
@@ -25,7 +25,7 @@ public class RKohleCO2 extends ResearchAbstract {
 	public Image getImage() {return rKohleCO2;}
 	
 	public void researchEffect(Game g) {
-		g.rKohleCO2 *= 0.3; //verringere den CO2-Ausstoﬂ von Kohlekraftwerken auf 30%
+		g.rKohleCO2 *= 0.3; //verringere den CO2-Aussto√ü von Kohlekraftwerken auf 30%
 	}
 
 }

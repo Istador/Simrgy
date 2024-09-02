@@ -119,7 +119,7 @@ public class Graphic implements GraphicObject {
 		else if(show!=null)
 			show.keyPress(ke);
 		else{
-			//TODO: beim drücken von Escape Menü anzeigen, für Einstellungen, und Aufgeben.
+			//TODO: beim drÃ¼cken von Escape MenÃ¼ anzeigen, fÃ¼r Einstellungen, und Aufgeben.
 			if(ke.getKeyCode()==KeyEvent.VK_ESCAPE)
 				RechtsklickTab.getInstance().run(getMain().getGame().hq);
 				//setOverlay(getSettings());

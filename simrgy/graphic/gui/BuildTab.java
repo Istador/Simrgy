@@ -17,12 +17,12 @@ public class BuildTab implements GraphicObject {
 	public int width;
 	public int height;
 	
-	private Button selected = null; //markiertes geb‰ude per klick
-	private Button over = null; //geb‰ude ¸ber dem man mit der maus ist
+	private Button selected = null; //markiertes geb√§ude per klick
+	private Button over = null; //geb√§ude √ºber dem man mit der maus ist
 	
 	private java.util.Map<Button,Integer> buttons; 
 	
-	private int box; //ausmaﬂe eines Icons
+	private int box; //ausma√üe eines Icons
 	
 	private GUI gui;
 
@@ -67,7 +67,7 @@ public class BuildTab implements GraphicObject {
 		g.setColor(c_build_bg);
 		g.fillRect(left, top, width, height);
 		
-		//Geb‰ude Buttons
+		//Geb√§ude Buttons
 		for(Button butt : buttons.keySet()){
 			if(butt!=null){				
 				Building b = getBuilding(buttons.get(butt));
@@ -75,7 +75,7 @@ public class BuildTab implements GraphicObject {
 				//Button zeichnen
 				butt.draw();
 				
-				//einf‰rben, wenn nicht genug geld
+				//einf√§rben, wenn nicht genug geld
 				if(!b.enoughMoney()){
 					Point p = butt.getTL();
 					g.setColor(cRed30);
@@ -85,10 +85,10 @@ public class BuildTab implements GraphicObject {
 			}
 		}
 		
-		//mouse Over Geb‰udeinfos
+		//mouse Over Geb√§udeinfos
 		Button infos = ( over!=null ? over : selected ); 
 		if(infos!=null){
-			//Geb‰ude
+			//Geb√§ude
 			Building b = getBuilding(buttons.get(infos));
 			//Untergrund
 			g.setColor(c_build_mouseOver_bg);
@@ -110,7 +110,7 @@ public class BuildTab implements GraphicObject {
 			if(b.enoughMoney())	g.setColor(cGreen);
 			else g.setColor(cRed);
 			g.setFont(f_build_text);
-			g.drawString("Ä", left+width+5-2*box, top+height-5);
+			g.drawString("‚Ç¨", left+width+5-2*box, top+height-5);
 			String kosten = df_money.format(b.getBaukosten());
 			
 			int strwidth = f_size(g, f_build_text, kosten)[1]; 

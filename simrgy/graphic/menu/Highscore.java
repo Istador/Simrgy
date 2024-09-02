@@ -36,7 +36,7 @@ public class Highscore implements GraphicObject {
 		};
 		
 		buttons = new Button[1];
-		buttons[0] = new ButtonCenteredText(this, "Zurück zum Menü", c_menu_button_text, c_menu_button_highlight, width/2, height-45, f_menu_button, r1);
+		buttons[0] = new ButtonCenteredText(this, "ZurÃ¼ck zum MenÃ¼", c_menu_button_text, c_menu_button_highlight, width/2, height-45, f_menu_button, r1);
 	}
 	
 	

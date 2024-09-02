@@ -1,14 +1,14 @@
-Sim'rgy ist ein Browserspiel, in der du die Kontrolle über die deutsche Energieversorgung übernimmst.
+Sim'rgy ist ein Browserspiel, in der du die Kontrolle Ã¼ber die deutsche Energieversorgung Ã¼bernimmst.
 
 Urheber:
 Robin C. Ladiges
-Sebastian Möllmann
+Sebastian MÃ¶llmann
 
 ---
 
 Zum einbinden in eine Website:
 
-Folgende Dateien benötigt:
+Folgende Dateien benÃ¶tigt:
 - simrgy.jar
 - jlayer1.0.1.jar
 

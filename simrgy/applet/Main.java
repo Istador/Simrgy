@@ -143,7 +143,7 @@ public class Main extends JApplet implements MouseListener, MouseMotionListener,
 	
 	@Override
 	public String getAppletInfo(){
-		return "Sim'rgy ist ein Browserspiel, in der du die Kontrolle über die deutsche Energieversorgung übernimmst.\n\nUrheber:\nRobin C. Ladiges\nSebastian Möllmann";
+		return "Sim'rgy ist ein Browserspiel, in der du die Kontrolle Ã¼ber die deutsche Energieversorgung Ã¼bernimmst.\n\nUrheber:\nRobin C. Ladiges\nSebastian MÃ¶llmann";
 	}
 	
 }

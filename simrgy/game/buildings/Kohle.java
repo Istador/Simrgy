@@ -17,7 +17,7 @@ public class Kohle extends BuildingAbstract implements Building {
 	public Kohle(Game g, String name){
 		super(g, name);
 		
-		underground = 1; //Land benötigt
+		underground = 1; //Land benÃ¶tigt
 		max_modules = 10;
 		bauzeit_per_module = 24000;
 		baukosten_per_module = 478800000.0; //478,8 Mio per Module

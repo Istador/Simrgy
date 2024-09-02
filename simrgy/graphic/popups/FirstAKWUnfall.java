@@ -79,8 +79,8 @@ public class FirstAKWUnfall extends OverlayGame {
 		//Text
 		g.setColor(c_rclick_text);
 		g.setFont(f_rclick_text);
-		g.drawString("Hast du das gehˆrt? Das war der Katastrophenalarm!", left+15, top+15+caption_height+20);
-		g.drawString("Das heiﬂt eines deiner Atomkraftwerke hat einen Unfall.", left+15, top+15+caption_height+35);
+		g.drawString("Hast du das geh√∂rt? Das war der Katastrophenalarm!", left+15, top+15+caption_height+20);
+		g.drawString("Das hei√üt eines deiner Atomkraftwerke hat einen Unfall.", left+15, top+15+caption_height+35);
 		g.drawString("Besser du unternimmst schleunigst etwas dagegen.", left+15, top+15+caption_height+50);
 		//Draw Buttons
 		for(Button b : buttons) if(b!=null) b.draw();

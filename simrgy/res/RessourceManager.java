@@ -20,7 +20,7 @@ public class RessourceManager {
 	 * 
 	 */
 		
-	//zum einmaligem laden beim systemstart, und nicht immer wieder neu w‰rend des progs
+	//zum einmaligem laden beim systemstart, und nicht immer wieder neu w√§rend des progs
 	/*
 	private static byte[] getMusic(String filename){
 		byte[] result = null;
@@ -46,7 +46,7 @@ public class RessourceManager {
 		getMusic("music/10 - The heaven is not so far.mp3"),	// Dj Fab - The heaven is not so far - cc by-nc-sa 2.0 fr
 		getMusic("music/01 - rebirth.mp3"),						// stefano mocini - rebirth - cc by-sa 3.0
 		getMusic("music/02 - Swashing the buck.mp3"),			// Celestial Aeon Project - Swashing the buck - cc by-nc-sa 3.0
-		getMusic("music/07 - Nubes.mp3"),						// Xera - —ubes - cc by-nc-nd 3.0
+		getMusic("music/07 - Nubes.mp3"),						// Xera - √ëubes - cc by-nc-nd 3.0
 		getMusic("music/01 - Shoreless.mp3")					// Adult Only - Shoreless - cc by-nc-sa 3.0
 	};
 	
@@ -57,7 +57,7 @@ public class RessourceManager {
 		"music/10 - The heaven is not so far.mp3",	// Dj Fab - The heaven is not so far - cc by-nc-sa 2.0 fr
 		"music/01 - rebirth.mp3"					// stefano mocini - rebirth - cc by-sa 3.0
 		"music/02 - Swashing the buck.mp3",			// Celestial Aeon Project - Swashing the buck - cc by-nc-sa 3.0
-		"music/07 - Nubes.mp3",						// Xera - —ubes - cc by-nc-nd 3.0
+		"music/07 - Nubes.mp3",						// Xera - √ëubes - cc by-nc-nd 3.0
 		"music/01 - Shoreless.mp3"					// Adult Only - Shoreless - cc by-nc-sa 3.0
 		*/
 		
@@ -185,7 +185,7 @@ public class RessourceManager {
 	
 	
 	/**
-	 * Ausmaﬂe eines gezeichneten Strings
+	 * Ausma√üe eines gezeichneten Strings
 	 * @param g Backbuffer
 	 * @param f Font
 	 * @param s String

@@ -70,7 +70,7 @@ public class GridObject implements GraphicObject {
 		//Modulanzahl
 		if(building.drawModules()){
 			g.setFont(f_gridobj_nameplate);
-			//Stringausmaﬂe
+			//Stringausma√üe
 			String str = String.valueOf(building.activeModules());
 			int[] f = f_size(g, f_gridobj_nameplate, str);
 			int strheight = f[0];
@@ -91,11 +91,11 @@ public class GridObject implements GraphicObject {
 			//Schriftart
 			String name = building.getName();
 			g.setFont(f_gridobj_nameplate);
-			//Stringausmaﬂe
+			//Stringausma√üe
 			int[] f = f_size(g, f_gridobj_nameplate, name);
 			int strheight = f[0];
 			int strwidth = f[1]; 
-			//Geb‰ude in Zeile 0 -> Namensschild unter dem Geb‰ude
+			//Geb√§ude in Zeile 0 -> Namensschild unter dem Geb√§ude
 			int ytop; if(top==0) ytop=height+strheight+2; else ytop=-1;
 			//String positionen
 			int strtop = top+ytop;

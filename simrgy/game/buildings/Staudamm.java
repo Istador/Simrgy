@@ -17,7 +17,7 @@ public class Staudamm extends BuildingAbstract implements Building {
     public Staudamm(Game g, String name){
         super(g, name);
         
-		underground = 4; // Fluss benötigt
+		underground = 4; // Fluss benÃ¶tigt
 		max_modules = 1;
 		bauzeit_per_module = 60000; //10Jahre Bauzeit -> 1 Minute -> 1:0 -> 60s
 		baukosten_per_module = 600000000.0; //600,0 Mio per Module

@@ -45,7 +45,7 @@ public class Intro implements GraphicObject {
 		
 		buttons = new Button[3];
 		buttons[0] = new ButtonCenteredText(this, "Starte Spiel", c_menu_button_text, c_menu_button_highlight, width/2, height-93, f_menu_button, r1);
-		buttons[1] = new ButtonCenteredText(this, "Zurück", c_menu_button_text, c_menu_button_highlight, width/2, height-45, f_menu_button, r2);
+		buttons[1] = new ButtonCenteredText(this, "ZurÃ¼ck", c_menu_button_text, c_menu_button_highlight, width/2, height-45, f_menu_button, r2);
 		buttons[2] = new ButtonHTTPImage(this, mims, "http://mims.projects.emercs.com/", width-30-194, height-30-96, 194, 96);
 	}
 		
@@ -56,7 +56,7 @@ public class Intro implements GraphicObject {
 		g.setColor(c_menu_bg);
 		g.fillRect(left+20, top+20, width-40, height-40);
 	
-		//Überschrift
+		//Ãœberschrift
 		g.setFont(f_menu_caption);
 		g.setColor(c_menu_caption);
 		int[] f = f_size(g, f_menu_caption, "Sim'rgy");
@@ -71,25 +71,25 @@ public class Intro implements GraphicObject {
 		//Text
 		g.setFont(f_menu_smaltext);
 		g.setColor(c_menu_text);
-		g.drawString("Die Welt wie wir sie kennen steht vor einem Wandel. Die zunehmende Überbevölkerung",left+40,strtop);		
+		g.drawString("Die Welt wie wir sie kennen steht vor einem Wandel. Die zunehmende ÃœberbevÃ¶lkerung",left+40,strtop);		
 		strtop+=25;
-		g.drawString("sorgt dafür, das unser Ressourcen- und Energiebedarf steigt. Die fossilen Brennstoffe, die",left+40,strtop);
+		g.drawString("sorgt dafÃ¼r, das unser Ressourcen- und Energiebedarf steigt. Die fossilen Brennstoffe, die",left+40,strtop);
 		strtop+=25;
-		g.drawString("uns bisher scheinbar günstig und zuverlässig mit Strom versorgten, nähern sich dem Ende.",left+40,strtop);
+		g.drawString("uns bisher scheinbar gÃ¼nstig und zuverlÃ¤ssig mit Strom versorgten, nÃ¤hern sich dem Ende.",left+40,strtop);
 		
 		strtop+=50;
 		
-		g.drawString("In einer Ära, in der technische Geräte zunehmend Verbreitung finden, und selbst Kühl-",left+40,strtop);
+		g.drawString("In einer Ã„ra, in der technische GerÃ¤te zunehmend Verbreitung finden, und selbst KÃ¼hl-",left+40,strtop);
 		strtop+=25;
-		g.drawString("schränke und Toaster einen eigenen Internetanschluss erhalten, übernehmen Sie die",left+40,strtop);
+		g.drawString("schrÃ¤nke und Toaster einen eigenen Internetanschluss erhalten, Ã¼bernehmen Sie die",left+40,strtop);
 		strtop+=25;
-		g.drawString("Führung eines renommierten Energieerzeugers, um die Energieversorgung",left+40,strtop);
+		g.drawString("FÃ¼hrung eines renommierten Energieerzeugers, um die Energieversorgung",left+40,strtop);
 		strtop+=25;
 		g.drawString("Deutschlands, in dieser schweren Zeit, sicherzustellen.",left+40,strtop);
 		
 		strtop+=50;
 		
-		g.drawString("Schaffen Sie den Ausstieg aus der Abhängigkeit von fossilen Brennstoffen hin zu",left+40,strtop);
+		g.drawString("Schaffen Sie den Ausstieg aus der AbhÃ¤ngigkeit von fossilen Brennstoffen hin zu",left+40,strtop);
 		strtop+=25;
 		g.drawString("eneuerbaren Energien?",left+40,strtop);
 		

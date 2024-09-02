@@ -13,7 +13,7 @@ public class RWind2X extends ResearchAbstract {
 	private static RWind2X instance = null;
 	public static RWind2X getInstance(){
 		if(instance==null){
-			instance = new RWind2X("2 mit einem Streich", "Halbiert Bauzeit von Windr‰dern", RWindPlus.getInstance(), 500000000.0, 100000 );
+			instance = new RWind2X("2 mit einem Streich", "Halbiert Bauzeit von Windr√§dern", RWindPlus.getInstance(), 500000000.0, 100000 );
 		}
 		return instance;
 	}

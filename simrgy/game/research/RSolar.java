@@ -25,7 +25,7 @@ public class RSolar extends ResearchAbstract {
 	public Image getImage() {return rSolar;}
 	
 	public void researchEffect(Game g) {
-		g.rSolarEnergy *= 1.10; //erhöhe die erzeugte Energie durch Photovoltaik um 10%
+		g.rSolarEnergy *= 1.10; //erhÃ¶he die erzeugte Energie durch Photovoltaik um 10%
 	}
 
 }

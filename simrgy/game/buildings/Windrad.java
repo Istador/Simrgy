@@ -17,7 +17,7 @@ public class Windrad extends BuildingAbstract implements Building {
 	public Windrad(Game g, String name){
 		super(g, name);
 		
-		underground = 9; //Land benˆtigt
+		underground = 9; //Land ben√∂tigt
 		max_modules = 100;
 		bauzeit_per_module = 5000; //4 Wochen -> 1 Minuten / 12 -> 5 Sekunden
 		baukosten_per_module = 3570000.0; //pro Rad
@@ -41,7 +41,7 @@ public class Windrad extends BuildingAbstract implements Building {
 	public Image getImage(){ return RessourceManager.windrad; }
 		
 	public double getMW(){
-		//Pro Windrad: 2-6 MW, Wetterabh‰ngig
+		//Pro Windrad: 2-6 MW, Wetterabh√§ngig
 		double pro = 2.0 + 4.0 * getGame().getWindpower(this) * getGame().windpower;
 		return pro * activeModules() ;
 		}
@@ -56,7 +56,7 @@ public class Windrad extends BuildingAbstract implements Building {
 	}	
 	
 
-	//‹berschreiben, f¸r bauzeit einfluﬂ durch forschung
+	//√úberschreiben, f√ºr bauzeit einflu√ü durch forschung
 	public void tick(long miliseconds){
 		//bau im gange
 		long max_bauzeit = modules * bauzeit_per_module; 
@@ -71,13 +71,13 @@ public class Windrad extends BuildingAbstract implements Building {
 		}
 	}
 	
-    //‹berschreiben, wegen Forschung
+    //√úberschreiben, wegen Forschung
 	public boolean moreModulesPossible(){
 		if(!game.moneySubValid(baukosten_per_module)) return false;
 		return modules+1<=max_modules*(game.isResearchDone(RWindPlus.getInstance())?2:1);
 	}
 	
-	//‹berschreiben, wegen Forschung
+	//√úberschreiben, wegen Forschung
 	public String getModulesText(){
 		String ret = "";
 		if(modules>activeModules())

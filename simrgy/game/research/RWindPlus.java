@@ -13,7 +13,7 @@ public class RWindPlus extends ResearchAbstract {
 	private static RWindPlus instance = null;
 	public static RWindPlus getInstance(){
 		if(instance==null){
-			instance = new RWindPlus("Mehr Windräder", "doppelte Modulanzahl pro Feld", null,  500000000.0, 90000 );
+			instance = new RWindPlus("Mehr WindrÃ¤der", "doppelte Modulanzahl pro Feld", null,  500000000.0, 90000 );
 		}
 		return instance;
 	}
@@ -25,7 +25,7 @@ public class RWindPlus extends ResearchAbstract {
 	public Image getImage() {return rPlusWind;}
 	
 	public void researchEffect(Game g) {
-		//effekt über game.isResearchDone(this)
+		//effekt Ã¼ber game.isResearchDone(this)
 	}
 
 }

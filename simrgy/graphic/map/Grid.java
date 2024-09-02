@@ -53,11 +53,11 @@ public class Grid implements GraphicObject {
 				g.drawLine(0, i*elementheight, width, i*elementheight);
 		}
 		
-		//Gebäude zeichnen
+		//GebÃ¤ude zeichnen
 		for(GridObject[] a : buildings)
 			for(GridObject el : a) if(el!=null) el.draw();
 		
-		//Das Gebäude über dem wir sind nochmal zeichnen (wegen Namensschildern)
+		//Das GebÃ¤ude Ã¼ber dem wir sind nochmal zeichnen (wegen Namensschildern)
 		if(over!=null)
 			over.draw();
 	}
@@ -86,8 +86,8 @@ public class Grid implements GraphicObject {
 		int a = x/elementwidth; if(a>=cols-1)a=cols-1;
 		int b = y/elementheight; if(b>=rows-1)b=rows-1;
 
-		GridObject old = over; //altes Gebäude zwischenspeichern
-		over = buildings[a][b]; //neues Gebäude merken
+		GridObject old = over; //altes GebÃ¤ude zwischenspeichern
+		over = buildings[a][b]; //neues GebÃ¤ude merken
 		//neuen mouseOver senden
 		if(over!=null && over!=old) over.mouseOver();
 		//alten mouseOut senden
@@ -99,7 +99,7 @@ public class Grid implements GraphicObject {
 			{
 			//alten mouseOut senden
 			over.mouseOut();
-			//alten löschen
+			//alten lÃ¶schen
 			over=null;
 			}
 	}	
@@ -126,7 +126,7 @@ public class Grid implements GraphicObject {
 		//wenn Bautab nicht an
 		if(gui.getSelectedTab() != gui.getBuildTab() ) return;
 		
-		//wenn kein Gebäude ausgewählt
+		//wenn kein GebÃ¤ude ausgewÃ¤hlt
 		if(b==null) return;
 		
 		int highlightUnderground = b.getUnderground();
@@ -134,18 +134,18 @@ public class Grid implements GraphicObject {
 
 		g.setFont(f_grid_prozent);
 
-		//Für alle Felder
+		//FÃ¼r alle Felder
 		for(int x=0; x<cols; x++)
 			for(int y=0; y<rows; y++){
-				String proz = ""; //Prozentzahl für Gebäude mit variablen Untergrund
-				//auf dem kein Gebäude steht
+				String proz = ""; //Prozentzahl fÃ¼r GebÃ¤ude mit variablen Untergrund
+				//auf dem kein GebÃ¤ude steht
 				if(game.getBuilding(x, y)==null)
 					if( (game.getBautyp(x, y) & highlightUnderground) != 0 ){
 						//Color baubar dynamisch
 						java.awt.Color baubar = new java.awt.Color(0, 1, 0, 0.4f);
 						if( b instanceof Windrad || b instanceof Solar ){
 							double attrd = 0.0;
-							float attr = 0.0f; //attraktivität (0.0 .. 1.0)
+							float attr = 0.0f; //attraktivitÃ¤t (0.0 .. 1.0)
 							if( b instanceof Windrad ){
 								attrd = game.getWindpower(x, y);
 							}
@@ -158,17 +158,17 @@ public class Grid implements GraphicObject {
 							float green = (attr*2>1.0f ? 1.0f : attr*2 );
 							baubar = new java.awt.Color(red, green, 0, 0.4f);//variabel (funktioniert)!
 							}						
-						g.setColor(baubar); //Färbe grün bei passendem Untergrund
+						g.setColor(baubar); //FÃ¤rbe grÃ¼n bei passendem Untergrund
 					}
-					else g.setColor(c_grid_nichtbaubar); //Färbe rot bei ungünstigem Untergrund
-				else g.setColor(c_grid_nichtbaubar); //Färbe rot, wenn da schon ein Gebäude steht.
+					else g.setColor(c_grid_nichtbaubar); //FÃ¤rbe rot bei ungÃ¼nstigem Untergrund
+				else g.setColor(c_grid_nichtbaubar); //FÃ¤rbe rot, wenn da schon ein GebÃ¤ude steht.
 				g.fillRect(x*elementwidth, y*elementheight, elementwidth, elementheight);
 				if(!proz.equals("")){
 					g.setColor(cBlack);
 					g.drawString(proz, x*elementwidth+5, (y+1)*elementheight-5);
 				}
 			}
-		//Färbe den überschüssigen Rand rein
+		//FÃ¤rbe den Ã¼berschÃ¼ssigen Rand rein
 		g.setColor(c_grid_nichtbaubar);
 		int tmp1 = cols*elementwidth;
 		g.fillRect(tmp1, 0, width-tmp1, height); //rechter rand

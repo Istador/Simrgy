@@ -13,7 +13,7 @@ public class REnergiesparlampen extends ResearchAbstract {
 	private static REnergiesparlampen instance = null;
 	public static REnergiesparlampen getInstance(){
 		if(instance==null){
-			instance = new REnergiesparlampen("Energiesparlampen", "benötigt Nachts weniger Energie", null, 800000000.0, 120000 );
+			instance = new REnergiesparlampen("Energiesparlampen", "benÃ¶tigt Nachts weniger Energie", null, 800000000.0, 120000 );
 		}
 		return instance;
 	}
@@ -25,7 +25,7 @@ public class REnergiesparlampen extends ResearchAbstract {
 	public Image getImage() {return rGlueh;}
 	
 	public void researchEffect(Game g) {
-		g.rNightEnergy /= 2.0; //halbiere den nächtlichen Energiebedarf 
+		g.rNightEnergy /= 2.0; //halbiere den nÃ¤chtlichen Energiebedarf 
 	}
 
 }

@@ -13,7 +13,7 @@ public class RKohleVorrat extends ResearchAbstract {
 	private static RKohleVorrat instance = null;
 	public static RKohleVorrat getInstance(){
 		if(instance==null){
-			instance = new RKohleVorrat("Kohlevorr‰te aufstocken", "+50.000 Kohle", null, 400000000.0, 30000 );
+			instance = new RKohleVorrat("Kohlevorr√§te aufstocken", "+50.000 Kohle", null, 400000000.0, 30000 );
 		}
 		return instance;
 	}

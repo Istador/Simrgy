@@ -31,11 +31,11 @@ public class GameThread extends Thread{
 				//albern zu hoch wenn pausiert. -> 5 FPS bei Pause
 				
 				//ausgehend vom letzten Zeitbedarf, die sleep-time dynamisch anpassen
-				//(ab einer Berechnungszeit von > 50ms kˆnnte das bild merklich anfangen zu laggen).
+				//(ab einer Berechnungszeit von > 50ms k√∂nnte das bild merklich anfangen zu laggen).
 				
 				long tmp1 = (timeDiff-( main.getGame().running ? 50 : 200 ) ); //defizite beim sleep/lag kompensieren
 				tmp1 = tmp1<0 ? 0 : tmp1;
-				long tmp2 = (System.currentTimeMillis() - currTime); //Berechnungszeit f¸r main.getGraphic().tick() und main.repaint() angenommen f¸rs n‰chste mal
+				long tmp2 = (System.currentTimeMillis() - currTime); //Berechnungszeit f√ºr main.getGraphic().tick() und main.repaint() angenommen f√ºrs n√§chste mal
 				long sleeping = ( main.getGame().running ? 50 : 200 ) - tmp1 - tmp2; 
 				if(sleeping>0)
 					sleep(sleeping);

@@ -38,7 +38,7 @@ public class IncEnergyNeedProfit extends OverlayGame {
 	private ButtonCenteredText[] buttons;
 		
 	public void init(){
-		caption =  "Mächtig Gewinne";
+		caption =  "MÃ¤chtig Gewinne";
 		
 		int[] b = f_size(getBackbuffer(), f_rclick_caption, caption);
 		caption_height = b[0];
@@ -79,8 +79,8 @@ public class IncEnergyNeedProfit extends OverlayGame {
 		//Text
 		g.setColor(c_rclick_text);
 		g.setFont(f_rclick_text);
-		g.drawString("Du fährst ordentliche Gewinne ein, also sollte", left+15, top+15+caption_height+20);
-		g.drawString("es für dich kein Problem sein mit dem von jetzt an", left+15, top+15+caption_height+35);
+		g.drawString("Du fÃ¤hrst ordentliche Gewinne ein, also sollte", left+15, top+15+caption_height+20);
+		g.drawString("es fÃ¼r dich kein Problem sein mit dem von jetzt an", left+15, top+15+caption_height+35);
 		g.drawString("steigendem Energiebedarf fertig zu werden.", left+15, top+15+caption_height+50);
 		//Draw Buttons
 		for(Button b : buttons) if(b!=null) b.draw();

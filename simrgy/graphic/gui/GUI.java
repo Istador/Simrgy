@@ -42,7 +42,7 @@ public class GUI implements GraphicObject {
 		boolean both = true;
 		java.awt.Color c1, c2 = null;
 		int top1, top2 = 0;
-		//weiße Hintergrundfarbe
+		//weiÃŸe Hintergrundfarbe
 		g.setColor(cWhite);
 		g.fillRect(left+1, 61, tmpwidth-1, height-62); 
 		//wie was wo wann warum zeichnen
@@ -89,7 +89,7 @@ public class GUI implements GraphicObject {
 		g.setFont(f_money);
 		int strwidth = f_size(g, f_money, money)[1];
 		g.setColor(cBlack);
-		g.drawString("€", left+5, 25);
+		g.drawString("â‚¬", left+5, 25);
 		g.drawString(money, left+width-10-strwidth, 25);
 		
 		//TabSelection
@@ -98,7 +98,7 @@ public class GUI implements GraphicObject {
 		g.setColor(cBlack);
 		g.drawLine(left, 30, left, 60);
 		
-		//Tab Füllung
+		//Tab FÃ¼llung
 		g.setColor(c_gui_bg);
 		g.fillRect(left, 60, width-1, height-61);
 		//draw selected Tab

@@ -23,7 +23,7 @@ public class AIncModules implements Action {
 
 	
 	public String getName(Building b){
-		return "Weiteres Modul(-"+df_money.format((long)b.getBaukostenPerModule())+"€)";
+		return "Weiteres Modul(-"+df_money.format((long)b.getBaukostenPerModule())+"â‚¬)";
 	}
 	
 	public boolean isPossible(Building b){

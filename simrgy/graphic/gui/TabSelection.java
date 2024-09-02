@@ -61,7 +61,7 @@ public class TabSelection implements GraphicObject {
 	public ResearchTab getResearchTab(){ return getGUI().getResearchTab(); }
 	
 	protected void drawTab(Graphics g, String name, int width, java.awt.Color background){
-		//Füllung
+		//FÃ¼llung
 		g.setColor(background);
 		g.fillRoundRect(left-round, 30, width+round-1, 100, round, round);
 		//schwarzer Rand

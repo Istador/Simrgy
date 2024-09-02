@@ -19,7 +19,7 @@ public class AKW extends BuildingAbstract implements Building {
 	protected AKW(Game g, String name){
 		super(g, name);
 		
-		underground = 6; //Fluss oder See benötigt benötigt
+		underground = 6; //Fluss oder See benÃ¶tigt benÃ¶tigt
 		max_modules = 3;
 		bauzeit_per_module = 90000; //10-20 Jahre Bauzeit -> 1-2 Minuten -> 1:30 -> 90s
 		baukosten_per_module = 2500000000.0; // 2.5 Mrd.
@@ -90,23 +90,23 @@ public class AKW extends BuildingAbstract implements Building {
 	public int getPersonal(){ return personal; }
 	
 	
-	//überschreiben für Personaloptionen
+	//Ã¼berschreiben fÃ¼r Personaloptionen
 	public boolean newModule(){
 		boolean ret = super.newModule();
 		if(ret)	setPersonal(personal); //Personalanpassung, damit min_personal
 		return ret;
 	}
 	
-	//überschreiben für Personaloptionen
+	//Ã¼berschreiben fÃ¼r Personaloptionen
 	public String getPersonalText(){
 		return getPersonal()+"/"+(max_personal_per_module * modules);
 	}
 	
-	//überschreiben, da module grafisch angezeigt werden.
+	//Ã¼berschreiben, da module grafisch angezeigt werden.
 	public boolean drawModules(){return false;}
 	
 	
-	//überschreiben für Atomaren-Unfall
+	//Ã¼berschreiben fÃ¼r Atomaren-Unfall
 	public boolean unfall = false;
 	public long unfall_time = 0;
 	public long unfall_tick = 0;
@@ -127,7 +127,7 @@ public class AKW extends BuildingAbstract implements Building {
 				for(int j=0; j<activeModules(); j++){
 					//kann hochgehen
 					int a = game.rnd.nextInt()%(int)((190.0+(double)personal/(double)modules+(1.0-getLeistung())*100.0)*game.rAKWSecure);
-					// 0.5% alle 10 Sekunden pro Reaktor, Personal, niedrige Leistung oder Forschung verringern die Wahrscheinlichkeit das was böses passiert
+					// 0.5% alle 10 Sekunden pro Reaktor, Personal, niedrige Leistung oder Forschung verringern die Wahrscheinlichkeit das was bÃ¶ses passiert
 					if(a==0){
 						//unfall
 						unfall = true;

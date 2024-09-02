@@ -43,7 +43,7 @@ public class About implements GraphicObject {
 		};
 		
 		buttons = new Button[9];
-		buttons[0] = new ButtonCenteredText(this, "Zurück", c_menu_button_text, c_menu_button_highlight, width/2, height-45, f_menu_button, r1);
+		buttons[0] = new ButtonCenteredText(this, "ZurÃ¼ck", c_menu_button_text, c_menu_button_highlight, width/2, height-45, f_menu_button, r1);
 		buttons[1] = new ButtonHTTPLabel(this, "https://blackpinguin.de/", "https://blackpinguin.de/", 0, 0, f_menu_smaltext);
 		
 		buttons[2] = new ButtonHTTPLabel(this, "Daniel Bautista - Movement 2: Allegro con brio - creative commons by-sa 3.0 (20.03.2012)", "http://www.jamendo.com/track/891471", 0, 0, f_menu_smaltext);
@@ -57,7 +57,7 @@ public class About implements GraphicObject {
 		buttons[2] = new ButtonHTTPLabel(this, "Celestial Aeon Project - Swashing the buck - creative commons by-nc-sa 3.0", "http://www.jamendo.com/track/585845", 0, 0, f_menu_smaltext);
 		buttons[3] = new ButtonHTTPLabel(this, "Dj Fab - The heaven is not so far - creative commons by-nc-sa 2.0 fr", "http://www.jamendo.com/track/358852", 0, 0, f_menu_smaltext);
 		buttons[4] = new ButtonHTTPLabel(this, "stefano mocini - rebirth - creative commons by-sa 3.0", "http://www.jamendo.com/track/770629", 0, 0, f_menu_smaltext);
-		buttons[5] = new ButtonHTTPLabel(this, "Xera - Ñubes - creative commons by-nc-nd 3.0", "http://www.jamendo.com/track/38494", 0, 0, f_menu_smaltext);
+		buttons[5] = new ButtonHTTPLabel(this, "Xera - Ã‘ubes - creative commons by-nc-nd 3.0", "http://www.jamendo.com/track/38494", 0, 0, f_menu_smaltext);
 		buttons[6] = new ButtonHTTPLabel(this, "Adult Only - Shoreless - creative commons by-nc-sa 3.0", "http://www.jamendo.com/track/608009", 0, 0, f_menu_smaltext);
 		*/
 		buttons[7] = new ButtonHTTPLabel(this, "Kgberger - creative commons by-sa 3.0", "https://secure.wikimedia.org/wikipedia/de/w/index.php?title=Datei:BRD.png", 0, 0, f_menu_smaltext);
@@ -151,7 +151,7 @@ public class About implements GraphicObject {
 		int imgwidth = (int)( 338.0/(405.0/((double)height-10.0)) );
 		g.drawImage(none, left+5, top+5, imgwidth, height-10, null); //TODO Bild
 		g.setFont(f_menu_bigtext);
-		g.drawString("Sebastian Möllmann", left+10+imgwidth, top+5+strheight);
+		g.drawString("Sebastian MÃ¶llmann", left+10+imgwidth, top+5+strheight);
 		//TODO Text?
 	}
 	

@@ -25,7 +25,7 @@ public class RSolarPlus extends ResearchAbstract {
 	public Image getImage() {return rPlusSolar;}
 	
 	public void researchEffect(Game g) {
-		//effekt über game.isResearchDone(this)
+		//effekt Ã¼ber game.isResearchDone(this)
 	}
 
 }

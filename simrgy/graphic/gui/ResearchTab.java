@@ -19,11 +19,11 @@ public class ResearchTab implements GraphicObject {
 	
 	private GUI gui;
 	
-	private Button over = null; //forschung über dem man mit der maus ist
+	private Button over = null; //forschung Ã¼ber dem man mit der maus ist
 	
 	private java.util.Map<Button,Research> buttons; 
 	
-	private int box; //ausmaße eines Icons
+	private int box; //ausmaÃŸe eines Icons
 	
 	public ResearchTab(GUI g) {
 		gui = g;
@@ -32,7 +32,7 @@ public class ResearchTab implements GraphicObject {
 		width = getMain().getWidth()-left-1;
 		height = getMain().getHeight()-top-1;
 		
-		//bildgröße abhängig von verfügbaren platz
+		//bildgrÃ¶ÃŸe abhÃ¤ngig von verfÃ¼gbaren platz
 		int a = (width-4*5)/3;
 		int b = (height-7*5)/6;
 		box = (a<=b ? a : b );
@@ -53,7 +53,7 @@ public class ResearchTab implements GraphicObject {
 		
 		
 		
-		//Kohle Vorräte
+		//Kohle VorrÃ¤te
 		r = RKohleVorrat.getInstance();
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+10+box, box, box, null);
 		buttons.put(but, r);
@@ -79,11 +79,11 @@ public class ResearchTab implements GraphicObject {
 		
 		
 		
-		//mehr Windräder
+		//mehr WindrÃ¤der
 		r = RWindPlus.getInstance();
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+5, top+20+3*box, box, box, null);
 		buttons.put(but, r);	
-		//2x Windräder
+		//2x WindrÃ¤der
 		r = RWind2X.getInstance();
 		but = new ButtonImage(this, r.getImage(), cWhite, c_research_highlight, left+10+box, top+20+3*box, box, box, null);
 		buttons.put(but, r);
@@ -115,7 +115,7 @@ public class ResearchTab implements GraphicObject {
 				//Button zeichnen
 				b.draw();
 				
-				//einfärben
+				//einfÃ¤rben
 				Color c = null;
 				if(r.isDone(game)) c=cBlack30;
 				else if (!r.isPossible(game) && !r.isResearching(game)) c = cRed30;
@@ -134,7 +134,7 @@ public class ResearchTab implements GraphicObject {
 			}
 		}
 		
-		//wenn über einem Forschungsbutton
+		//wenn Ã¼ber einem Forschungsbutton
 		if(over!=null){
 			Research r = buttons.get(over);
 			
@@ -185,14 +185,14 @@ public class ResearchTab implements GraphicObject {
 				if(r.enoughMoney(game))	g.setColor(cGreen);
 				else g.setColor(cRed);
 				g.setFont(f_research_text);
-				g.drawString("€", left+10, top+height-5);
+				g.drawString("â‚¬", left+10, top+height-5);
 				String kosten = df_money.format(r.getKosten());
 				int strwidth = f_size(g, f_research_text, kosten)[1]; 
 				g.drawString(kosten, left+3*box+5-strwidth, top+height-5);
 			}
 		}
 		else{
-			//nicht über einer Forschung
+			//nicht Ã¼ber einer Forschung
 			for(Button b : buttons.keySet())
 				b.markiere(null);
 		}

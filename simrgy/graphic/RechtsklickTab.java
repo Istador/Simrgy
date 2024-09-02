@@ -79,7 +79,7 @@ public class RechtsklickTab implements Action{
 				}	
 				
 				if(building instanceof AKW){
-					//Personalver‰nderungen
+					//Personalver√§nderungen
 					Rectangle b = new Rectangle();
 					b.setSize(15, 15);
 					b.setLocation(left+15, top+10+5+caption_height+5+40+20);					
@@ -89,7 +89,7 @@ public class RechtsklickTab implements Action{
 					b.setLocation(left+15+20, top+10+5+caption_height+5+40+20);					
 					actions.put(IncPersonal.getInstance(), b);
 					
-					//Leistungsver‰nderungen
+					//Leistungsver√§nderungen
 					b = new Rectangle();
 					b.setSize(15, 15);
 					b.setLocation(left+155, top+10+5+caption_height+5+40+20);					
@@ -100,7 +100,7 @@ public class RechtsklickTab implements Action{
 					actions.put(IncLeistung.getInstance(), b);
 				}
 				else if(building instanceof HQ){
-					//Strompreisver‰nderungen
+					//Strompreisver√§nderungen
 					Rectangle b = new Rectangle();
 					b.setSize(15, 15);
 					b.setLocation(left+155, top+10+5+caption_height+5+30);					
@@ -127,7 +127,7 @@ public class RechtsklickTab implements Action{
 				g.setFont(f_rclick_text);
 				g.setColor(c_rclick_text);
 				//Geld
-				g.drawString(df_money.format((int)(building.getMW()*building.getGame().getStrompreis() - building.getMoneyCostH()))+" Ä/s", left+15, top+10+5+caption_height+5+10);
+				g.drawString(df_money.format((int)(building.getMW()*building.getGame().getStrompreis() - building.getMoneyCostH()))+" ‚Ç¨/s", left+15, top+10+5+caption_height+5+10);
 				//MW
 				g.drawString((int)building.getMW()+" MW", left+15, top+10+5+caption_height+5+25);
 				//Module
@@ -149,7 +149,7 @@ public class RechtsklickTab implements Action{
 				}
 				else{
 					g.drawString("Strompreis:", left+155, top+10+5+caption_height+5+10);
-					g.drawString(df_float3.format(getMain().getGame().strompreis)+" Ä/kWs", left+155, top+10+5+caption_height+5+25 );
+					g.drawString(df_float3.format(getMain().getGame().strompreis)+" ‚Ç¨/kWs", left+155, top+10+5+caption_height+5+25 );
 				}
 				
 				//Draw Actions

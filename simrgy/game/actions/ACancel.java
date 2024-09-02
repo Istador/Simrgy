@@ -17,6 +17,6 @@ public class ACancel implements Action {
 	public void run(Building b) {
 		b.getGame().getMain().getGraphic().removeOverlay();
 	}
-	public String getName(Building b){ return "Zurück"; }
+	public String getName(Building b){ return "ZurÃ¼ck"; }
 	public boolean isPossible(Building b){ return true; }
 }

@@ -58,7 +58,7 @@ public class GameOverZufriedenheit extends OverlayGame {
 		};
 		
 		buttons = new ButtonCenteredText[1];
-		buttons[0] = new ButtonCenteredText(this, "Zum Hauptmenü", c_rclick_caption, c_rclick_button_highlight, left+width/2, top+height-35, f_rclick_button, r);
+		buttons[0] = new ButtonCenteredText(this, "Zum HauptmenÃ¼", c_rclick_caption, c_rclick_button_highlight, left+width/2, top+height-35, f_rclick_button, r);
 	}
 	
 	
@@ -81,7 +81,7 @@ public class GameOverZufriedenheit extends OverlayGame {
 		//Text
 		g.setColor(c_rclick_text);
 		g.setFont(f_rclick_text);
-		g.drawString("Die Bevölkerung ist sehr unzufrieden mit dir.", left+15, top+15+caption_height+20);
+		g.drawString("Die BevÃ¶lkerung ist sehr unzufrieden mit dir.", left+15, top+15+caption_height+20);
 		g.drawString("Die Politiker haben Gesetze erlassen, die dir", left+15, top+15+caption_height+35);
 		g.drawString("den weiteren Betrieb deiner Firma nicht gestatten.", left+15, top+15+caption_height+50);
 		//Draw Buttons

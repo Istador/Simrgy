@@ -20,7 +20,7 @@ public class RSonne extends ResearchAbstract {
 	private static RSonne instance = null;
 	public static RSonne getInstance(){
 		if(instance==null){
-			instance = new RSonne("Sonnenoutput erhˆhen", "Verdoppelt den Sonnenausstoﬂ", null, 15000000000.0, 500000 );
+			instance = new RSonne("Sonnenoutput erh√∂hen", "Verdoppelt den Sonnenaussto√ü", null, 15000000000.0, 500000 );
 		}
 		return instance;
 	}
@@ -36,10 +36,10 @@ public class RSonne extends ResearchAbstract {
 		g.rH2OEnergy *= 0.2; // wasserkraft -80%
 		
 		/* Ausgabe: 
-		 *  Forschung "Sonnenoutput erhˆhen" abgeschlossen!
+		 *  Forschung "Sonnenoutput erh√∂hen" abgeschlossen!
 		 *  
-		 *  Ihre Wissenschaftler konnten durch die Ver‰nderung, einiger physikalischer Konstanten
-		 *  den Sonnenoutput erhˆhen. Dadurch Produzieren ihre Solarpanels nun doppelt so viel Strom.
+		 *  Ihre Wissenschaftler konnten durch die Ver√§nderung, einiger physikalischer Konstanten
+		 *  den Sonnenoutput erh√∂hen. Dadurch Produzieren ihre Solarpanels nun doppelt so viel Strom.
 		 *  Leider hat dies auch Katastrophale Auswirkungen auf die Umwelt. Aus Wasserkraft erzeugen
 		 *  Sie nur noch einen Minimum an Strom.
 		 */
@@ -47,7 +47,7 @@ public class RSonne extends ResearchAbstract {
 		
 		/**
 		 * Klassen Start
-		 * Nachfragen ob abreiﬂen
+		 * Nachfragen ob abrei√üen
 		 */
 		GraphicObject go = new OverlayGame(g) {
 			int top;
@@ -63,7 +63,7 @@ public class RSonne extends ResearchAbstract {
 			private ButtonCenteredText[] buttons;
 			
 			public void init(){
-				caption =  "Forschung \"Sonnenoutput erhˆhen\" abgeschlossen";
+				caption =  "Forschung \"Sonnenoutput erh√∂hen\" abgeschlossen";
 				
 				int[] b = f_size(getBackbuffer(), f_rclick_caption, caption);
 				caption_height = b[0];
@@ -104,8 +104,8 @@ public class RSonne extends ResearchAbstract {
 				//Text
 				g.setColor(c_rclick_text);
 				g.setFont(f_rclick_text);
-				g.drawString("Ihren Wissenschaftler ist es zwar gelungen durch die Ver‰nderung", left+15, top+15+caption_height+20);
-				g.drawString("physikalischer Konstanten den Sonnenoutput zu erhˆhen, wodurch", left+15, top+15+caption_height+35);
+				g.drawString("Ihren Wissenschaftler ist es zwar gelungen durch die Ver√§nderung", left+15, top+15+caption_height+20);
+				g.drawString("physikalischer Konstanten den Sonnenoutput zu erh√∂hen, wodurch", left+15, top+15+caption_height+35);
 				g.drawString("ihre Solarpanels doppelt so viel Strom produzieren, aber leider", left+15, top+15+caption_height+50);
 				g.drawString("hat dies auch katastrophale Auswirkungen auf die Umwelt.", left+15, top+15+caption_height+65);
 				g.drawString("Aus Wasserkraft erzeugen Sie nun nur noch ein Minimum an Strom.", left+15, top+15+caption_height+80);

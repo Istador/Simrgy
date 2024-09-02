@@ -2,11 +2,14 @@ package simrgy.applet;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.net.URL;
 
 import javax.swing.*;
 
+import javazoom.jl.player.Player;
 import simrgy.graphic.*;
 import simrgy.game.Game;
+import simrgy.res.RessourceManager;
 
 public class Main extends JApplet implements MouseListener, MouseMotionListener, KeyListener {
 	private static final long serialVersionUID = -7673817554230011101L;
@@ -25,11 +28,14 @@ public class Main extends JApplet implements MouseListener, MouseMotionListener,
 	public int height = 600;
 	private Dimension dim = null;
 	
-	/*
 	public static void main(String args[]){
 		Main app = new Main();
 
-		//app.setSize(800, 600);
+		if (args.length == 2) {
+			app.setSize(Integer.valueOf(args[0]), Integer.valueOf(args[1]));
+		} else {
+			app.setSize(900, 700);
+		}
 		app.init();
 		
 		JFrame f = new JFrame("Sim'rgy");
@@ -40,7 +46,23 @@ public class Main extends JApplet implements MouseListener, MouseMotionListener,
 		app.start();
 		f.pack();
 	}
-	*/
+	
+	@Override
+	public void play(URL url) {
+		try {
+			super.play(url);
+		} catch (Exception e) {
+			new Thread(new Runnable() {
+				@Override public void run() {
+					try {
+						Player mp;
+						mp = new Player(RessourceManager.class.getResourceAsStream(url.getPath().replaceFirst("^.*sounds", "sounds").replaceFirst("\\.wav", ".mp3")));
+						mp.play();
+					} catch (Exception e) {}
+				}
+			}).start();
+		}
+	}
 	
 	public void init(){		
 		width = getSize().width;
